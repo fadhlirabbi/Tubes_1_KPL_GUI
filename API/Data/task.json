@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "ubahah",
+    "Description": "ubah",
+    "Deadline": {
+      "Day": 6,
+      "Month": 5,
+      "Year": 2025,
+      "Hour": 10,
+      "Minute": 0
+    },
+    "Id": "1f224aec-2839-4f4a-b4fc-de9a457d078f",
+    "UserId": "admin",
+    "Status": 1
+  },
+  {
+    "Name": "tugasbaruh",
+    "Description": "aa",
+    "Deadline": {
+      "Day": 6,
+      "Month": 5,
+      "Year": 2025,
+      "Hour": 10,
+      "Minute": 11
+    },
+    "Id": "e87fa5af-0fcf-4ab8-b385-c59947fc12ab",
+    "UserId": "admin",
+    "Status": 2
+  },
+  {
+    "Name": "tugaskedua",
+    "Description": "aasdasd",
+    "Deadline": {
+      "Day": 6,
+      "Month": 5,
+      "Year": 2025,
+      "Hour": 11,
+      "Minute": 12
+    },
+    "Id": "99da5a30-80fe-4903-97a4-a25672301986",
+    "UserId": "admin",
+    "Status": 1
+  }
+]
