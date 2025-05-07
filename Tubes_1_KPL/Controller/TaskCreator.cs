@@ -32,7 +32,6 @@ namespace Tubes_1_KPL.Controller
             _http = httpClient;
             _loggedInUser = loggedInUser;
 
-            _loggedInUser = loggedInUser;
             _monthTable = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
             {
                 {"januari", 1}, {"februari", 2}, {"maret", 3}, {"april", 4},
@@ -43,6 +42,41 @@ namespace Tubes_1_KPL.Controller
             if (!_userTasks.ContainsKey(_loggedInUser))
             {
                 _userTasks[_loggedInUser] = new List<ModelTask>();
+            }
+
+            // Sync tasks from API when the TaskCreator is initialized
+            SyncTasksFromApiAsync().Wait();
+        }
+
+        // New method to synchronize tasks from API
+        private async System.Threading.Tasks.Task SyncTasksFromApiAsync()
+        {
+            try
+            {
+                // Get all tasks for the user from API
+                var ongoingTasks = await GetOngoingTasksAsync();
+                var completedTasks = await GetCompletedTasksAsync();
+                var overdueTasks = await GetOverdueTasksAsync();
+
+                // Clear existing tasks for this user
+                if (_userTasks.ContainsKey(_loggedInUser))
+                {
+                    _userTasks[_loggedInUser].Clear();
+                }
+                else
+                {
+                    _userTasks[_loggedInUser] = new List<ModelTask>();
+                }
+
+                // Add all tasks from API to the local dictionary
+                _userTasks[_loggedInUser].AddRange(ongoingTasks);
+                _userTasks[_loggedInUser].AddRange(completedTasks);
+                _userTasks[_loggedInUser].AddRange(overdueTasks);
+            }
+            catch (Exception ex)
+            {
+                // Silently log error without displaying to user
+                Debug.WriteLine($"Error syncing tasks from API: {ex.Message}");
             }
         }
 
@@ -88,6 +122,8 @@ namespace Tubes_1_KPL.Controller
 
         public List<ModelTask> GetUserTasks()
         {
+            // Sync tasks before returning them to ensure we have the latest data
+            SyncTasksFromApiAsync().Wait();
             return _userTasks.TryGetValue(_loggedInUser, out var tasks) ? new List<ModelTask>(tasks) : new List<ModelTask>();
         }
 
@@ -102,6 +138,9 @@ namespace Tubes_1_KPL.Controller
             Contract.Requires(newHour >= 0 && newHour <= 23, "Jam harus di antara 0 dan 23.");
             Contract.Requires(newMinute >= 0 && newMinute <= 59, "Menit harus di antara 0 dan 59.");
             Contract.Requires(_monthTable.ContainsKey(newMonthString), "Bulan tidak valid.");
+
+            // Sync tasks first to make sure we have the latest data
+            await SyncTasksFromApiAsync();
 
             if (_userTasks.TryGetValue(_loggedInUser, out var tasks))
             {
@@ -121,6 +160,9 @@ namespace Tubes_1_KPL.Controller
                         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                         var response = await _http.PutAsync($"task/{_loggedInUser}/{oldTaskName}", content);
                         Console.WriteLine($"Tugas '{oldTaskName}' berhasil diubah.");
+
+                        // Sync again to ensure we have latest data after edit
+                        await SyncTasksFromApiAsync();
                     }
                     else
                     {
@@ -193,6 +235,9 @@ namespace Tubes_1_KPL.Controller
                     {
                         _currentState = State.TaskDeleted;
                         Console.WriteLine($"Tugas '{taskName}' berhasil dihapus.");
+
+                        // Sync tasks after deletion
+                        await _taskCreator.SyncTasksFromApiAsync();
                     }
                     else
                     {
@@ -239,6 +284,9 @@ namespace Tubes_1_KPL.Controller
             Contract.Requires(!string.IsNullOrEmpty(taskName), "Nama tugas tidak boleh kosong.");
             Contract.Requires(!string.IsNullOrEmpty(answer), "Jawaban tidak boleh kosong.");
 
+            // Sync tasks first to ensure we have the latest data
+            await SyncTasksFromApiAsync();
+
             if (!_userTasks.TryGetValue(_loggedInUser, out var tasks))
             {
                 Console.WriteLine("Pengguna tidak memiliki tugas.");
@@ -278,6 +326,9 @@ namespace Tubes_1_KPL.Controller
                         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                         var response = await _http.PutAsync($"task/{_loggedInUser}/{taskName}", content);
                         Console.WriteLine($"Tugas '{taskName}' berhasil ditandai selesai.");
+
+                        // Sync tasks after marking as completed
+                        await SyncTasksFromApiAsync();
                     }
                     else
                     {
@@ -301,6 +352,9 @@ namespace Tubes_1_KPL.Controller
 
         public void ShowReminders(ReminderConfig config)
         {
+            // Ensure we have the latest tasks before showing reminders
+            SyncTasksFromApiAsync().Wait();
+
             DateTime now = DateTime.Now;
             var userTasks = GetUserTasks();
 
@@ -324,6 +378,12 @@ namespace Tubes_1_KPL.Controller
                 if (task.Status == Status.Incompleted && now > deadline)
                 {
                     task.Status = Status.Overdue;
+
+                    // Update task status in API
+                    var jsonContent = JsonSerializer.Serialize(task);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    _http.PutAsync($"task/{_loggedInUser}/{task.Name}", content).Wait();
+
                     continue;
                 }
 
@@ -375,7 +435,7 @@ namespace Tubes_1_KPL.Controller
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     return new List<ModelTask>();
-                } 
+                }
                 else
                 {
                     Console.WriteLine($"Gagal mengambil data dari API. Status: {response.StatusCode}");
