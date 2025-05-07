@@ -60,6 +60,7 @@ namespace API.Controllers
             var task = tasks.FirstOrDefault(t => t.Id == id);
             return task == null ? NotFound(new { Message = "Task not found" }) : Ok(task);
         }
+
         // ✅ Update Task
         [HttpPut("{username}/{taskName}")]
         public IActionResult UpdateTask(string username, string taskName, [FromBody] Task updatedTask)
@@ -76,18 +77,17 @@ namespace API.Controllers
             task.Deadline = updatedTask.Deadline;
             task.Status = updatedTask.Status;
 
-            // ✅ Update UserId juga
+            // ✅ Update UserId jika diperlukan
             if (!string.IsNullOrEmpty(updatedTask.UserId) && updatedTask.UserId != task.UserId)
             {
                 Console.WriteLine($"[DEBUG] Updating UserId from '{task.UserId}' to '{updatedTask.UserId}'");
-                task.UserId = updatedTask.UserId;
+                task.UserId = updatedTask.UserId; // Memperbarui UserId
             }
 
-            SaveTasks(tasks);
+            SaveTasks(tasks); // Menyimpan kembali data yang sudah diperbarui
 
             return Ok(new { Message = "Task successfully updated", Task = task });
         }
-
 
         // ✅ Delete Task
         [HttpDelete("{username}")]
@@ -127,6 +127,5 @@ namespace API.Controllers
             var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Overdue).ToList();
             return Ok(tasks);
         }
-
     }
 }
