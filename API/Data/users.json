@@ -9,6 +9,12 @@
     "Id": 2,
     "Username": "admin",
     "Password": "admin",
-    "IsLoggedIn": false
+    "IsLoggedIn": true
+  },
+  {
+    "Id": 3,
+    "Username": "steven",
+    "Password": "steven",
+    "IsLoggedIn": true
   }
 ]

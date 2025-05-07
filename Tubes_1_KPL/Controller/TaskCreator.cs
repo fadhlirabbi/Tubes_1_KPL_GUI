@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text;
 using static System.Net.WebRequestMethods;
 using System.Diagnostics.Eventing.Reader;
+using System.Collections;
 
 namespace Tubes_1_KPL.Controller
 {
@@ -89,7 +90,7 @@ namespace Tubes_1_KPL.Controller
         {
             return _userTasks.TryGetValue(_loggedInUser, out var tasks) ? new List<ModelTask>(tasks) : new List<ModelTask>();
         }
-            
+
         public async System.Threading.Tasks.Task EditTask(string oldTaskName, string newName, string newDescription, int newDay, string newMonthString, int newYear, int newHour, int newMinute)
         {
             Contract.Requires(!string.IsNullOrEmpty(oldTaskName), "Nama tugas lama harus diisi.");
@@ -104,7 +105,8 @@ namespace Tubes_1_KPL.Controller
 
             if (_userTasks.TryGetValue(_loggedInUser, out var tasks))
             {
-                var taskToEdit = tasks.FirstOrDefault(t => t.Name.Equals(oldTaskName, StringComparison.OrdinalIgnoreCase));
+                ArrayList taskList = new ArrayList(tasks);
+                var taskToEdit = taskList.Cast<ModelTask>().FirstOrDefault(t => t.Name.Equals(oldTaskName, StringComparison.OrdinalIgnoreCase));
 
                 if (taskToEdit != null)
                 {
@@ -114,6 +116,7 @@ namespace Tubes_1_KPL.Controller
                         taskToEdit.Name = newName;
                         taskToEdit.Description = newDescription;
                         taskToEdit.Deadline = new ModelDeadline { Day = newDay, Month = newMonth, Year = newYear, Hour = newHour, Minute = newMinute };
+
                         var jsonContent = JsonSerializer.Serialize(taskToEdit);
                         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                         var response = await _http.PutAsync($"task/{_loggedInUser}/{oldTaskName}", content);

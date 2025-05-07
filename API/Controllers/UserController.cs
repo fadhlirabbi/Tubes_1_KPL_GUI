@@ -97,6 +97,23 @@ namespace API.Controller
             }
             return Ok(users);
         }
-    }
 
+        // ✅ Delete User
+        [HttpDelete("{username}")]
+        public IActionResult DeleteUser(string username)
+        {
+            var users = LoadUsers();
+            var userToDelete = users.FirstOrDefault(u => u.Username == username);
+
+            if (userToDelete == null)
+            {
+                return NotFound(new { Message = "User not found." });
+            }
+
+            users.Remove(userToDelete);
+            SaveUsers(users);
+
+            return Ok(new { Message = "User deleted successfully.", DeletedUser = userToDelete });
+        }
+    }
 }
