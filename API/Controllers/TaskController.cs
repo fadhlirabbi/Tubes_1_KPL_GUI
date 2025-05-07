@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Model;
-using System.Collections.Generic;
-using System.Linq;
-using Task = API.Model.Task;
-using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
+using Task = API.Model.Task;
+using Tubes_1_KPL.Model;
 
 namespace API.Controllers
 {
@@ -12,202 +10,149 @@ namespace API.Controllers
     [Route("api/task")]
     public class TaskController : ControllerBase
     {
-        private static List<Task> tasks = new List<Task>();
+        private readonly string _filePath;
 
-        // CREATE: Add a new task
+        public TaskController()
+        {
+            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+            string folderPath = Path.Combine(projectRoot, "Data");
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            _filePath = Path.Combine(folderPath, "task.json");
+        }
+
+        // Load Tasks from JSON
+        private List<Task> LoadTasks()
+        {
+            if (!System.IO.File.Exists(_filePath))
+                return new List<Task>();
+
+            var json = System.IO.File.ReadAllText(_filePath);
+            return string.IsNullOrWhiteSpace(json)
+                ? new List<Task>()
+                : JsonSerializer.Deserialize<List<Task>>(json) ?? new List<Task>();
+        }
+
+        // Save Tasks to JSON
+        private void SaveTasks(List<Task> tasks)
+        {
+            var json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
+            System.IO.File.WriteAllText(_filePath, json);
+        }
+
+        // ✅ Create New Task
         [HttpPost]
         public IActionResult CreateTask([FromBody] Task newTask)
         {
-            if (newTask == null)
-                return BadRequest("Task data is invalid.");
-
+            var tasks = LoadTasks();
             tasks.Add(newTask);
-
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-            string folderPath = Path.Combine(projectRoot, "Data");
-            string filePath = Path.Combine(folderPath, "task.json");
-
-            try
-            {
-                if (!System.IO.Directory.Exists(folderPath))
-                {
-                    System.IO.Directory.CreateDirectory(folderPath);
-                }
-
-                List<Task> fileTasks = new List<Task>();
-                if (System.IO.File.Exists(filePath))
-                {
-                    string jsonData = System.IO.File.ReadAllText(filePath);
-                    fileTasks = string.IsNullOrWhiteSpace(jsonData)
-                        ? new List<Model.Task>()
-                        : JsonSerializer.Deserialize<List<Task>>(jsonData) ?? new List<Model.Task>();
-                }
-
-                fileTasks.Add(newTask);
-
-                string updatedJsonData = JsonSerializer.Serialize(fileTasks, new JsonSerializerOptions { WriteIndented = true });
-                System.IO.File.WriteAllText(filePath, updatedJsonData);
-
-                Console.WriteLine("Task berhasil disimpan ke file task.json di folder data.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Gagal menyimpan task ke file task.json: {ex.Message}");
-                return StatusCode(500, "Terjadi kesalahan saat menyimpan task ke file.");
-            }
-
-            return CreatedAtAction(nameof(GetTaskById), new { id = newTask.Id }, newTask);
+            SaveTasks(tasks);
+            return Ok(new ApiResponse(201, "Task successfully created", newTask));
         }
 
-        // READ: Get all tasks
+        // ✅ Get All Tasks
         [HttpGet]
         public IActionResult GetAllTasks()
         {
-            return Ok(tasks);
+            var tasks = LoadTasks();
+            return Ok(new ApiResponse(200, "Tasks retrieved successfully", tasks));
         }
 
-        //READ: Get a task by ID
+        // ✅ Get Task by ID
         [HttpGet("{id}")]
         public IActionResult GetTaskById(string id)
         {
-            var task = tasks.FirstOrDefault(t => t.UserId == id);
+            var tasks = LoadTasks();
+            var task = tasks.FirstOrDefault(t => t.Id == id);
             if (task == null)
-                return NotFound($"Task with ID {id} not found.");
+                return NotFound(new ApiResponse(404, "Task not found"));
 
-            return Ok(task);
+            return Ok(new ApiResponse(200, "Task found", task));
         }
-
-        // UPDATE: Update a task by ID
         [HttpPut("{username}/{taskName}")]
         public IActionResult UpdateTask(string username, string taskName, [FromBody] Task updatedTask)
         {
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-            string folderPath = Path.Combine(projectRoot, "Data");
-            string filePath = Path.Combine(folderPath, "task.json");
+            var tasks = LoadTasks();
 
-            try
+            // 🔍 Debugging - Cek total task yang di-load
+            Console.WriteLine($"[DEBUG] Total Tasks Loaded: {tasks.Count}");
+
+            // 🔍 Debugging - Tampilkan semua data task
+            foreach (var t in tasks)
             {
-                if (!System.IO.File.Exists(filePath))
-                {
-                    return NotFound("File task.json tidak ditemukan.");
-                }
-
-                string jsonData = System.IO.File.ReadAllText(filePath);
-                List<Task> fileTasks = JsonSerializer.Deserialize<List<Task>>(jsonData) ?? [];
-
-                var taskToUpdate = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
-                var taskToUpdateJson = fileTasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
-                if (taskToUpdate == null)
-                {
-                    return NotFound($"Task '{taskName}' untuk user '{username}' tidak ditemukan.");
-                }
-
-                taskToUpdate.Name = updatedTask.Name;
-                taskToUpdate.Description = updatedTask.Description;
-                taskToUpdate.Deadline = updatedTask.Deadline;
-                taskToUpdate.Status = updatedTask.Status;
-
-                taskToUpdateJson.Name = updatedTask.Name;
-                taskToUpdateJson.Description = updatedTask.Description;
-                taskToUpdateJson.Deadline = updatedTask.Deadline;
-                taskToUpdateJson.Status = updatedTask.Status;
-
-                string updatedJsonData = JsonSerializer.Serialize(fileTasks, new JsonSerializerOptions { WriteIndented = true });
-                System.IO.File.WriteAllText(filePath, updatedJsonData);
-
-                Console.WriteLine($"Task '{taskName}' berhasil diperbarui di file task.json.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Gagal memperbarui task di file task.json: {ex.Message}");
-                return StatusCode(500, "Terjadi kesalahan saat memperbarui task di file.");
+                Console.WriteLine($"[DEBUG] Task: {t.Name}, User: {t.UserId}");
             }
 
-            return NoContent();
+            var task = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
+
+            if (task == null)
+            {
+                Console.WriteLine($"[DEBUG] Task '{taskName}' for user '{username}' not found!");
+                return NotFound(new ApiResponse(404, "Task not found"));
+            }
+
+            // 🔄 Update Task
+            task.Name = updatedTask.Name;
+            task.Description = updatedTask.Description;
+            task.Deadline = updatedTask.Deadline;
+            task.Status = updatedTask.Status;
+
+            // ✏️ [Tambahan]: Update UserId juga
+            task.UserId = updatedTask.UserId;
+
+            // 🔍 Debugging - Cek perubahan
+            Console.WriteLine($"[DEBUG] Updated Task Name: {task.Name}");
+            Console.WriteLine($"[DEBUG] Updated User ID: {task.UserId}");
+
+            // 🔄 Simpan perubahan
+            SaveTasks(tasks);
+
+            // 🔍 Debugging - Verifikasi penyimpanan
+            Console.WriteLine($"[DEBUG] Task successfully updated and saved to JSON!");
+
+            return Ok(new ApiResponse(200, "Task successfully updated", task));
         }
 
-        // DELETE: Delete a task by ID
+
+        // ✅ Delete Task
         [HttpDelete("{username}")]
         public IActionResult DeleteTask(string username, [FromQuery] string taskName)
         {
-            // Path ke folder data dan file task.json
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-            string folderPath = Path.Combine(projectRoot, "Data");
-            string filePath = Path.Combine(folderPath, "task.json");
+            var tasks = LoadTasks();
+            var task = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
 
-            try
-            {
-                // Pastikan file task.json ada
-                if (!System.IO.File.Exists(filePath))
-                {
-                    return NotFound("File task.json tidak ditemukan.");
-                }
+            if (task == null)
+                return NotFound(new ApiResponse(404, "Task not found"));
 
-                // Baca data dari file task.json
-                string jsonData = System.IO.File.ReadAllText(filePath);
-                List<Task> fileTasks = JsonSerializer.Deserialize<List<Task>>(jsonData) ?? new List<Task>();
+            tasks.Remove(task);
+            SaveTasks(tasks);
 
-                // Cari task yang akan dihapus
-                var taskToDelete = fileTasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
-                if (taskToDelete == null)
-                {
-                    return NotFound($"Task '{taskName}' untuk user '{username}' tidak ditemukan.");
-                }
-
-                // Hapus task dari daftar
-                fileTasks.Remove(taskToDelete);
-
-                // Tulis kembali data yang diperbarui ke file task.json
-                string updatedJsonData = JsonSerializer.Serialize(fileTasks, new JsonSerializerOptions { WriteIndented = true });
-                System.IO.File.WriteAllText(filePath, updatedJsonData);
-
-                Console.WriteLine($"Task '{taskName}' berhasil dihapus dari file task.json.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Gagal menghapus task dari file task.json: {ex.Message}");
-                return StatusCode(500, "Terjadi kesalahan saat menghapus task dari file.");
-            }
-
-            return NoContent();
+            return Ok(new ApiResponse(200, "Task successfully deleted"));
         }
-        // READ: Get ongoing tasks for a user
+
+        // ✅ Get Ongoing Tasks
         [HttpGet("ongoing/{username}")]
         public IActionResult GetOngoingTasks(string username)
         {
-            if (string.IsNullOrEmpty(username))
-                return BadRequest("username is required.");
-
-            var now = DateTime.Now;
-            var ongoingTasks = tasks.Where(t => t.UserId == username && t.Status == Status.Incompleted).ToList();
-
-            return Ok(ongoingTasks);
+            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Incompleted).ToList();
+            return Ok(new ApiResponse(200, "Ongoing tasks retrieved successfully", tasks));
         }
 
-        // READ: Get overdue tasks for a user
-        [HttpGet("overdue/{username}")]
-        public IActionResult GetOverdueTasks(string username)
-        {
-            if (string.IsNullOrEmpty(username))
-                return BadRequest("username is required.");
-
-            var now = DateTime.Now;
-            var overdueTasks = tasks.Where(t => t.UserId == username && t.Status == Status.Overdue).ToList();
-
-            return Ok(overdueTasks);
-        }
-
-        // READ: Get completed tasks for a user
+        // ✅ Get Completed Tasks
         [HttpGet("completed/{username}")]
         public IActionResult GetCompletedTasks(string username)
         {
-            if (string.IsNullOrEmpty(username))
-                return BadRequest("username is required.");
-
-            var completedTasks = tasks.Where(t => t.UserId == username && t.Status == Status.Completed).ToList();
-
-            return Ok(completedTasks);
+            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Completed).ToList();
+            return Ok(new ApiResponse(200, "Completed tasks retrieved successfully", tasks));
         }
 
+        // ✅ Get Overdue Tasks
+        [HttpGet("overdue/{username}")]
+        public IActionResult GetOverdueTasks(string username)
+        {
+            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Overdue).ToList();
+            return Ok(new ApiResponse(200, "Overdue tasks retrieved successfully", tasks));
+        }
     }
 }

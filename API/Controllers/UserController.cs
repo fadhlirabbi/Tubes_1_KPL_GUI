@@ -8,86 +8,95 @@ namespace API.Controller
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private static List<User> users = new List<User>
-        {
-            new User { Id = 1, Username = "admin", Password = "admin123", IsLoggedIn = false },
-            new User { Id = 2, Username = "user", Password = "user123", IsLoggedIn = false }
-        };
+        private readonly string _filePath;
 
+        public UserController()
+        {
+            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+            string folderPath = Path.Combine(projectRoot, "Data");
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            _filePath = Path.Combine(folderPath, "users.json");
+        }
+
+        private List<User> LoadUsers()
+        {
+            if (!System.IO.File.Exists(_filePath))
+                return new List<User>();
+
+            var json = System.IO.File.ReadAllText(_filePath);
+            return string.IsNullOrWhiteSpace(json)
+                ? new List<User>()
+                : JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
+        }
+
+        private void SaveUsers(List<User> users)
+        {
+            var json = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
+            System.IO.File.WriteAllText(_filePath, json);
+        }
+
+        // Register User
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
-            if (users.Any(u => u.Username == user.Username))
-                return BadRequest("Username already exists");
+            var users = LoadUsers();
 
-            user.Id = users.Count + 1;
+            if (users.Any(u => u.Username == user.Username))
+                return BadRequest("Username already exists.");
+
+            user.Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1;
             user.IsLoggedIn = false;
             users.Add(user);
 
-            // Path ke folder data dan file users.json
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-            string folderPath = Path.Combine(projectRoot, "Data");
-            string filePath = Path.Combine(folderPath, "users.json");
-
-            try
-            {
-                // Pastikan folder data ada
-                if (!System.IO.Directory.Exists(folderPath))
-                {
-                    System.IO.Directory.CreateDirectory(folderPath);
-                }
-
-                // Baca data dari file users.json jika ada
-                List<User> fileUsers = new List<User>();
-                if (System.IO.File.Exists(filePath))
-                {
-                    string jsonData = System.IO.File.ReadAllText(filePath);
-                    fileUsers = string.IsNullOrWhiteSpace(jsonData)
-                        ? []
-                        : JsonSerializer.Deserialize<List<User>>(jsonData) ?? [];
-                }
-
-                // Tambahkan user baru ke daftar
-                fileUsers.Add(user);
-
-                // Tulis kembali ke file users.json
-                string updatedJsonData = JsonSerializer.Serialize(fileUsers, new JsonSerializerOptions { WriteIndented = true });
-                System.IO.File.WriteAllText(filePath, updatedJsonData);
-
-                Console.WriteLine("User berhasil disimpan ke file users.json di folder data.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Gagal menyimpan user ke file users.json: {ex.Message}");
-                return StatusCode(500, "Terjadi kesalahan saat menyimpan user ke file.");
-            }
-
-            return Ok("User registered successfully");
+            SaveUsers(users);
+            return Ok("User registered successfully.");
         }
 
+        // Login User
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User user)
+        public IActionResult Login([FromBody] User loginUser)
         {
-            var existingUser = users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+            var users = LoadUsers();
+
+            var existingUser = users.FirstOrDefault(u =>
+                u.Username == loginUser.Username && u.Password == loginUser.Password);
+
             if (existingUser == null)
-                return Unauthorized();
+                return Unauthorized("Username or password is incorrect.");
 
             existingUser.IsLoggedIn = true;
-            return Ok("Login successful");
+            SaveUsers(users);
+            return Ok("Login successful.");
         }
 
+        // Logout User
         [HttpPost("logout/{username}")]
         public IActionResult Logout(string username)
         {
+            var users = LoadUsers();
             var existingUser = users.FirstOrDefault(u => u.Username == username);
+
             if (existingUser == null || !existingUser.IsLoggedIn)
-                return BadRequest("User not logged in or does not exist");
+                return NotFound("User not logged in or does not exist.");
 
             existingUser.IsLoggedIn = false;
-            return Ok("Logout successful");
+            SaveUsers(users);
+            return Ok("Logout successful.");
         }
 
+        // Get All Users
         [HttpGet("all")]
-        public IActionResult GetAll() => Ok(users);
+        public IActionResult GetAll()
+        {
+            var users = LoadUsers();
+            if (users == null || !users.Any())
+            {
+                return NoContent(); // No users found
+            }
+            return Ok(users);
+        }
     }
+
 }

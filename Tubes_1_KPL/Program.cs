@@ -102,22 +102,6 @@ internal class Program
                                     else { Console.WriteLine("Format hari tidak valid."); }
                                     break;
 
-                                //case "2":
-                                //    List<ModelTask> tasks = _taskCreator.GetUserTasks();
-                                //    if (tasks.Count > 0)
-                                //    {
-                                //        Console.WriteLine($"Tugas untuk {_loggedInUser}:");
-                                //        foreach (ModelTask task in tasks)
-                                //        {
-                                //            Console.WriteLine(task.ToString());
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        Console.WriteLine($"Tidak ada tugas untuk {_loggedInUser}.");
-                                //    }
-                                //    break;
-
                                 case "2":
                                     Console.Write("Masukkan nama tugas yang ingin diubah: ");
                                     string oldTaskName = Console.ReadLine();
@@ -250,7 +234,7 @@ internal class Program
                                         Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
                                     }
                                     break;
-                                case "9":
+                                case "8":
                                     await automata.Logout();
                                     _loggedInUser = null;
                                     _taskCreator = null;
