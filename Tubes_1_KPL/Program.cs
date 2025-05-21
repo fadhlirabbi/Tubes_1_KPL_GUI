@@ -276,6 +276,10 @@ internal class Program
             }
 
             Console.WriteLine();
+            //final note
+            //check the test folder to see if all test is configured into respective changed code and structures
+            //code review for error prevention along with all the required techniques that must've been used into respective member of the team 
+            //-gumi 
         }
     }
 }
