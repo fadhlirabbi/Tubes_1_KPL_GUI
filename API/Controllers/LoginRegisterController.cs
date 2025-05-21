@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace Tubes_1_KPL.Controller
+namespace API.Controllers
 {
     public class LoginRegisterController
     {

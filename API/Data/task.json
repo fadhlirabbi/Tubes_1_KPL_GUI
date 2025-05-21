@@ -1,3 +1,44 @@
 [
-
+  {
+    "Name": "string",
+    "Description": "string",
+    "Deadline": {
+      "Day": 0,
+      "Month": 0,
+      "Year": 0,
+      "Hour": 0,
+      "Minute": 0
+    },
+    "Id": "ca9fc010-5065-4d6d-b1da-71640b1642a4",
+    "UserId": "string",
+    "Status": 0
+  },
+  {
+    "Name": "string",
+    "Description": "string",
+    "Deadline": {
+      "Day": 0,
+      "Month": 0,
+      "Year": 0,
+      "Hour": 0,
+      "Minute": 0
+    },
+    "Id": "c0942811-0990-404e-8f55-24880e514443",
+    "UserId": "string",
+    "Status": 0
+  },
+  {
+    "Name": "b",
+    "Description": "b",
+    "Deadline": {
+      "Day": 23,
+      "Month": 5,
+      "Year": 2025,
+      "Hour": 20,
+      "Minute": 21
+    },
+    "Id": "8356e15f-e472-43d8-b763-9cd9e85a2867",
+    "UserId": "admin",
+    "Status": 2
+  }
 ]

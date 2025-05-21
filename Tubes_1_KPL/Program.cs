@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Tubes_1_KPL.Controller;
-using Tubes_1_KPL.Model;
+﻿using API.Model;
+using API.Services;
+using SystemTask = System.Threading.Tasks.Task;
 using ModelTask = API.Model.Task;
-using static Tubes_1_KPL.Controller.TaskCreator;
+
 
 internal class Program
 {
     private static string _loggedInUser = null;
-    private static TaskCreator _taskCreator = null;
+    private static TaskService _taskCreator = null;
 
-    static async Task Main()
+    static async SystemTask Main()
     {
-        var automata = new LoginRegisterAutomata();
+        var automata = new LoginRegisterService();
 
         while (true)
         {
@@ -41,13 +38,13 @@ internal class Program
                     if (loginSuccessful)
                     {
                         _loggedInUser = usernameLogin;
-                        _taskCreator = new TaskCreator(_loggedInUser, httpClient);
+                        _taskCreator = new TaskService(_loggedInUser, httpClient);
                         Console.WriteLine($"Berhasil login sebagai: {_loggedInUser}");
 
                         while (_loggedInUser != null)
                         {
-                            string configPath = "reminder_config.json";
-                            ReminderConfig reminderConfig = ReminderConfig.LoadFromJson(configPath);
+                            string configPath = "reminder.json";
+                            ReminderConfig reminderConfig = ReminderService.LoadFromJson(configPath);
                             _taskCreator.ShowReminders(reminderConfig);
 
                             Console.WriteLine("\nPilih opsi:");
@@ -59,14 +56,15 @@ internal class Program
                             Console.WriteLine("5. Tugas Ongoing");
                             Console.WriteLine("6. Tugas Deadline");
                             Console.WriteLine("7. Tugas Complete");
-                            Console.WriteLine("8. Logout");
+                            Console.WriteLine("8. Hapus Akun");
+                            Console.WriteLine("9. Logout");
                             Console.Write("Pilih: ");
                             var taskChoice = Console.ReadLine();
 
                             const string
                                 TASK_ONGOING = "5",
                                 TASK_DEADLINE = "6",
-                                TASK_COMPLETE = "7"; 
+                                TASK_COMPLETE = "7";
 
                             switch (taskChoice)
                             {
@@ -112,7 +110,7 @@ internal class Program
                                         Console.WriteLine($"Tugas dengan nama '{oldTaskName}' tidak ditemukan");
                                         break;
                                     }
-                                    
+
                                     Console.Write("Nama tugas baru: ");
                                     string newName = Console.ReadLine();
 
@@ -148,8 +146,12 @@ internal class Program
                                 case "3":
                                     Console.Write("Masukkan nama tugas yang ingin dihapus: ");
                                     string taskNameToDelete = Console.ReadLine();
-                                    var taskAutomata = new TaskAutomata(_loggedInUser, _taskCreator);
-                                    await taskAutomata.ExecuteDeleteTask(taskNameToDelete);
+
+                                    bool deleted = await _taskCreator.DeleteTaskAsync(taskNameToDelete);
+                                    if (!deleted)
+                                    {
+                                        Console.WriteLine("Tugas gagal dihapus atau tidak ditemukan.");
+                                    }
                                     break;
 
                                 case "4":
@@ -159,7 +161,7 @@ internal class Program
 
                                     Console.Write("Apakah tugas ini sudah selesai? (yes/no): ");
                                     string answer = Console.ReadLine() ?? "";
-                                    var taskCreator = new TaskCreator(_loggedInUser, httpClient);
+                                    var taskCreator = new TaskService(_loggedInUser, httpClient);
                                     await taskCreator.MarkTaskAsCompleted(taskNameToComplete, answer);
                                     break;
 
@@ -235,6 +237,20 @@ internal class Program
                                     }
                                     break;
                                 case "8":
+                                    Console.Write("Apakah Anda yakin ingin menghapus akun beserta semua tugas? (yes/no): ");
+                                    string confirm = Console.ReadLine()?.Trim().ToLower();
+                                    if (confirm == "yes")
+                                    {
+                                        await automata.DeleteAccountAndTasks();
+                                        _loggedInUser = null;
+                                        _taskCreator = null;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Penghapusan akun dibatalkan.");
+                                    }
+                                    break;
+                                case "9":
                                     await automata.Logout();
                                     _loggedInUser = null;
                                     _taskCreator = null;

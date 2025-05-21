@@ -2,6 +2,7 @@
 using API.Model;
 using System.Text.Json;
 using Task = API.Model.Task;
+using static System.Net.WebRequestMethods;
 
 namespace API.Controllers
 {
@@ -51,6 +52,14 @@ namespace API.Controllers
         // ✅ Get All Tasks
         [HttpGet]
         public IActionResult GetAllTasks() => Ok(LoadTasks());
+
+        // ✅ Get All Tasks by Username
+        [HttpGet("user/{username}")]
+        public IActionResult GetTasksByUsername(string username)
+        {
+            var tasks = LoadTasks().Where(t => t.UserId == username).ToList();
+            return Ok(tasks);
+        }
 
         // ✅ Get Task by ID
         [HttpGet("{id}")]

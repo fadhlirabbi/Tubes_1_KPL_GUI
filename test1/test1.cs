@@ -27,7 +27,7 @@ namespace test1
         }
 
 
-        private class MockLoginRegisterController : LoginRegisterController
+        private class MockLoginRegisterController : LoginRegisterService
         {
             private readonly bool _loginResult;
 
