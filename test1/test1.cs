@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
-using Tubes_1_KPL.Model;
-using Tubes_1_KPL.Controller;
+using API.Services;
+using API.Controllers;
 
 namespace test1
 {
@@ -11,27 +11,34 @@ namespace test1
         [TestMethod]
         public async Task Login_Berhasil()
         {
-            var mockController = new MockLoginRegisterController(true);
-            var automata = new LoginRegisterAutomata(mockController);
-            //await automata.Login("user", "pass");
-            Assert.AreEqual(LoginRegisterAutomata.State.LoggedIn, automata.CurrentState);
+            var mockController = new FakeLoginRegisterController(true);
+            var service = new LoginRegisterService(mockController);
+
+            var success = await service.TryLoginAsync("user", "pass");
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(LoginRegisterService.State.LoggedIn, service.CurrentState);
         }
 
         [TestMethod]
         public async Task Login_Gagal()
         {
-            var mockController = new MockLoginRegisterController(false);
-            var automata = new LoginRegisterAutomata(mockController);
-            //await automata.Login("user", "passe");
-            Assert.AreEqual(LoginRegisterAutomata.State.LoggedOut, automata.CurrentState);
+            var mockController = new FakeLoginRegisterController(false);
+            var service = new LoginRegisterService(mockController);
+
+            var success = await service.TryLoginAsync("user", "wrongpass");
+
+            Assert.IsFalse(success);
+            Assert.AreEqual(LoginRegisterService.State.LoggedOut, service.CurrentState);
         }
 
 
-        private class MockLoginRegisterController : LoginRegisterService
+        private class FakeLoginRegisterController : LoginRegisterController
         {
             private readonly bool _loginResult;
 
-            public MockLoginRegisterController(bool loginResult)
+            public FakeLoginRegisterController(bool loginResult)
+                : base(new HttpClient()) // dummy client
             {
                 _loginResult = loginResult;
             }
@@ -40,7 +47,6 @@ namespace test1
             {
                 return Task.FromResult(_loginResult);
             }
-
 
             public override Task LogoutAsync(string username)
             {

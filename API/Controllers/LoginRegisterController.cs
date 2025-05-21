@@ -17,6 +17,12 @@ namespace API.Controllers
             Contract.Invariant(_http != null);
         }
 
+        public LoginRegisterController(HttpClient httpClient)
+        {
+            _http = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        }
+
+
         public virtual async Task RegisterAsync()
         {
             try
