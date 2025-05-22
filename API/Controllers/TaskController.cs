@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using API.Model;
-using System.Text.Json;
-using Task = API.Model.Task;
-using static System.Net.WebRequestMethods;
+using API.Services;
+using ModelTask = API.Model.Task;
 
 namespace API.Controllers
 {
@@ -10,131 +9,79 @@ namespace API.Controllers
     [Route("api/task")]
     public class TaskController : ControllerBase
     {
-        private readonly string _filePath;
+        private readonly TaskService _service = new();
 
-        public TaskController()
-        {
-            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
-            string folderPath = Path.Combine(projectRoot, "Data");
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            _filePath = Path.Combine(folderPath, "task.json");
-        }
-
-        private List<Task> LoadTasks()
-        {
-            if (!System.IO.File.Exists(_filePath))
-                return new List<Task>();
-
-            var json = System.IO.File.ReadAllText(_filePath);
-            return string.IsNullOrWhiteSpace(json)
-                ? new List<Task>()
-                : JsonSerializer.Deserialize<List<Task>>(json) ?? new List<Task>();
-        }
-
-        private void SaveTasks(List<Task> tasks)
-        {
-            var json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
-            System.IO.File.WriteAllText(_filePath, json);
-        }
-
-        // ✅ Create New Task
         [HttpPost]
-        public IActionResult CreateTask([FromBody] Task newTask)
+        public IActionResult Create([FromBody] ModelTask task)
         {
-            var tasks = LoadTasks();
-            tasks.Add(newTask);
-            SaveTasks(tasks);
-            return CreatedAtAction(nameof(GetTaskById), new { id = newTask.Id }, newTask);
+            var result = _service.CreateTask(task);
+            return result.Success ? CreatedAtAction(nameof(GetById), new { id = task.Id }, result.Data)
+                                  : BadRequest(result.Message);
         }
 
-        // ✅ Get All Tasks
+        [HttpPost("complete/{username}")]
+        public IActionResult MarkTaskAsCompleted(
+        string username,
+        [FromQuery] string taskName,
+        [FromQuery] string description,
+        [FromQuery] int day,
+        [FromQuery] int month,
+        [FromQuery] int year,
+        [FromQuery] int hour,
+        [FromQuery] int minute)
+        {
+            var result = _service.MarkTaskAsCompleted(username, taskName, description, day, month, year, hour, minute);
+            return result.Success ? Ok(result.Message) : BadRequest(result.Message);
+        }
+
+
+
         [HttpGet]
-        public IActionResult GetAllTasks() => Ok(LoadTasks());
+        public IActionResult GetAll() => Ok(_service.GetAll());
 
-        // ✅ Get All Tasks by Username
         [HttpGet("user/{username}")]
-        public IActionResult GetTasksByUsername(string username)
-        {
-            var tasks = LoadTasks().Where(t => t.UserId == username).ToList();
-            return Ok(tasks);
-        }
+        public IActionResult GetByUser(string username) => Ok(_service.GetByUser(username));
 
-        // ✅ Get Task by ID
         [HttpGet("{id}")]
-        public IActionResult GetTaskById(string id)
+        public IActionResult GetById(string id)
         {
-            var tasks = LoadTasks();
-            var task = tasks.FirstOrDefault(t => t.Id == id);
-            return task == null ? NotFound(new { Message = "Task not found" }) : Ok(task);
+            var task = _service.GetById(id);
+            return task == null ? NotFound("Task not found") : Ok(task);
         }
 
-        // ✅ Update Task
         [HttpPut("{username}/{taskName}")]
-        public IActionResult UpdateTask(string username, string taskName, [FromBody] Task updatedTask)
+        public IActionResult Update(string username, string taskName, [FromBody] ModelTask task)
         {
-            var tasks = LoadTasks();
-            var task = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
-
-            if (task == null)
-                return NotFound(new { Message = "Task not found" });
-
-            // 🔄 Update Fields
-            task.Name = updatedTask.Name;
-            task.Description = updatedTask.Description;
-            task.Deadline = updatedTask.Deadline;
-            task.Status = updatedTask.Status;
-
-            // ✅ Update UserId jika diperlukan
-            if (!string.IsNullOrEmpty(updatedTask.UserId) && updatedTask.UserId != task.UserId)
-            {
-                Console.WriteLine($"[DEBUG] Updating UserId from '{task.UserId}' to '{updatedTask.UserId}'");
-                task.UserId = updatedTask.UserId; // Memperbarui UserId
-            }
-
-            SaveTasks(tasks); // Menyimpan kembali data yang sudah diperbarui
-
-            return Ok(new { Message = "Task successfully updated", Task = task });
+            var result = _service.Update(username, taskName, task);
+            return result.Success ? Ok(result) : NotFound(result.Message);
         }
 
-        // ✅ Delete Task
         [HttpDelete("{username}")]
-        public IActionResult DeleteTask(string username, [FromQuery] string taskName)
+        public IActionResult Delete(
+        string username,
+        [FromQuery] string taskName,
+        [FromQuery] string description,
+        [FromQuery] int day,
+        [FromQuery] int month,
+        [FromQuery] int year,
+        [FromQuery] int hour,
+        [FromQuery] int minute)
         {
-            var tasks = LoadTasks();
-            var task = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
-
-            if (task == null)
-                return NotFound(new { Message = "Task not found" });
-
-            tasks.Remove(task);
-            SaveTasks(tasks);
-            return Ok(new { Message = "Task successfully deleted" });
+            var result = _service.Delete(username, taskName, description, day, month, year, hour, minute);
+            return result.Success ? Ok(result.Message) : NotFound(result.Message);
         }
 
-        // ✅ Get Ongoing Tasks
+
         [HttpGet("ongoing/{username}")]
-        public IActionResult GetOngoingTasks(string username)
-        {
-            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Incompleted).ToList();
-            return Ok(tasks);
-        }
+        public IActionResult GetOngoing(string username) =>
+            Ok(_service.GetByStatus(username, Status.Incompleted));
 
-        // ✅ Get Completed Tasks
         [HttpGet("completed/{username}")]
-        public IActionResult GetCompletedTasks(string username)
-        {
-            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Completed).ToList();
-            return Ok(tasks);
-        }
+        public IActionResult GetCompleted(string username) =>
+            Ok(_service.GetByStatus(username, Status.Completed));
 
-        // ✅ Get Overdue Tasks
         [HttpGet("overdue/{username}")]
-        public IActionResult GetOverdueTasks(string username)
-        {
-            var tasks = LoadTasks().Where(t => t.UserId == username && t.Status == Status.Overdue).ToList();
-            return Ok(tasks);
-        }
+        public IActionResult GetOverdue(string username) =>
+            Ok(_service.GetByStatus(username, Status.Overdue));
     }
 }

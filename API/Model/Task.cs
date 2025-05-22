@@ -12,7 +12,6 @@ namespace API.Model
         public string UserId { get; set; }
         public Status Status { get; set; } = Status.Incompleted;
 
-
         public Task(string name, string description, Deadline deadline, string userId)
         {
             Name = name;

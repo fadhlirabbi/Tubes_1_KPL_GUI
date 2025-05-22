@@ -37,7 +37,6 @@ namespace API.Controller
             System.IO.File.WriteAllText(_filePath, json);
         }
 
-        // Register User
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
@@ -54,7 +53,6 @@ namespace API.Controller
             return Ok("User registered successfully.");
         }
 
-        // Login User
         [HttpPost("login")]
         public IActionResult Login([FromBody] User loginUser)
         {
@@ -71,7 +69,6 @@ namespace API.Controller
             return Ok("Login successful.");
         }
 
-        // Logout User
         [HttpPost("logout/{username}")]
         public IActionResult Logout(string username)
         {
@@ -86,19 +83,16 @@ namespace API.Controller
             return Ok("Logout successful.");
         }
 
-        // Get All Users
         [HttpGet("all")]
         public IActionResult GetAll()
         {
             var users = LoadUsers();
             if (users == null || !users.Any())
             {
-                return NoContent(); // No users found
-            }
+                return NoContent();             }
             return Ok(users);
         }
 
-        // ✅ Delete User
         [HttpDelete("{username}")]
         public IActionResult DeleteUser(string username)
         {

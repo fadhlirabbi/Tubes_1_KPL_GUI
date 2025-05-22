@@ -29,40 +29,52 @@ namespace API.Services
             _controller = controller;
         }
 
+        private bool ValidateCredentials(string? username, string? password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                Console.WriteLine("Username dan password tidak boleh kosong atau hanya spasi.");
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task Register()
         {
             Contract.Requires(_currentState == State.LoggedOut);
-            await _controller.RegisterAsync();
+
+            Console.Write("Username: ");
+            var username = Console.ReadLine()?.Trim();
+
+            Console.Write("Password: ");
+            var password = Console.ReadLine()?.Trim();
+
+            if (!ValidateCredentials(username, password)) return;
+
+            await Register(username!, password!);
         }
 
         public async Task Register(string username, string password)
         {
             Contract.Requires(_currentState == State.LoggedOut);
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                Console.WriteLine("Username/password tidak boleh kosong.");
-                return;
-            }
+            if (!ValidateCredentials(username, password)) return;
 
-            await _controller.RegisterAsync(username, password);
+            await _controller.RegisterAsync(username.Trim(), password.Trim());
         }
 
         public async Task<bool> TryLoginAsync(string username, string password)
         {
             Contract.Requires(_currentState == State.LoggedOut);
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                Console.WriteLine("Username/password tidak boleh kosong.");
-                return false;
-            }
+            if (!ValidateCredentials(username, password)) return false;
 
-            var success = await _controller.TryLoginAsync(username, password);
+            var success = await _controller.TryLoginAsync(username.Trim(), password.Trim());
             if (success)
             {
                 _currentState = State.LoggedIn;
-                _currentUser = username;
+                _currentUser = username.Trim();
             }
 
             return success;
@@ -120,6 +132,5 @@ namespace API.Services
             _currentUser = null;
             _currentState = State.LoggedOut;
         }
-
     }
 }

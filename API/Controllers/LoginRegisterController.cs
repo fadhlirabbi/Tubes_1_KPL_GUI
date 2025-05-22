@@ -22,71 +22,24 @@ namespace API.Controllers
             _http = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-
-        public virtual async Task RegisterAsync()
-        {
-            try
-            {
-                Console.Write("Username: ");
-                var username = Console.ReadLine()?.Trim();
-                Console.Write("Password: ");
-                var password = Console.ReadLine()?.Trim();
-
-                Contract.Requires(!string.IsNullOrEmpty(username));
-                Contract.Requires(!string.IsNullOrEmpty(password));
-
-                var user = new { Username = username, Password = password };
-                Debug.WriteLine($"[DEBUG] Registering user: {username}");
-
-                var response = await _http.PostAsJsonAsync("User/register", user);
-
-                if (response == null)
-                {
-                    Console.WriteLine("Terjadi kesalahan saat mengirim request.");
-                    return;
-                }
-
-                Console.WriteLine(response.IsSuccessStatusCode
-                    ? "Registrasi berhasil."
-                    : $"Registrasi gagal: {await response.Content.ReadAsStringAsync()}");
-
-                Contract.Ensures(response != null);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Terjadi error saat registrasi: {ex.Message}");
-                Debug.WriteLine($"[ERROR] RegisterAsync: {ex}");
-            }
-        }
-
         public virtual async Task RegisterAsync(string username, string password)
         {
             try
             {
-                Contract.Requires(!string.IsNullOrEmpty(username));
-                Contract.Requires(!string.IsNullOrEmpty(password));
-
                 var user = new { Username = username, Password = password };
-                Debug.WriteLine($"[DEBUG] Registering user (dari parameter): {username}");
+                Debug.WriteLine($"[DEBUG] Sending register request for: {username}");
 
                 var response = await _http.PostAsJsonAsync("User/register", user);
-
-                if (response == null)
-                {
-                    Console.WriteLine("Terjadi kesalahan saat mengirim request.");
-                    return;
-                }
+                var content = await response.Content.ReadAsStringAsync();
 
                 Console.WriteLine(response.IsSuccessStatusCode
                     ? "Registrasi berhasil."
-                    : $"Registrasi gagal: {await response.Content.ReadAsStringAsync()}");
-
-                Contract.Ensures(response != null);
+                    : $"Registrasi gagal: {content}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Terjadi error saat registrasi: {ex.Message}");
-                Debug.WriteLine($"[ERROR] RegisterAsync(string, string): {ex}");
+                Console.WriteLine($"[ERROR] Gagal register: {ex.Message}");
+                Debug.WriteLine($"[ERROR] RegisterAsync: {ex}");
             }
         }
 
@@ -94,34 +47,24 @@ namespace API.Controllers
         {
             try
             {
-                Contract.Requires(!string.IsNullOrEmpty(username));
-                Contract.Requires(!string.IsNullOrEmpty(password));
-
                 var user = new { Username = username, Password = password };
-                Debug.WriteLine($"[DEBUG] Attempting login for user: {username}");
+                Debug.WriteLine($"[DEBUG] Sending login request for: {username}");
 
                 var response = await _http.PostAsJsonAsync("User/login", user);
-
-                if (response == null)
-                {
-                    Console.WriteLine("Terjadi kesalahan saat mengirim request login.");
-                    return false;
-                }
+                var content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Login berhasil: {username}");
                     return true;
                 }
-                else
-                {
-                    Console.WriteLine("Login gagal.");
-                    return false;
-                }
+
+                Console.WriteLine($"Login gagal: {content}");
+                return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Terjadi error saat login: {ex.Message}");
+                Console.WriteLine($"[ERROR] Gagal login: {ex.Message}");
                 Debug.WriteLine($"[ERROR] TryLoginAsync: {ex}");
                 return false;
             }
@@ -131,24 +74,18 @@ namespace API.Controllers
         {
             try
             {
-                Contract.Requires(!string.IsNullOrEmpty(username));
-                Debug.WriteLine($"[DEBUG] Attempting logout for user: {username}");
+                Debug.WriteLine($"[DEBUG] Sending logout request for: {username}");
 
                 var response = await _http.PostAsync($"User/logout/{username}", null);
-
-                if (response == null)
-                {
-                    Console.WriteLine("Terjadi kesalahan saat mengirim request logout.");
-                    return;
-                }
+                var content = await response.Content.ReadAsStringAsync();
 
                 Console.WriteLine(response.IsSuccessStatusCode
                     ? $"Logout berhasil: {username}"
-                    : "Logout gagal.");
+                    : $"Logout gagal: {content}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Terjadi error saat logout: {ex.Message}");
+                Console.WriteLine($"[ERROR] Gagal logout: {ex.Message}");
                 Debug.WriteLine($"[ERROR] LogoutAsync: {ex}");
             }
         }

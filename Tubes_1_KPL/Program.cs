@@ -3,283 +3,251 @@ using API.Services;
 using SystemTask = System.Threading.Tasks.Task;
 using ModelTask = API.Model.Task;
 
-
 internal class Program
 {
-    private static string _loggedInUser = null;
-    private static TaskService _taskCreator = null;
+    private static string? _loggedInUser = null;
+    private static TaskClientService? _taskClient = null;
+    private static LoginRegisterService _auth = new();
+    private static TaskService _taskService = new();
 
     static async SystemTask Main()
     {
-        var automata = new LoginRegisterService();
-
         while (true)
         {
-            Console.WriteLine("Pilih opsi:");
-            Console.WriteLine("1. Register");
-            Console.WriteLine("2. Login");
-            Console.WriteLine("3. Exit");
-            Console.Write("Pilih: ");
-            var choice = Console.ReadLine();
-            var httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5263/api/") };
+            ShowMainMenu();
+            string choice = Console.ReadLine() ?? "";
 
             switch (choice)
             {
                 case "1":
-                    await automata.Register();
+                    await _auth.Register();
                     break;
-
                 case "2":
-                    Console.Write("Masukkan username: ");
-                    var usernameLogin = Console.ReadLine();
-                    Console.Write("Masukkan password: ");
-                    var passwordLogin = Console.ReadLine();
-                    bool loginSuccessful = await automata.TryLoginAsync(usernameLogin, passwordLogin);
-                    if (loginSuccessful)
-                    {
-                        _loggedInUser = usernameLogin;
-                        _taskCreator = new TaskService(_loggedInUser, httpClient);
-                        Console.WriteLine($"Berhasil login sebagai: {_loggedInUser}");
-
-                        while (_loggedInUser != null)
-                        {
-                            string configPath = "reminder.json";
-                            ReminderConfig reminderConfig = ReminderService.LoadFromJson(configPath);
-                            _taskCreator.ShowReminders(reminderConfig);
-
-                            Console.WriteLine("\nPilih opsi:");
-                            Console.WriteLine("1. Buat Tugas");
-                            //Console.WriteLine("2. Lihat Tugas Saya");
-                            Console.WriteLine("2. Edit Tugas");
-                            Console.WriteLine("3. Delete Tugas");
-                            Console.WriteLine("4. Tandai Tugas Selesai");
-                            Console.WriteLine("5. Tugas Ongoing");
-                            Console.WriteLine("6. Tugas Deadline");
-                            Console.WriteLine("7. Tugas Complete");
-                            Console.WriteLine("8. Hapus Akun");
-                            Console.WriteLine("9. Logout");
-                            Console.Write("Pilih: ");
-                            var taskChoice = Console.ReadLine();
-
-                            const string
-                                TASK_ONGOING = "5",
-                                TASK_DEADLINE = "6",
-                                TASK_COMPLETE = "7";
-
-                            switch (taskChoice)
-                            {
-                                case "1":
-                                    Console.Write("Nama tugas: ");
-                                    string name = Console.ReadLine();
-
-                                    Console.Write("Deskripsi tugas: ");
-                                    string description = Console.ReadLine();
-
-                                    Console.Write("Tanggal (1-31): ");
-                                    if (int.TryParse(Console.ReadLine(), out int day))
-                                    {
-                                        Console.Write("Bulan (misalnya, januari): ");
-                                        string month = Console.ReadLine();
-                                        Console.Write("Tahun: ");
-                                        if (int.TryParse(Console.ReadLine(), out int year))
-                                        {
-                                            Console.Write("Jam (0-23): ");
-                                            if (int.TryParse(Console.ReadLine(), out int hour))
-                                            {
-                                                Console.Write("Menit (0-59): ");
-                                                if (int.TryParse(Console.ReadLine(), out int minute))
-                                                {
-                                                    await _taskCreator.CreateTaskAsync(name, description, day, month, year, hour, minute);
-                                                }
-                                                else { Console.WriteLine("Format menit tidak valid."); }
-                                            }
-                                            else { Console.WriteLine("Format jam tidak valid."); }
-                                        }
-                                        else { Console.WriteLine("Format tahun tidak valid."); }
-                                    }
-                                    else { Console.WriteLine("Format hari tidak valid."); }
-                                    break;
-
-                                case "2":
-                                    Console.Write("Masukkan nama tugas yang ingin diubah: ");
-                                    string oldTaskName = Console.ReadLine();
-
-                                    var taskEdit = (await _taskCreator.GetOngoingTasksAsync()).ToList().FirstOrDefault(t => t.Name == oldTaskName);
-                                    if (taskEdit == null)
-                                    {
-                                        Console.WriteLine($"Tugas dengan nama '{oldTaskName}' tidak ditemukan");
-                                        break;
-                                    }
-
-                                    Console.Write("Nama tugas baru: ");
-                                    string newName = Console.ReadLine();
-
-                                    Console.Write("Deskripsi tugas baru: ");
-                                    string newDescription = Console.ReadLine();
-
-                                    Console.Write("Tanggal baru (1-31): ");
-                                    if (int.TryParse(Console.ReadLine(), out int newDay))
-                                    {
-                                        Console.Write("Bulan baru (misalnya, januari): ");
-                                        string newMonth = Console.ReadLine();
-
-                                        Console.Write("Tahun baru: ");
-                                        if (int.TryParse(Console.ReadLine(), out int newYear))
-                                        {
-                                            Console.Write("Jam baru (0-23): ");
-                                            if (int.TryParse(Console.ReadLine(), out int newHour))
-                                            {
-                                                Console.Write("Menit baru (0-59): ");
-                                                if (int.TryParse(Console.ReadLine(), out int newMinute))
-                                                {
-                                                    await _taskCreator.EditTask(oldTaskName, newName, newDescription, newDay, newMonth, newYear, newHour, newMinute);
-                                                }
-                                                else { Console.WriteLine("Format menit tidak valid."); }
-                                            }
-                                            else { Console.WriteLine("Format jam tidak valid."); }
-                                        }
-                                        else { Console.WriteLine("Format tahun tidak valid."); }
-                                    }
-                                    else { Console.WriteLine("Format hari tidak valid."); }
-                                    break;
-
-                                case "3":
-                                    Console.Write("Masukkan nama tugas yang ingin dihapus: ");
-                                    string taskNameToDelete = Console.ReadLine();
-
-                                    bool deleted = await _taskCreator.DeleteTaskAsync(taskNameToDelete);
-                                    if (!deleted)
-                                    {
-                                        Console.WriteLine("Tugas gagal dihapus atau tidak ditemukan.");
-                                    }
-                                    break;
-
-                                case "4":
-                                    Console.WriteLine("\n=== Tandai Tugas Selesai ===");
-                                    Console.Write("Masukkan nama tugas yang ingin ditandai selesai: ");
-                                    string taskNameToComplete = Console.ReadLine() ?? "";
-
-                                    Console.Write("Apakah tugas ini sudah selesai? (yes/no): ");
-                                    string answer = Console.ReadLine() ?? "";
-                                    var taskCreator = new TaskService(_loggedInUser, httpClient);
-                                    await taskCreator.MarkTaskAsCompleted(taskNameToComplete, answer);
-                                    break;
-
-                                case TASK_ONGOING:
-                                    Console.WriteLine("\n=== Tugas Ongoing ===");
-                                    try
-                                    {
-                                        var ongoingTasks = await _taskCreator.GetOngoingTasksAsync();
-                                        if (ongoingTasks.Count > 0)
-                                        {
-                                            Console.WriteLine($"Tugas ongoing untuk {_loggedInUser}:");
-                                            foreach (var task in ongoingTasks)
-                                            {
-                                                Console.WriteLine(task.ToString());
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("Tidak ada tugas ongoing.");
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-                                    }
-                                    break;
-
-                                case TASK_DEADLINE:
-                                    Console.WriteLine("\n=== Tugas Deadline ===");
-                                    try
-                                    {
-                                        var overdueTasks = await _taskCreator.GetOverdueTasksAsync();
-                                        if (overdueTasks.Count > 0)
-                                        {
-                                            Console.WriteLine($"Tugas deadline untuk {_loggedInUser}:");
-                                            foreach (var task in overdueTasks)
-                                            {
-                                                Console.WriteLine(task.ToString());
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("Tidak ada tugas yang sudah melewati deadline.");
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-                                    }
-                                    break;
-
-                                case TASK_COMPLETE:
-                                    Console.WriteLine("\n=== Tugas Complete ===");
-                                    try
-                                    {
-                                        var completedTasks = await _taskCreator.GetCompletedTasksAsync();
-                                        if (completedTasks.Count > 0)
-                                        {
-                                            Console.WriteLine($"Tugas complete untuk {_loggedInUser}:");
-                                            foreach (var task in completedTasks)
-                                            {
-                                                Console.WriteLine(task.ToString());
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("Tidak ada tugas yang sudah selesai.");
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-                                    }
-                                    break;
-                                case "8":
-                                    Console.Write("Apakah Anda yakin ingin menghapus akun beserta semua tugas? (yes/no): ");
-                                    string confirm = Console.ReadLine()?.Trim().ToLower();
-                                    if (confirm == "yes")
-                                    {
-                                        await automata.DeleteAccountAndTasks();
-                                        _loggedInUser = null;
-                                        _taskCreator = null;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Penghapusan akun dibatalkan.");
-                                    }
-                                    break;
-                                case "9":
-                                    await automata.Logout();
-                                    _loggedInUser = null;
-                                    _taskCreator = null;
-                                    Console.WriteLine("Berhasil logout.");
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Pilihan tidak valid.");
-                                    break;
-                            }
-
-                            Console.WriteLine();
-                        }
-                    }
+                    await HandleLogin();
                     break;
-
                 case "3":
                     return;
+                default:
+                    Console.WriteLine("Pilihan tidak valid.");
+                    break;
+            }
+            Console.WriteLine();
+        }
+    }
 
+    private static void ShowMainMenu()
+    {
+        Console.WriteLine("Pilih opsi:");
+        Console.WriteLine("1. Register");
+        Console.WriteLine("2. Login");
+        Console.WriteLine("3. Exit");
+        Console.Write("Pilih: ");
+    }
+
+    private static async SystemTask HandleLogin()
+    {
+        string username = PromptInput("Masukkan username: ");
+        string password = PromptInput("Masukkan password: ");
+        bool loginSuccessful = await _auth.TryLoginAsync(username, password);
+
+        if (!loginSuccessful) return;
+
+        _loggedInUser = username;
+        _taskClient = new TaskClientService(_loggedInUser, new HttpClient { BaseAddress = new Uri("http://localhost:5263/api/") });
+
+        Console.WriteLine($"Berhasil login sebagai: {_loggedInUser}");
+
+        await TaskLoop();
+    }
+
+    private static async SystemTask TaskLoop()
+    {
+        while (_loggedInUser != null)
+        {
+            _taskService.UpdateTaskStatus();
+            await ShowRemindersAsync();
+
+            ShowTaskMenu();
+            string choice = Console.ReadLine() ?? "";
+
+            switch (choice)
+            {
+                case "1": await CreateTask(); break;
+                case "2": await EditTask(); break;
+                case "3": await DeleteTask(); break;
+                case "4": await MarkTaskComplete(); break;
+                case "5": await DisplayTasks("ongoing"); break;
+                case "6": await DisplayTasks("overdue"); break;
+                case "7": await DisplayTasks("completed"); break;
+                case "8": await DeleteAccount(); break;
+                case "9":
+                    await _auth.Logout();
+                    _loggedInUser = null;
+                    _taskClient = null;
+                    Console.WriteLine("Berhasil logout.");
+                    break;
                 default:
                     Console.WriteLine("Pilihan tidak valid.");
                     break;
             }
 
             Console.WriteLine();
-            //final note
-            //check the test folder to see if all test is configured into respective changed code and structures
-            //code review for error prevention along with all the required techniques that must've been used into respective member of the team 
-            //-gumi 
+        }
+    }
+
+    private static async SystemTask ShowRemindersAsync()
+    {
+        if (_loggedInUser != null)
+        {
+            var reminders = _taskService.GenerateRemindersForTasks(_loggedInUser);
+
+            if (reminders.Any())
+            {
+                Console.WriteLine("\n=== Pengingat Tugas ===");
+                foreach (var reminder in reminders)
+                {
+                    Console.WriteLine(reminder);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Tidak ada pengingat tugas saat ini.");
+            }
+        }
+    }
+
+    private static void ShowTaskMenu()
+    {
+        Console.WriteLine("\nPilih opsi:");
+        Console.WriteLine("1. Buat Tugas");
+        Console.WriteLine("2. Edit Tugas");
+        Console.WriteLine("3. Hapus Tugas");
+        Console.WriteLine("4. Tandai Tugas Selesai");
+        Console.WriteLine("5. Lihat Tugas Ongoing");
+        Console.WriteLine("6. Lihat Tugas Deadline");
+        Console.WriteLine("7. Lihat Tugas Selesai");
+        Console.WriteLine("8. Hapus Akun");
+        Console.WriteLine("9. Logout");
+        Console.Write("Pilih: ");
+    }
+
+    private static string PromptInput(string label)
+    {
+        Console.Write(label);
+        return Console.ReadLine()?.Trim() ?? "";
+    }
+
+    private static int PromptInt(string label, int min, int max)
+    {
+        int val;
+        Console.Write(label);
+        while (!int.TryParse(Console.ReadLine(), out val) || val < min || val > max)
+        {
+            Console.Write($"Input tidak valid. {label}");
+        }
+        return val;
+    }
+
+    private static async SystemTask CreateTask()
+    {
+        string name = PromptInput("Nama tugas: ");
+        string desc = PromptInput("Deskripsi tugas: ");
+        int day = PromptInt("Tanggal (1-31): ", 1, 31);
+        string month = PromptInput("Bulan (misalnya, januari): ");
+        int year = PromptInt("Tahun: ", 1900, 3000);
+        int hour = PromptInt("Jam (0-23): ", 0, 23);
+        int minute = PromptInt("Menit (0-59): ", 0, 59);
+
+        await _taskClient!.CreateTaskAsync(name, desc, day, month, year, hour, minute);
+    }
+
+    private static async SystemTask EditTask()
+    {
+        string oldName = PromptInput("Masukkan nama tugas yang ingin diubah: ");
+        var task = (await _taskClient!.GetOngoingTasksAsync())
+            .FirstOrDefault(t => t.Name.Equals(oldName, StringComparison.OrdinalIgnoreCase));
+
+        if (task == null)
+        {
+            Console.WriteLine($"Tugas '{oldName}' tidak ditemukan.");
+            return;
+        }
+
+        string newName = PromptInput("Nama tugas baru: ");
+        string desc = PromptInput("Deskripsi tugas baru: ");
+        int day = PromptInt("Tanggal baru (1-31): ", 1, 31);
+        string month = PromptInput("Bulan baru: ");
+        int year = PromptInt("Tahun baru: ", 1900, 3000);
+        int hour = PromptInt("Jam baru (0-23): ", 0, 23);
+        int minute = PromptInt("Menit baru (0-59): ", 0, 59);
+
+        await _taskClient.EditTask(oldName, newName, desc, day, month, year, hour, minute);
+    }
+
+    private static async SystemTask DeleteTask()
+    {
+        string name = PromptInput("Masukkan nama tugas yang ingin dihapus: ");
+        string description = PromptInput("Masukkan deskripsi tugas yang ingin dihapus: ");
+        int day = PromptInt("Tanggal (1-31): ", 1, 31);
+        int month = PromptInt("Bulan (1-12): ", 1, 12);
+        int year = PromptInt("Tahun: ", 1900, 3000);
+        int hour = PromptInt("Jam (0-23): ", 0, 23);
+        int minute = PromptInt("Menit (0-59): ", 0, 59);
+
+        bool result = await _taskClient!.DeleteTaskAsync(name, description, day, month, year, hour, minute);
+        Console.WriteLine(result ? "Tugas berhasil dihapus." : "Tugas tidak ditemukan.");
+    }
+
+
+    private static async SystemTask MarkTaskComplete()
+    {
+        string name = PromptInput("Task name: ");
+        string description = PromptInput("Task description: ");
+        int day = PromptInt("Deadline day (1-31): ", 1, 31);
+        int month = PromptInt("Deadline month (1-12): ", 1, 12);
+        int year = PromptInt("Deadline year: ", 1900, 3000);
+        int hour = PromptInt("Deadline hour (0-23): ", 0, 23);
+        int minute = PromptInt("Deadline minute (0-59): ", 0, 59);
+
+        await _taskClient!.MarkTaskAsCompleted(name, description, day, month, year, hour, minute);
+    }
+
+
+    private static async SystemTask DisplayTasks(string type)
+    {
+        List<ModelTask> tasks = type switch
+        {
+            "ongoing" => await _taskClient!.GetOngoingTasksAsync(),
+            "overdue" => await _taskClient!.GetOverdueTasksAsync(),
+            "completed" => await _taskClient!.GetCompletedTasksAsync(),
+            _ => new List<ModelTask>()
+        };
+
+        Console.WriteLine($"\n=== Tugas {type} ===");
+        if (tasks.Count == 0)
+        {
+            Console.WriteLine("Tidak ada tugas.");
+        }
+        else
+        {
+            foreach (var task in tasks)
+                Console.WriteLine(task);
+        }
+    }
+
+    private static async SystemTask DeleteAccount()
+    {
+        string confirm = PromptInput("Yakin ingin hapus akun dan semua tugas? (yes/no): ").ToLower();
+        if (confirm == "yes")
+        {
+            await _auth.DeleteAccountAndTasks();
+
+            _loggedInUser = null;
+            _taskClient = null;
+        }
+        else
+        {
+            Console.WriteLine("Penghapusan dibatalkan.");
         }
     }
 }
