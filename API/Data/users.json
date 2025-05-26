@@ -3,7 +3,7 @@
     "Id": 1,
     "Username": "admin",
     "Password": "admin",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   },
   {
     "Id": 2,
