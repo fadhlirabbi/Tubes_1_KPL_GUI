@@ -1,14 +1,14 @@
 [
   {
     "Id": 1,
-    "Username": "fadhli",
-    "Password": "fadhli",
+    "Username": "admin",
+    "Password": "admin",
     "IsLoggedIn": false
   },
   {
     "Id": 2,
-    "Username": "admin",
-    "Password": "admin",
+    "Username": "gumi",
+    "Password": "gumi",
     "IsLoggedIn": true
   }
 ]

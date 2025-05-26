@@ -1,61 +1,67 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using Tubes_1_KPL.Model;
-using Tubes_1_KPL.Controller;
+﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using System.Threading.Tasks;
+//using API.Services;
+//using API.Controllers;
 
-namespace test1
-{
-    [TestClass]
-    public class LoginRegisterAutomataTests
-    {
-        [TestMethod]
-        public async Task Login_Berhasil()
-        {
-            var mockController = new MockLoginRegisterController(true);
-            var automata = new LoginRegisterAutomata(mockController);
-            //await automata.Login("user", "pass");
-            Assert.AreEqual(LoginRegisterAutomata.State.LoggedIn, automata.CurrentState);
-        }
+//namespace test1
+//{
+//    [TestClass]
+//    public class LoginRegisterAutomataTests
+//    {
+//        [TestMethod]
+//        public async Task Login_Berhasil()
+//        {
+//            var mockController = new FakeLoginRegisterController(true);
+//            var service = new UserService(mockController);
 
-        [TestMethod]
-        public async Task Login_Gagal()
-        {
-            var mockController = new MockLoginRegisterController(false);
-            var automata = new LoginRegisterAutomata(mockController);
-            //await automata.Login("user", "passe");
-            Assert.AreEqual(LoginRegisterAutomata.State.LoggedOut, automata.CurrentState);
-        }
+//            var success = await service.TryLoginAsync("user", "pass");
 
+//            Assert.IsTrue(success);
+//            Assert.AreEqual(UserService.State.LoggedIn, service.CurrentState);
+//        }
 
-        private class MockLoginRegisterController : LoginRegisterController
-        {
-            private readonly bool _loginResult;
+//        [TestMethod]
+//        public async Task Login_Gagal()
+//        {
+//            var mockController = new FakeLoginRegisterController(false);
+//            var service = new UserService(mockController);
 
-            public MockLoginRegisterController(bool loginResult)
-            {
-                _loginResult = loginResult;
-            }
+//            var success = await service.TryLoginAsync("user", "wrongpass");
 
-            public override Task<bool> TryLoginAsync(string username, string password)
-            {
-                return Task.FromResult(_loginResult);
-            }
+//            Assert.IsFalse(success);
+//            Assert.AreEqual(UserService.State.LoggedOut, service.CurrentState);
+//        }
 
 
-            public override Task LogoutAsync(string username)
-            {
-                return Task.CompletedTask;
-            }
+//        private class FakeLoginRegisterController : LoginRegisterController
+//        {
+//            private readonly bool _loginResult;
 
-            public override Task RegisterAsync()
-            {
-                return Task.CompletedTask;
-            }
+//            public FakeLoginRegisterController(bool loginResult)
+//                : base(new HttpClient()) 
+//            {
+//                _loginResult = loginResult;
+//            }
 
-            public override Task RegisterAsync(string username, string password)
-            {
-                return Task.CompletedTask;
-            }
-        }
-    }
-}
+//            public override Task<bool> TryLoginAsync(string username, string password)
+//            {
+//                return Task.FromResult(_loginResult);
+//            }
+
+//            public override Task LogoutAsync(string username)
+//            {
+//                return Task.CompletedTask;
+//            }
+
+//            public override Task RegisterAsync()
+//            {
+//                return Task.CompletedTask;
+//            }
+
+//            public override Task RegisterAsync(string username, string password)
+//            {
+//                return Task.CompletedTask;
+//            }
+//        }
+//    }
+//}

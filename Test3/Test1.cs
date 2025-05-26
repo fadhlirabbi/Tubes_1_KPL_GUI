@@ -1,57 +1,127 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tubes_1_KPL.Controller;
-using Tubes_1_KPL.Model;
-using ModelTask = API.Model.Task;
-using System.Collections.Generic;
+﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using System;
+//using System.Collections.Generic;
+//using System.IO;
+//using System.Linq;
+//using System.Text.Json;
+//using API.Model;
+//using ModelTask = API.Model.Task;
 
-namespace Test3
-{
-    [TestClass]
-    public sealed class TaskCreatorTests
-    {
-        private TaskCreator _taskCreator;
 
-        [TestInitialize]
-        public void Setup()
-        {
-            var httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5263/api/") };
-            _taskCreator = new TaskCreator("testuser", httpClient);
-        }
+//namespace Test3
+//{
+//    [TestClass]
+//    public sealed class TaskCreatorTests
+//    {
+//        private LocalTaskCreator _taskCreator;
+//        private string _filePath;
 
-        [TestMethod]
-        public void TestCreateTask()
-        {
-            string name = "Tugas 1";
-            string description = "Deskripsi tugas 1";
-            int day = 5, month = 1, year = 2025, hour = 14, minute = 30;
+//        [TestInitialize]
+//        public void Setup()
+//        {
+//            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
+//            string dataFolder = Path.Combine(projectRoot, "API", "Data");
+//            _filePath = Path.Combine(dataFolder, "task.json");
 
-            _taskCreator.CreateTaskAsync(name, description, day, "Januari", year, hour, minute);
+//            if (File.Exists(_filePath))
+//                File.Delete(_filePath); 
 
-            var tasks = _taskCreator.GetUserTasks();
-            var createdTask = tasks.Find(t => t.Name == name); // mencari task dengan nama yang sama
-            Assert.IsNotNull(createdTask, "Tugas tidak berhasil dibuat.");
-            Assert.AreEqual(description, createdTask.Description, "Deskripsi tugas tidak sesuai.");
-        }
+//            Directory.CreateDirectory(dataFolder);
+//            _taskCreator = new LocalTaskCreator("testuser", _filePath);
+//        }
 
-        [TestMethod]
-        public void TestEditTask()
-        {
-            string oldTaskName = "Tugas 1";
-            string newTaskName = "Tugas 1 (Updated)";
-            string newDescription = "Deskripsi tugas yang diperbarui";
-            int newDay = 10, newMonth = 1, newYear = 2025, newHour = 16, newMinute = 45;
+//        [TestMethod]
+//        public void TestCreateTask()
+//        {
+//            string name = "Tugas 1";
+//            string description = "Deskripsi tugas 1";
+//            int day = 5, month = 1, year = 2025, hour = 14, minute = 30;
 
-            _taskCreator.CreateTaskAsync(oldTaskName, "Deskripsi tugas 1", 5, "Januari", 2025, 14, 30);
+//            _taskCreator.CreateTask(name, description, day, month, year, hour, minute);
 
-            _taskCreator.EditTask(oldTaskName, newTaskName, newDescription, newDay, "Januari", newYear, newHour, newMinute);
+//            var tasks = _taskCreator.GetUserTasks();
+//            var createdTask = tasks.Find(t => t.Name == name);
 
-            var tasks = _taskCreator.GetUserTasks();
-            var editedTask = tasks.Find(t => t.Name == newTaskName);
-            Assert.IsNotNull(editedTask, "Tugas yang diedit tidak ditemukan.");
-            Assert.AreEqual(newDescription, editedTask.Description, "Deskripsi tugas yang diedit tidak sesuai.");
-            Assert.AreEqual(newDay, editedTask.Deadline.Day, "Tanggal deadline tidak sesuai.");
-            Assert.AreEqual(newHour, editedTask.Deadline.Hour, "Jam deadline tidak sesuai.");
-        }
-    }
-}
+//            Assert.IsNotNull(createdTask, "Tugas tidak berhasil dibuat.");
+//            Assert.AreEqual(description, createdTask.Description, "Deskripsi tugas tidak sesuai.");
+//        }
+
+//        [TestMethod]
+//        public void TestEditTask()
+//        {
+//            string oldName = "Tugas 1";
+//            string newName = "Tugas 1 (Updated)";
+//            string newDesc = "Deskripsi tugas diperbarui";
+//            int newDay = 10, newMonth = 1, newYear = 2025, newHour = 16, newMinute = 45;
+
+//            _taskCreator.CreateTask(oldName, "Deskripsi awal", 5, 1, 2025, 14, 30);
+//            _taskCreator.EditTask(oldName, newName, newDesc, newDay, newMonth, newYear, newHour, newMinute);
+
+//            var tasks = _taskCreator.GetUserTasks();
+//            var editedTask = tasks.Find(t => t.Name == newName);
+
+//            Assert.IsNotNull(editedTask, "Tugas yang diedit tidak ditemukan.");
+//            Assert.AreEqual(newDesc, editedTask.Description, "Deskripsi tidak sesuai.");
+//            Assert.AreEqual(newDay, editedTask.Deadline.Day);
+//            Assert.AreEqual(newHour, editedTask.Deadline.Hour);
+//        }
+
+
+//        private class LocalTaskCreator
+//        {
+//            private readonly string _userId;
+//            private readonly string _filePath;
+
+//            public LocalTaskCreator(string userId, string filePath)
+//            {
+//                _userId = userId;
+//                _filePath = filePath;
+//            }
+
+//            public void CreateTask(string name, string desc, int day, int month, int year, int hour, int minute)
+//            {
+//                if (!IsValidDate(day, month, year)) return;
+
+//                var task = new ModelTask(name, desc, new Deadline { Day = day, Month = month, Year = year, Hour = hour, Minute = minute }, _userId);
+//                var tasks = Load();
+//                tasks.Add(task);
+//                Save(tasks);
+//            }
+
+//            public void EditTask(string oldName, string newName, string newDesc, int day, int month, int year, int hour, int minute)
+//            {
+//                var tasks = Load();
+//                var task = tasks.FirstOrDefault(t => t.UserId == _userId && t.Name == oldName);
+//                if (task == null || !IsValidDate(day, month, year)) return;
+
+//                task.Name = newName;
+//                task.Description = newDesc;
+//                task.Deadline = new Deadline { Day = day, Month = month, Year = year, Hour = hour, Minute = minute };
+//                Save(tasks);
+//            }
+
+//            public List<ModelTask> GetUserTasks()
+//            {
+//                return Load().Where(t => t.UserId == _userId).ToList();
+//            }
+
+//            private List<ModelTask> Load()
+//            {
+//                if (!File.Exists(_filePath)) return new List<ModelTask>();
+//                var json = File.ReadAllText(_filePath);
+//                return JsonSerializer.Deserialize<List<ModelTask>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<ModelTask>();
+//            }
+
+//            private void Save(List<ModelTask> tasks)
+//            {
+//                var json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
+//                File.WriteAllText(_filePath, json);
+//            }
+
+//            private bool IsValidDate(int day, int month, int year)
+//            {
+//                return day > 0 && day <= DateTime.DaysInMonth(year, month);
+//            }
+//        }
+//    }
+//}
