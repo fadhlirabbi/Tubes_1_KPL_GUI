@@ -23,7 +23,6 @@ namespace GUI
             {
                 lblStatus.Text = "";
                 MessageBox.Show("Login berhasil!");
-                // TODO: Ganti dengan DashboardForm
             }
             else
             {
