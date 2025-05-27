@@ -43,14 +43,14 @@ namespace API.Controller
             var users = LoadUsers();
 
             if (users.Any(u => u.Username == user.Username))
-                return BadRequest("Username already exists.");
+                return BadRequest("Username sudah ada atau sudah digunakan.");
 
             user.Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1;
             user.IsLoggedIn = false;
             users.Add(user);
 
             SaveUsers(users);
-            return Ok("User registered successfully.");
+            return Ok("User berhasil registrasi.");
         }
 
         [HttpPost("login")]
@@ -62,11 +62,11 @@ namespace API.Controller
                 u.Username == loginUser.Username && u.Password == loginUser.Password);
 
             if (existingUser == null)
-                return Unauthorized("Username or password is incorrect.");
+                return Unauthorized("Username atau password salah.");
 
             existingUser.IsLoggedIn = true;
             SaveUsers(users);
-            return Ok("Login successful.");
+            return Ok("Login berhasil.");
         }
 
         [HttpPost("logout/{username}")]
@@ -76,11 +76,11 @@ namespace API.Controller
             var existingUser = users.FirstOrDefault(u => u.Username == username);
 
             if (existingUser == null || !existingUser.IsLoggedIn)
-                return NotFound("User not logged in or does not exist.");
+                return NotFound("User belum log in, atau tidak ditemukan.");
 
             existingUser.IsLoggedIn = false;
             SaveUsers(users);
-            return Ok("Logout successful.");
+            return Ok("Logout berhasil.");
         }
 
         [HttpGet("all")]
@@ -101,13 +101,13 @@ namespace API.Controller
 
             if (userToDelete == null)
             {
-                return NotFound(new { Message = "User not found." });
+                return NotFound(new { Message = "User tidak ditemukan." });
             }
 
             users.Remove(userToDelete);
             SaveUsers(users);
 
-            return Ok(new { Message = "User deleted successfully.", DeletedUser = userToDelete });
+            return Ok(new { Message = "User berhasil di hapus.", DeletedUser = userToDelete });
         }
     }
 }

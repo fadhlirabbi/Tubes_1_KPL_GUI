@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using API.Model.UserDto;
 
 namespace API.Controllers
 {
@@ -48,7 +49,7 @@ namespace API.Controllers
             try
             {
                 var user = new { Username = username, Password = password };
-                Debug.WriteLine($"[DEBUG] Sending login request for: {username}");
+                Debug.WriteLine($"[DEBUG] Mengirim login request untuk: {username}");
 
                 var response = await _http.PostAsJsonAsync("User/login", user);
                 var content = await response.Content.ReadAsStringAsync();
@@ -74,7 +75,7 @@ namespace API.Controllers
         {
             try
             {
-                Debug.WriteLine($"[DEBUG] Sending logout request for: {username}");
+                Debug.WriteLine($"[DEBUG] Mengirim logout request untuk: {username}");
 
                 var response = await _http.PostAsync($"User/logout/{username}", null);
                 var content = await response.Content.ReadAsStringAsync();
@@ -87,6 +88,22 @@ namespace API.Controllers
             {
                 Console.WriteLine($"[ERROR] Gagal logout: {ex.Message}");
                 Debug.WriteLine($"[ERROR] LogoutAsync: {ex}");
+            }
+        }
+
+        public virtual async Task<List<string>> GetAllUsernamesAsync()
+        {
+            try
+            {
+                var response = await _http.GetAsync("User/all");
+                if (!response.IsSuccessStatusCode) return new List<string>();
+
+                var users = await response.Content.ReadFromJsonAsync<List<UserDto>>();
+                return users?.Select(u => u.Username).ToList() ?? new List<string>();
+            }
+            catch
+            {
+                return new List<string>();
             }
         }
     }
