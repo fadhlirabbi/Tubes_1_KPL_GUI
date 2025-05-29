@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using System.Diagnostics; // Untuk Debug.WriteLine
+using System.Diagnostics; 
 using API.Model;
 
 using StatusModel = API.Model.Status;
@@ -17,7 +17,6 @@ public sealed class ToDoListService
     private readonly HttpClient _httpClient;
     private readonly string _baseApiUrl = "http://localhost:5263/api/";
 
-    // Private constructor untuk menerapkan Singleton
     private ToDoListService()
     {
         _httpClient = new HttpClient { BaseAddress = new Uri(_baseApiUrl) };
@@ -42,12 +41,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
     /// Melakukan registrasi pengguna baru ke API.
-    /// </summary>
-    /// <param name="username">Username pengguna.</param>
-    /// <param name="password">Password pengguna.</param>
-    /// <returns>True jika registrasi berhasil, false jika gagal.</returns>
     public async Task<bool> RegisterAsync(string username, string password)
     {
         try
@@ -56,7 +50,6 @@ public sealed class ToDoListService
             var response = await _httpClient.PostAsJsonAsync("User/register", user);
             var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-            // Hanya mengembalikan nilai boolean Success. Pesan hanya untuk debug internal.
             if (apiResponse != null)
             {
                 Debug.WriteLine($"[DEBUG] Register response for {username}: Success = {apiResponse.Success}, Message = {apiResponse.Message}");
@@ -64,6 +57,7 @@ public sealed class ToDoListService
             }
             Debug.WriteLine($"[DEBUG] Register response for {username}: apiResponse is null.");
             return false;
+
         }
         catch (Exception ex)
         {
@@ -72,12 +66,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Melakukan login pengguna ke API.
-    /// </summary>
-    /// <param name="username">Username pengguna.</param>
-    /// <param name="password">Password pengguna.</param>
-    /// <returns>True jika login berhasil, false jika gagal.</returns>
+    // Melakukan login pengguna ke API.
     public async Task<bool> LoginAsync(string username, string password)
     {
         try
@@ -88,13 +77,13 @@ public sealed class ToDoListService
             if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine($"[DEBUG] Login berhasil untuk {username}.");
-                return true; // Login successful
-            }
-            else
-            {
-                // Read the error message from the API response
+                return true; 
+
+            } else {
+
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine($"[ERROR] Login gagal untuk {username}. Status Code: {response.StatusCode}, Content: {errorContent}");
+
                 try
                 {
                     var apiResponse = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(errorContent);
@@ -107,7 +96,8 @@ public sealed class ToDoListService
                 {
                     Debug.WriteLine($"[ERROR] Gagal mendeserialize respon error API: {jsonEx.Message}");
                 }
-                return false; // Login gagal
+
+                return false; 
             }
         }
         catch (Exception ex)
@@ -117,11 +107,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Melakukan logout pengguna dari API.
-    /// </summary>
-    /// <param name="username">Username pengguna yang akan logout.</param>
-    /// <returns>True jika logout berhasil, false jika gagal.</returns>
+    // Melakukan logout pengguna dari API.
     public async Task<bool> LogoutAsync(string username)
     {
         try
@@ -144,14 +130,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Menambahkan tugas baru untuk pengguna tertentu.
-    /// </summary>
-    /// <param name="taskName">Nama tugas.</param>
-    /// <param name="description">Deskripsi tugas.</param>
-    /// <param name="deadline">Objek Deadline tugas.</param>
-    /// <param name="userId">ID pengguna yang memiliki tugas.</param>
-    /// <returns>True jika tugas berhasil ditambahkan, false jika gagal.</returns>
+    // Menambahkan tugas baru untuk pengguna tertentu.
     public async Task<bool> AddTaskAsync(string taskName, string description, Deadline deadline, string userId)
     {
         try
@@ -175,13 +154,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Mengedit tugas yang sudah ada.
-    /// </summary>
-    /// <param name="username">Username pemilik tugas.</param>
-    /// <param name="oldTaskName">Nama tugas lama (untuk identifikasi).</param>
-    /// <param name="updatedTask">Objek tugas dengan informasi yang diperbarui.</param>
-    /// <returns>True jika tugas berhasil diperbarui, false jika gagal.</returns>
+    // Mengedit tugas yang sudah ada.
     public async Task<bool> EditTaskAsync(string username, string oldTaskName, ModelTask updatedTask)
     {
         try
@@ -204,18 +177,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Menghapus tugas berdasarkan detailnya.
-    /// </summary>
-    /// <param name="username">Username pemilik tugas.</param>
-    /// <param name="taskName">Nama tugas.</param>
-    /// <param name="description">Deskripsi tugas.</param>
-    /// <param name="day">Hari deadline.</param>
-    /// <param name="month">Bulan deadline.</param>
-    /// <param name="year">Tahun deadline.</param>
-    /// <param name="hour">Jam deadline.</param>
-    /// <param name="minute">Menit deadline.</param>
-    /// <returns>True jika tugas berhasil dihapus, false jika gagal.</returns>
+    // Menghapus tugas berdasarkan detailnya.
     public async Task<bool> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
     {
         try
@@ -238,18 +200,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Menandai tugas sebagai selesai.
-    /// </summary>
-    /// <param name="username">Username pemilik tugas.</param>
-    /// <param name="taskName">Nama tugas.</param>
-    /// <param name="description">Deskripsi tugas.</param>
-    /// <param name="day">Hari deadline.</param>
-    /// <param name="month">Bulan deadline.</param>
-    /// <param name="year">Tahun deadline.</param>
-    /// <param name="hour">Jam deadline.</param>
-    /// <param name="minute">Menit deadline.</param>
-    /// <returns>True jika tugas berhasil ditandai selesai, false jika gagal.</returns>
+    // Menandai tugas sebagai selesai.
     public async Task<bool> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
     {
         try
@@ -272,12 +223,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Mendapatkan daftar tugas berdasarkan status untuk pengguna tertentu.
-    /// </summary>
-    /// <param name="username">Username pengguna.</param>
-    /// <param name="status">Status tugas yang ingin diambil (Ongoing, Completed, Overdue).</param>
-    /// <returns>Daftar tugas sesuai status, atau daftar kosong jika terjadi kesalahan.</returns>
+    // Mendapatkan daftar tugas berdasarkan status untuk pengguna tertentu.
     public async Task<List<ModelTask>> GetTasksByStatusAsync(string username, StatusModel status)
     {
         try
@@ -319,11 +265,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Mendapatkan semua tugas untuk pengguna tertentu (dapat dianggap sebagai "riwayat").
-    /// </summary>
-    /// <param name="username">Username pengguna.</param>
-    /// <returns>Daftar semua tugas pengguna, atau daftar kosong jika terjadi kesalahan.</returns>
+    // Mendapatkan semua tugas untuk pengguna tertentu (dapat dianggap sebagai "riwayat").
     public async Task<List<ModelTask>> GetUserTasksHistoryAsync(string username)
     {
         try
@@ -347,10 +289,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Mendapatkan daftar pengingat yang dikonfigurasi dari API.
-    /// </summary>
-    /// <returns>Daftar aturan pengingat, atau daftar kosong jika terjadi kesalahan.</returns>
+    // Mendapatkan daftar pengingat yang dikonfigurasi dari API.
     public async Task<List<ReminderRule>> GetReminderRulesAsync()
     {
         try
@@ -374,11 +313,7 @@ public sealed class ToDoListService
         }
     }
 
-    /// <summary>
-    /// Mendapatkan pengingat untuk tugas-tugas yang akan jatuh tempo.
-    /// </summary>
-    /// <param name="username">Username pengguna.</param>
-    /// <returns>Daftar string pesan pengingat.</returns>
+    // Mendapatkan pengingat untuk tugas-tugas yang akan jatuh tempo.
     public async Task<List<string>> GetRemindersAsync(string username)
     {
         var reminders = new List<string>();

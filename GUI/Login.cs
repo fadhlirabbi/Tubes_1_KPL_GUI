@@ -22,13 +22,14 @@ namespace GUI
             string username = textBox1.Text;
             string password = textBox2.Text;
 
+            // 1. Validasi input tidak kosong
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Username dan password tidak boleh kosong.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nama Pengguna dan Kata Sandi tidak boleh kosong.", "Gagal Masuk", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Memanggil service untuk login
+            //2. Memanggil service untuk login
             bool loginSuccess = await ToDoListService.Instance.LoginAsync(username, password);
 
             if (loginSuccess)
@@ -38,9 +39,8 @@ namespace GUI
                 this.Hide();
             }
             else
-            {
-                // Pesan kegagalan diambil dari logika UI/desain, bukan dari service
-                MessageBox.Show("Username atau password salah. Silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {               
+                MessageBox.Show("Nama Pengguna atau Kata Sandi salah. Silakan coba lagi.", "Gagal Masuk", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
