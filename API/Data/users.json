@@ -3,18 +3,12 @@
     "Id": 1,
     "Username": "admin",
     "Password": "admin!123",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   },
   {
     "Id": 2,
     "Username": "gumi",
     "Password": "gumi",
-    "IsLoggedIn": true
-  },
-  {
-    "Id": 3,
-    "Username": "Intan",
-    "Password": "Intan!23",
     "IsLoggedIn": true
   }
 ]

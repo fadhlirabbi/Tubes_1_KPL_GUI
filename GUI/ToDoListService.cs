@@ -98,16 +98,12 @@ using ModelTask = API.Model.Task;
                 // Read the error message from the API response
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine($"[ERROR] Login failed for {username}. Status Code: {response.StatusCode}, Content: {errorContent}");
-
-                // Attempt to deserialize to ApiResponse if possible, otherwise log raw content
                 try
                 {
                     var apiResponse = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(errorContent);
                     if (apiResponse != null)
                     {
                         Debug.WriteLine($"[DEBUG] API Error Message: {apiResponse.Message}");
-                        // You might want to pass this message back to the UI, e.g., via a tuple
-                        // return (false, apiResponse.Message);
                     }
                 }
                 catch (System.Text.Json.JsonException jsonEx)
