@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Tubes_1_KPL.Model;
+using Tubes_1_KPL.Model; // Pastikan ini adalah namespace untuk model User Anda
+using API.Model; // Pastikan ini adalah namespace untuk model ApiResponse Anda
 
 namespace API.Controller
 {
@@ -43,14 +44,18 @@ namespace API.Controller
             var users = LoadUsers();
 
             if (users.Any(u => u.Username == user.Username))
-                return BadRequest("Username sudah ada atau sudah digunakan.");
+            {
+                // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+                return BadRequest(new ApiResponse(400, "Username sudah ada atau sudah digunakan.")); // 400 Bad Request
+            }
 
             user.Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1;
             user.IsLoggedIn = false;
             users.Add(user);
 
             SaveUsers(users);
-            return Ok("User berhasil registrasi.");
+            // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+            return Ok(new ApiResponse(200, "User berhasil registrasi.")); // 200 OK
         }
 
         [HttpPost("login")]
@@ -62,11 +67,15 @@ namespace API.Controller
                 u.Username == loginUser.Username && u.Password == loginUser.Password);
 
             if (existingUser == null)
-                return Unauthorized("Username atau password salah.");
+            {
+                // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+                return Unauthorized(new ApiResponse(401, "Username atau password salah.")); // 401 Unauthorized
+            }
 
             existingUser.IsLoggedIn = true;
             SaveUsers(users);
-            return Ok("Login berhasil.");
+            // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+            return Ok(new ApiResponse(200, "Login berhasil.")); // 200 OK
         }
 
         [HttpPost("logout/{username}")]
@@ -76,11 +85,15 @@ namespace API.Controller
             var existingUser = users.FirstOrDefault(u => u.Username == username);
 
             if (existingUser == null || !existingUser.IsLoggedIn)
-                return NotFound("User belum log in, atau tidak ditemukan.");
+            {
+                // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+                return NotFound(new ApiResponse(404, "User belum log in, atau tidak ditemukan.")); // 404 Not Found
+            }
 
             existingUser.IsLoggedIn = false;
             SaveUsers(users);
-            return Ok("Logout berhasil.");
+            // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+            return Ok(new ApiResponse(200, "Logout berhasil.")); // 200 OK
         }
 
         [HttpGet("all")]
@@ -89,8 +102,12 @@ namespace API.Controller
             var users = LoadUsers();
             if (users == null || !users.Any())
             {
-                return NoContent();             }
-            return Ok(users);
+                return NoContent(); // NoContent() tidak perlu ApiResponse, karena tidak ada body.
+                                    // Tapi jika ingin konsisten, bisa juga:
+                                    // return Ok(new ApiResponse(204, "No users found.")); // 204 No Content
+            }
+            // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+            return Ok(new ApiResponse(200, "Users retrieved successfully.", users)); // 200 OK dengan data
         }
 
         [HttpDelete("{username}")]
@@ -101,13 +118,15 @@ namespace API.Controller
 
             if (userToDelete == null)
             {
-                return NotFound(new { Message = "User tidak ditemukan." });
+                // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+                return NotFound(new ApiResponse(404, "User tidak ditemukan.")); // 404 Not Found
             }
 
             users.Remove(userToDelete);
             SaveUsers(users);
 
-            return Ok(new { Message = "User berhasil di hapus.", DeletedUser = userToDelete });
+            // MENGUBAH: Menggunakan konstruktor ApiResponse dengan StatusCode
+            return Ok(new ApiResponse(200, "User berhasil di hapus.", userToDelete)); // 200 OK dengan data
         }
     }
 }

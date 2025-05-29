@@ -1,39 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using API.Services;
 
 namespace GUI
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
-        private readonly LoginRegisterService _authService = new();
-
-        public Form1()
+        public Login()
         {
             InitializeComponent();
         }
 
-        private async void btnLogin_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
+            string username = textBox1.Text;
+            string password = textBox2.Text;
 
-            bool success = await _authService.TryLoginAsync(username, password);
-            if (success)
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                lblStatus.Text = "";
-                MessageBox.Show("Login berhasil!");
+                MessageBox.Show("Username and password cannot be empty.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Memanggil service untuk login
+            bool loginSuccess = await ToDoListService.Instance.LoginAsync(username, password);
+
+            if (loginSuccess)
+            {
+                Dashboard dashboard = new Dashboard();
+                dashboard.Show();
+                this.Hide();
             }
             else
             {
-                lblStatus.Text = "Username atau password salah.";
+                // Pesan kegagalan diambil dari logika UI/desain, bukan dari service
+                MessageBox.Show("Incorrect username or password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void lnkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            var reg = new Register();
-            reg.Show();
+            Register registerForm = new Register();
+            registerForm.Show();
             this.Hide();
         }
     }
