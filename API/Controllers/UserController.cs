@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Tubes_1_KPL.Model;
+using API.Model;
 
 namespace API.Controller
 {
@@ -43,14 +43,16 @@ namespace API.Controller
             var users = LoadUsers();
 
             if (users.Any(u => u.Username == user.Username))
-                return BadRequest("Username sudah ada atau sudah digunakan.");
+            {
+                return BadRequest(new ApiResponse(400, "Username sudah ada atau sudah digunakan."));
+            }
 
             user.Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1;
             user.IsLoggedIn = false;
             users.Add(user);
 
             SaveUsers(users);
-            return Ok("User berhasil registrasi.");
+            return Ok(new ApiResponse(200, "Pendaftaran pengguna berhasil."));
         }
 
         [HttpPost("login")]
@@ -62,11 +64,13 @@ namespace API.Controller
                 u.Username == loginUser.Username && u.Password == loginUser.Password);
 
             if (existingUser == null)
-                return Unauthorized("Username atau password salah.");
+            {
+                return Unauthorized(new ApiResponse(401, "Username atau password salah."));
+            }
 
             existingUser.IsLoggedIn = true;
             SaveUsers(users);
-            return Ok("Login berhasil.");
+            return Ok(new ApiResponse(200, "Login berhasil."));
         }
 
         [HttpPost("logout/{username}")]
@@ -76,11 +80,13 @@ namespace API.Controller
             var existingUser = users.FirstOrDefault(u => u.Username == username);
 
             if (existingUser == null || !existingUser.IsLoggedIn)
-                return NotFound("User belum log in, atau tidak ditemukan.");
+            {
+                return NotFound(new ApiResponse(404, "Pengguna belum login, atau tidak ditemukan."));
+            }
 
             existingUser.IsLoggedIn = false;
             SaveUsers(users);
-            return Ok("Logout berhasil.");
+            return Ok(new ApiResponse(200, "Logout berhasil."));
         }
 
         [HttpGet("all")]
@@ -89,8 +95,9 @@ namespace API.Controller
             var users = LoadUsers();
             if (users == null || !users.Any())
             {
-                return NoContent();             }
-            return Ok(users);
+                return Ok(new ApiResponse(204, "Tidak ada pengguna ditemukan."));
+            }
+            return Ok(new ApiResponse(200, "Pengguna berhasil diambil.", users));
         }
 
         [HttpDelete("{username}")]
@@ -101,13 +108,13 @@ namespace API.Controller
 
             if (userToDelete == null)
             {
-                return NotFound(new { Message = "User tidak ditemukan." });
+                return NotFound(new ApiResponse(404, "Pengguna tidak ditemukan."));
             }
 
             users.Remove(userToDelete);
             SaveUsers(users);
 
-            return Ok(new { Message = "User berhasil di hapus.", DeletedUser = userToDelete });
+            return Ok(new ApiResponse(200, "Pengguna berhasil dihapus.", userToDelete));
         }
     }
 }
