@@ -24,7 +24,7 @@ namespace GUI
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Username and password cannot be empty.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Username dan password tidak boleh kosong.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -40,7 +40,7 @@ namespace GUI
             else
             {
                 // Pesan kegagalan diambil dari logika UI/desain, bukan dari service
-                MessageBox.Show("Incorrect username or password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Username atau password salah. Silakan coba lagi.", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using System.Text.RegularExpressions; // Required for regex validation
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Tubes_1_KPL.Model; // Make sure this namespace is correct for your User model
-using API.Services; // Assuming ToDoListService is in API.Services
 
 namespace GUI
 {
@@ -15,55 +13,55 @@ namespace GUI
         public Register()
         {
             InitializeComponent();
-            _toDoListService = ToDoListService.Instance; // Get the singleton instance
+            _toDoListService = ToDoListService.Instance; // Mendapatkan instance singleton
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            // Assuming your username input is named usernameTextBox
+            // Mengasumsikan input username dinamakan textBox1
             string username = textBox1.Text;
-            // Assuming your password input is named passwordTextBox
+            // Mengasumsikan input password dinamakan textBox2
             string password = textBox2.Text;
 
-            // 1. Validate input fields are not empty
+            // 1. Validasi input tidak kosong
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Username and password cannot be empty.", "Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Username dan password tidak boleh kosong.", "Kesalahan Pendaftaran", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Validate password complexity
-            // At least 8 characters, one uppercase, one lowercase, one digit, one special character
-            // Note: The regex ensures characters only from A-Z, a-z, 0-9, and the specified special chars.
+            // 2. Validasi kompleksitas password
+            // Minimal 8 karakter, satu huruf kapital, satu huruf kecil, satu digit, satu karakter khusus
+            // Catatan: Regex memastikan hanya karakter dari A-Z, a-z, 0-9, dan karakter khusus yang ditentukan.
             var passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
 
             if (!passwordRegex.IsMatch(password))
             {
                 MessageBox.Show(
-                    "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (e.g., @$!%*?&).",
-                    "Password Policy Violation",
+                    "Password harus minimal 8 karakter dan mengandung setidaknya satu huruf kapital, satu huruf kecil, satu digit, dan satu karakter khusus (misalnya, @$!%*?&).",
+                    "Pelanggaran Kebijakan Password",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 return;
             }
 
-            // 3. Attempt to register using ToDoListService
+            // 3. Mencoba untuk mendaftar menggunakan ToDoListService
             bool isRegistered = await _toDoListService.RegisterAsync(username, password);
 
             if (isRegistered)
             {
-                MessageBox.Show("Registration successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // Optionally, navigate to the login form or close the register form
-                this.Hide(); // Hide the current form
-                Login loginForm = new Login(); // Assuming your Login form class is named Login
-                loginForm.Show(); // Show the login form
+                MessageBox.Show("Pendaftaran berhasil!", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Opsional, navigasi ke form login atau tutup form pendaftaran
+                this.Hide(); // Menyembunyikan form saat ini
+                Login loginForm = new Login(); // Mengasumsikan kelas form Login dinamakan Login
+                loginForm.Show(); // Menampilkan form login
             }
             else
             {
-                // If RegisterAsync returns false, it means the API call failed (e.g., username already exists).
-                // The ToDoListService already logs the specific API message to the debug console.
-                MessageBox.Show("Registration failed. This might be due to an existing username or a server error.", "Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Jika RegisterAsync mengembalikan false, artinya panggilan API gagal (misalnya, username sudah ada).
+                // ToDoListService sudah mencatat pesan spesifik dari API di konsol debug.
+                MessageBox.Show("Pendaftaran gagal. Mungkin karena username sudah ada atau terjadi kesalahan pada server.", "Kesalahan Pendaftaran", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -71,7 +69,7 @@ namespace GUI
         {
             Login loginForm = new Login();
             loginForm.Show();
-            this.Hide(); // Hide the current form
+            this.Hide(); // Menyembunyikan form saat ini
         }
     }
 }

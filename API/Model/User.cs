@@ -1,4 +1,4 @@
-﻿namespace Tubes_1_KPL.Model
+﻿namespace API.Model
 {
     public class User
     {
