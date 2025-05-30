@@ -9,6 +9,8 @@ using API.Model;
 
 using StatusModel = API.Model.Status;
 using ModelTask = API.Model.Task;
+using SystemTask = System.Threading.Tasks.Task;
+using System.Text.Json;
 
 public sealed class ToDoListService
 {
@@ -339,5 +341,40 @@ public sealed class ToDoListService
             }
         }
         return reminders;
+    }
+
+    /// Mengatur status login semua pengguna menjadi false.
+    /// Fungsi ini dipanggil saat aplikasi dimulai untuk menjamin tidak ada pengguna yang dianggap masih login dari sesi sebelumnya.
+    public void ResetAllLoginStatus()
+    {
+        try
+        {
+            string projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
+            string filePath = Path.Combine(projectRoot, "API", "Data", "users.json");
+
+            if (!File.Exists(filePath))
+            {
+                Debug.WriteLine("[INFO] File users.json tidak ditemukan. Tidak ada pengguna yang perlu di-reset.");
+                return;
+            }
+
+            string json = File.ReadAllText(filePath);
+            var users = System.Text.Json.JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
+
+            foreach (var user in users)
+                user.IsLoggedIn = false;
+
+            string updatedJson = System.Text.Json.JsonSerializer.Serialize(users, new System.Text.Json.JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+            File.WriteAllText(filePath, updatedJson);
+            Debug.WriteLine("[INFO] Semua pengguna berhasil di-set logout (IsLoggedIn = false).");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[ERROR] Gagal reset status login pengguna: {ex.Message}");
+        }
     }
 }
