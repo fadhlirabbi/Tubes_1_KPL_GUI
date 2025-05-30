@@ -8,8 +8,10 @@ namespace GUI
         [STAThread]
         static void Main()
         {
+            ToDoListService.Instance.ResetAllLoginStatus();
             ApplicationConfiguration.Initialize();
             Application.Run(new Login());
         }
+
     }
 }

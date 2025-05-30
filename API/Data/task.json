@@ -26,5 +26,19 @@
     "Id": "46c5a9fb-2eff-48e6-8047-8596c1847b7f",
     "UserId": "in",
     "Status": 1
+  },
+  {
+    "Name": "Contoh Task",
+    "Description": "Deskripsi (edited)",
+    "Deadline": {
+      "Day": 1,
+      "Month": 6,
+      "Year": 2025,
+      "Hour": 9,
+      "Minute": 0
+    },
+    "Id": "52b00986-5011-4f79-bb89-e8c5b4340ba9",
+    "UserId": "gumi",
+    "Status": 2
   }
 ]

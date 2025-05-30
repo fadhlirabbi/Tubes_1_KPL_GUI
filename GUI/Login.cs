@@ -34,7 +34,7 @@ namespace GUI
 
             if (loginSuccess)
             {
-                Dashboard dashboard = new Dashboard();
+                Dashboard dashboard = new Dashboard(username);
                 dashboard.Show();
                 this.Hide();
             }

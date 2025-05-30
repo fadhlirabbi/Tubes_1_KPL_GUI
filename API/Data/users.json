@@ -8,13 +8,13 @@
   {
     "Id": 2,
     "Username": "gumi",
-    "Password": "gumi!123",
-    "IsLoggedIn": true
+    "Password": "gumi!23",
+    "IsLoggedIn": false
   },
   {
     "Id": 3,
     "Username": "Intan",
     "Password": "Intan!23",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   }
 ]
