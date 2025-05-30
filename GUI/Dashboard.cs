@@ -35,14 +35,18 @@ namespace GUI
         }
 
 
-        private async void addTaskButton_Click(object sender, EventArgs e)
+        private void addTaskButton_Click(object sender, EventArgs e)
         {
-            var deadline = new Deadline { Day = 1, Month = 6, Year = 2025, Hour = 9, Minute = 0 };
-            var success = await ToDoListService.Instance.AddTaskAsync("Contoh Task", "Deskripsi", deadline, _username);
-            if (success) await LoadTasksAsync();
+            using (var addForm = new AddTask(_username))
+            {
+                var result = addForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    _ = LoadTasksAsync();
+                }
+            }
         }
-
-        private async void editTaskButton_Click(object sender, EventArgs e)
+        private void editTaskButton_Click(object sender, EventArgs e)
         {
             if (taskGridView.SelectedRows.Count == 0)
             {
@@ -51,9 +55,15 @@ namespace GUI
             }
 
             var task = (ModelTask)taskGridView.SelectedRows[0].DataBoundItem;
-            task.Description += " (edited)";
-            var success = await ToDoListService.Instance.EditTaskAsync(_username, task.Name, task);
-            if (success) await LoadTasksAsync();
+
+            using (var editForm = new EditTask(_username, task))
+            {
+                var result = editForm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    _ = LoadTasksAsync();
+                }
+            }
         }
 
         private void welcomeLabel_Click(object sender, EventArgs e)
