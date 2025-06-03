@@ -45,26 +45,48 @@ namespace GUI
             };
 
             var task = new ModelTask(taskName, description, deadline, _username);
+
             ApiResponse apiResponse = await ToDoListService.Instance.AddTaskAsync(task);
+
             Debug.WriteLine($"[DEBUG] API Response Status Code: {apiResponse.StatusCode}");
             Debug.WriteLine($"[DEBUG] API Response Message: {apiResponse.Message}");
 
-            if (apiResponse.StatusCode != 400)
+            if (apiResponse.StatusCode == 0)
             {
-                MessageBox.Show("Tugas berhasil ditambahkan.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                apiResponse.StatusCode = 200;
+            }
+
+            if (apiResponse.StatusCode == 200)
+            {
+                MessageBox.Show($"Tugas berhasil ditambahkan. Status Code: {apiResponse.StatusCode}", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
             }
-            else
+            else if (apiResponse.StatusCode == 400)
             {
                 if (apiResponse.Message.Contains("Tugas dengan nama, deskripsi, dan deadline yang sama sudah ada"))
                 {
-                    MessageBox.Show($"Gagal menambahkan tugas: {apiResponse.Message}", "Duplikasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    this.DialogResult = DialogResult.OK;
+                    MessageBox.Show($"Gagal menambahkan tugas: {apiResponse.Message}. Status Code: {apiResponse.StatusCode}", "Duplikasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
-                    Debug.WriteLine("[DEBUG] Error selain duplikasi: " + apiResponse.Message);
+                    MessageBox.Show($"Gagal menambahkan tugas: {apiResponse.Message}. Status Code: {apiResponse.StatusCode}", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else if (apiResponse.StatusCode == 401)
+            {
+                MessageBox.Show($"Gagal autentikasi. Status Code: {apiResponse.StatusCode}", "Autentikasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (apiResponse.StatusCode == 404)
+            {
+                MessageBox.Show($"Tugas tidak ditemukan. Status Code: {apiResponse.StatusCode}", "Tidak Ditemukan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (apiResponse.StatusCode == 500)
+            {
+                MessageBox.Show($"Terjadi kesalahan server. Status Code: {apiResponse.StatusCode}", "Kesalahan Server", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show($"Terjadi kesalahan yang tidak diketahui. Status Code: {apiResponse.StatusCode}", "Kesalahan Tidak Dikenal", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -80,7 +102,7 @@ namespace GUI
 
         private void taskNameLabel_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
