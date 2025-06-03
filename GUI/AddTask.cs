@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using ModelTask = API.Model.Task;
 using SystemTask = System.Threading.Tasks.Task;
 
-// fixed version control
 namespace GUI
 {
     public partial class AddTask : Form
@@ -67,6 +66,21 @@ namespace GUI
                     Debug.WriteLine("[DEBUG] Error selain duplikasi: " + apiResponse.Message);
                 }
             }
+        }
+
+        private void AddTask_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deadlineLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void taskNameLabel_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

@@ -44,6 +44,7 @@ namespace GUI
             minuteTextBox = new TextBox();
             addButton = new Button();
             logoPictureBox = new PictureBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -51,19 +52,20 @@ namespace GUI
             // 
             taskNameLabel.AutoSize = true;
             taskNameLabel.Font = new Font("Times New Roman", 12F);
-            taskNameLabel.Location = new Point(50, 50);
+            taskNameLabel.Location = new Point(50, 53);
             taskNameLabel.Name = "taskNameLabel";
-            taskNameLabel.Size = new Size(137, 27);
+            taskNameLabel.Size = new Size(113, 22);
             taskNameLabel.TabIndex = 0;
             taskNameLabel.Text = "Nama Tugas:";
+            taskNameLabel.Click += taskNameLabel_Click;
             // 
             // descriptionLabel
             // 
             descriptionLabel.AutoSize = true;
             descriptionLabel.Font = new Font("Times New Roman", 12F);
-            descriptionLabel.Location = new Point(50, 100);
+            descriptionLabel.Location = new Point(50, 103);
             descriptionLabel.Name = "descriptionLabel";
-            descriptionLabel.Size = new Size(108, 27);
+            descriptionLabel.Size = new Size(93, 22);
             descriptionLabel.TabIndex = 1;
             descriptionLabel.Text = "Deskripsi:";
             // 
@@ -71,74 +73,74 @@ namespace GUI
             // 
             deadlineLabel.AutoSize = true;
             deadlineLabel.Font = new Font("Times New Roman", 12F);
-            deadlineLabel.Location = new Point(50, 150);
+            deadlineLabel.Location = new Point(50, 157);
             deadlineLabel.Name = "deadlineLabel";
-            deadlineLabel.Size = new Size(104, 27);
+            deadlineLabel.Size = new Size(180, 22);
             deadlineLabel.TabIndex = 2;
-            deadlineLabel.Text = "Deadline:";
+            deadlineLabel.Text = "Deadline(dd/mm/yy):";
             // 
             // taskNameTextBox
             // 
             taskNameTextBox.Font = new Font("Times New Roman", 12F);
-            taskNameTextBox.Location = new Point(205, 50);
+            taskNameTextBox.Location = new Point(310, 50);
             taskNameTextBox.Name = "taskNameTextBox";
-            taskNameTextBox.Size = new Size(567, 35);
+            taskNameTextBox.Size = new Size(567, 30);
             taskNameTextBox.TabIndex = 3;
             // 
             // descriptionTextBox
             // 
             descriptionTextBox.Font = new Font("Times New Roman", 12F);
-            descriptionTextBox.Location = new Point(205, 100);
+            descriptionTextBox.Location = new Point(310, 100);
             descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(567, 35);
+            descriptionTextBox.Size = new Size(567, 30);
             descriptionTextBox.TabIndex = 4;
             // 
             // dayTextBox
             // 
             dayTextBox.Font = new Font("Times New Roman", 12F);
-            dayTextBox.Location = new Point(205, 150);
+            dayTextBox.Location = new Point(310, 154);
             dayTextBox.Name = "dayTextBox";
-            dayTextBox.Size = new Size(60, 35);
+            dayTextBox.Size = new Size(60, 30);
             dayTextBox.TabIndex = 5;
             // 
             // monthTextBox
             // 
             monthTextBox.Font = new Font("Times New Roman", 12F);
-            monthTextBox.Location = new Point(275, 150);
+            monthTextBox.Location = new Point(380, 154);
             monthTextBox.Name = "monthTextBox";
-            monthTextBox.Size = new Size(60, 35);
+            monthTextBox.Size = new Size(60, 30);
             monthTextBox.TabIndex = 6;
             // 
             // yearTextBox
             // 
             yearTextBox.Font = new Font("Times New Roman", 12F);
-            yearTextBox.Location = new Point(345, 150);
+            yearTextBox.Location = new Point(450, 154);
             yearTextBox.Name = "yearTextBox";
-            yearTextBox.Size = new Size(80, 35);
+            yearTextBox.Size = new Size(80, 30);
             yearTextBox.TabIndex = 7;
             // 
             // hourTextBox
             // 
             hourTextBox.Font = new Font("Times New Roman", 12F);
-            hourTextBox.Location = new Point(205, 200);
+            hourTextBox.Location = new Point(310, 204);
             hourTextBox.Name = "hourTextBox";
-            hourTextBox.Size = new Size(60, 35);
+            hourTextBox.Size = new Size(60, 30);
             hourTextBox.TabIndex = 8;
             // 
             // minuteTextBox
             // 
             minuteTextBox.Font = new Font("Times New Roman", 12F);
-            minuteTextBox.Location = new Point(275, 200);
+            minuteTextBox.Location = new Point(380, 204);
             minuteTextBox.Name = "minuteTextBox";
-            minuteTextBox.Size = new Size(60, 35);
+            minuteTextBox.Size = new Size(60, 30);
             minuteTextBox.TabIndex = 9;
             // 
             // addButton
             // 
             addButton.Font = new Font("Times New Roman", 12F);
-            addButton.Location = new Point(205, 250);
+            addButton.Location = new Point(310, 279);
             addButton.Name = "addButton";
-            addButton.Size = new Size(193, 61);
+            addButton.Size = new Size(256, 61);
             addButton.TabIndex = 10;
             addButton.Text = "Tambah";
             addButton.UseVisualStyleBackColor = true;
@@ -147,16 +149,27 @@ namespace GUI
             // logoPictureBox
             // 
             logoPictureBox.Image = Properties.Resources.image_removebg_preview__2_;
-            logoPictureBox.Location = new Point(1000, 50);
+            logoPictureBox.Location = new Point(920, 30);
             logoPictureBox.Name = "logoPictureBox";
             logoPictureBox.Size = new Size(200, 200);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             logoPictureBox.TabIndex = 11;
             logoPictureBox.TabStop = false;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Times New Roman", 12F);
+            label1.Location = new Point(50, 207);
+            label1.Name = "label1";
+            label1.Size = new Size(99, 22);
+            label1.TabIndex = 12;
+            label1.Text = "Jam/Menit:";
+            // 
             // AddTask
             // 
-            ClientSize = new Size(1458, 899);
+            ClientSize = new Size(1175, 391);
+            Controls.Add(label1);
             Controls.Add(logoPictureBox);
             Controls.Add(addButton);
             Controls.Add(minuteTextBox);
@@ -171,11 +184,14 @@ namespace GUI
             Controls.Add(taskNameLabel);
             Name = "AddTask";
             Text = "Tambah Tugas";
+            Load += AddTask_Load;
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
+
+        private Label label1;
     }
 }
