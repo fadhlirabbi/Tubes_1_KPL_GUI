@@ -17,24 +17,24 @@ namespace GUI
             InitializeComponent();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void Masuk_Click(object sender, EventArgs e)
         {
-            string username = textBox1.Text;
-            string password = textBox2.Text;
+            string userName = textBox1.Text;
+            string passWord = textBox2.Text;
 
             // 1. Validasi input tidak kosong
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(passWord))
             {
                 MessageBox.Show("Nama Pengguna dan Kata Sandi tidak boleh kosong.", "Gagal Masuk", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             //2. Memanggil service untuk login
-            bool loginSuccess = await ToDoListService.Instance.LoginAsync(username, password);
+            bool loginSuccess = await ToDoListService.Instance.LoginAsync(userName, passWord);
 
             if (loginSuccess)
             {
-                Dashboard dashboard = new Dashboard(username);
+                Dashboard dashboard = new Dashboard(userName);
                 dashboard.Show();
                 this.Hide();
             }
@@ -44,7 +44,7 @@ namespace GUI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Daftar_Click(object sender, EventArgs e)
         {
             Register registerForm = new Register();
             registerForm.Show();

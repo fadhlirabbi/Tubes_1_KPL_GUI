@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            button2 = new Button();
+            Masuk = new Button();
+            Daftar = new Button();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             label1 = new Label();
@@ -41,25 +41,26 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.SkyBlue;
-            button1.Location = new Point(915, 579);
-            button1.Name = "button1";
-            button1.Size = new Size(193, 61);
-            button1.TabIndex = 0;
-            button1.Text = "Masuk";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            Masuk.BackColor = Color.SkyBlue;
+            Masuk.Location = new Point(915, 579);
+            Masuk.Name = "button1";
+            Masuk.Size = new Size(193, 61);
+            Masuk.TabIndex = 0;
+            Masuk.Text = "Masuk";
+            Masuk.UseVisualStyleBackColor = false;
+            Masuk.Click += Masuk_Click;
             // 
             // button2
             // 
-            button2.BackColor = SystemColors.ControlLight;
-            button2.Location = new Point(290, 579);
-            button2.Name = "button2";
-            button2.Size = new Size(193, 61);
-            button2.TabIndex = 1;
-            button2.Text = "Daftar";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            Daftar.BackColor = SystemColors.ControlLight;
+
+            Daftar.Name = "button2";
+            Daftar.Location = new Point(290, 579);
+            Daftar.Size = new Size(193, 61);
+            Daftar.TabIndex = 1;
+            Daftar.Text = "Daftar";
+            Daftar.UseVisualStyleBackColor = false;
+            Daftar.Click += Daftar_Click;
             // 
             // textBox1
             // 
@@ -129,8 +130,8 @@
             Controls.Add(label1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(Daftar);
+            Controls.Add(Masuk);
             Name = "Login";
             Text = "Login";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -140,8 +141,8 @@
 
         #endregion
 
-        private Button button1;
-        private Button button2;
+        private Button Masuk;
+        private Button Daftar;
         private TextBox textBox1;
         private TextBox textBox2;
         private Label label1;

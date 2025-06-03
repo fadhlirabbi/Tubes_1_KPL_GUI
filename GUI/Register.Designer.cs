@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            Daftar = new Button();
             label1 = new Label();
             label2 = new Label();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
-            button2 = new Button();
+            Masuk = new Button();
             label3 = new Label();
             label4 = new Label();
             pictureBox1 = new PictureBox();
@@ -42,14 +42,14 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.SkyBlue;
-            button1.Location = new Point(915, 623);
-            button1.Name = "button1";
-            button1.Size = new Size(193, 61);
-            button1.TabIndex = 0;
-            button1.Text = "Daftar";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            Daftar.BackColor = Color.SkyBlue;
+            Daftar.Location = new Point(915, 623);
+            Daftar.Name = "button1";
+            Daftar.Size = new Size(193, 61);
+            Daftar.TabIndex = 0;
+            Daftar.Text = "Daftar";
+            Daftar.UseVisualStyleBackColor = false;
+            Daftar.Click += Daftar_Click;
             // 
             // label1
             // 
@@ -89,14 +89,14 @@
             // 
             // button2
             // 
-            button2.BackColor = SystemColors.ControlLight;
-            button2.Location = new Point(290, 623);
-            button2.Name = "button2";
-            button2.Size = new Size(193, 61);
-            button2.TabIndex = 5;
-            button2.Text = "Kembali";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            Masuk.BackColor = SystemColors.ControlLight;
+            Masuk.Location = new Point(290, 623);
+            Masuk.Name = "button2";
+            Masuk.Size = new Size(193, 61);
+            Masuk.TabIndex = 5;
+            Masuk.Text = "Kembali";
+            Masuk.UseVisualStyleBackColor = false;
+            Masuk.Click += Masuk_Click;
             // 
             // label3
             // 
@@ -138,12 +138,12 @@
             Controls.Add(pictureBox1);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(button2);
+            Controls.Add(Masuk);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(button1);
+            Controls.Add(Daftar);
             Name = "Register";
             Text = "Register";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -153,12 +153,12 @@
 
         #endregion
 
-        private Button button1;
+        private Button Daftar;
         private Label label1;
         private Label label2;
         private TextBox textBox1;
         private TextBox textBox2;
-        private Button button2;
+        private Button Masuk;
         private Label label3;
         private Label label4;
         private PictureBox pictureBox1;
