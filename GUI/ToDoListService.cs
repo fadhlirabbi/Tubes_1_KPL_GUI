@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using System.Diagnostics; 
+using System.Diagnostics;
 using API.Model;
 
 using StatusModel = API.Model.Status;
@@ -50,6 +50,14 @@ public sealed class ToDoListService
         {
             var user = new { Username = username, Password = password };
             var response = await _httpClient.PostAsJsonAsync("User/register", user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"[ERROR] Gagal registrasi {username}: Status Code: {response.StatusCode}, Message: {errorMessage}");
+                return false;
+            }
+
             var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
             if (apiResponse != null)
@@ -59,7 +67,11 @@ public sealed class ToDoListService
             }
             Debug.WriteLine($"[DEBUG] Register response for {username}: apiResponse is null.");
             return false;
-
+        }
+        catch (HttpRequestException httpEx)
+        {
+            Debug.WriteLine($"[ERROR] HTTP error occurred during registration for {username}: {httpEx.Message}");
+            return false;
         }
         catch (Exception ex)
         {
@@ -67,6 +79,7 @@ public sealed class ToDoListService
             return false;
         }
     }
+
 
     // Melakukan login pengguna ke API.
     public async Task<bool> LoginAsync(string username, string password)
@@ -79,9 +92,11 @@ public sealed class ToDoListService
             if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine($"[DEBUG] Login berhasil untuk {username}.");
-                return true; 
+                return true;
 
-            } else {
+            }
+            else
+            {
 
                 var errorContent = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine($"[ERROR] Login gagal untuk {username}. Status Code: {response.StatusCode}, Content: {errorContent}");
@@ -99,7 +114,7 @@ public sealed class ToDoListService
                     Debug.WriteLine($"[ERROR] Gagal mendeserialize respon error API: {jsonEx.Message}");
                 }
 
-                return false; 
+                return false;
             }
         }
         catch (Exception ex)
@@ -132,27 +147,37 @@ public sealed class ToDoListService
         }
     }
 
-    // Menambahkan tugas baru untuk pengguna tertentu.
-    public async Task<bool> AddTaskAsync(string taskName, string description, Deadline deadline, string userId)
+    // Menyimpan dan memuat daftar tugas
+    private List<ModelTask> Load()
+    {
+        string filePath = Path.Combine(AppContext.BaseDirectory, "tasks.json");
+
+        if (!File.Exists(filePath)) return new List<ModelTask>();
+
+        var json = File.ReadAllText(filePath);
+        return string.IsNullOrWhiteSpace(json)
+            ? new List<ModelTask>()
+            : JsonSerializer.Deserialize<List<ModelTask>>(json) ?? new List<ModelTask>();
+    }
+
+    // Menambahkan tugas baru untuk pengguna tertentu melalui API.
+    public async Task<ApiResponse> AddTaskAsync(ModelTask task)
     {
         try
         {
-            var newTask = new ModelTask(taskName, description, deadline, userId);
-            var response = await _httpClient.PostAsJsonAsync("task", newTask);
+            var response = await _httpClient.PostAsJsonAsync("task", task);
             var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
             if (apiResponse != null)
             {
-                Debug.WriteLine($"[DEBUG] AddTask response untuk '{taskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
-                return apiResponse.Success;
+                return apiResponse;
             }
-            Debug.WriteLine($"[DEBUG] AddTask response untuk '{taskName}': apiResponse is null.");
-            return false;
+
+            return new ApiResponse(400, "Gagal menambahkan tugas.");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[ERROR] Gagal menambah tugas '{taskName}': {ex.Message}");
-            return false;
+            return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
         }
     }
 

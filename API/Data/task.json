@@ -28,16 +28,30 @@
     "Status": 1
   },
   {
-    "Name": "Contoh Task",
-    "Description": "Deskripsi (edited)",
+    "Name": "1",
+    "Description": "1",
     "Deadline": {
       "Day": 1,
-      "Month": 6,
-      "Year": 2025,
-      "Hour": 9,
-      "Minute": 0
+      "Month": 1,
+      "Year": 1,
+      "Hour": 1,
+      "Minute": 1
     },
-    "Id": "52b00986-5011-4f79-bb89-e8c5b4340ba9",
+    "Id": "c2e4b089-1031-4323-82c9-5ee02ab26e94",
+    "UserId": "gumi",
+    "Status": 2
+  },
+  {
+    "Name": "2",
+    "Description": "2",
+    "Deadline": {
+      "Day": 2,
+      "Month": 2,
+      "Year": 2,
+      "Hour": 2,
+      "Minute": 2
+    },
+    "Id": "06c2d7d2-a510-4237-9a22-1edb7c368907",
     "UserId": "gumi",
     "Status": 2
   }
