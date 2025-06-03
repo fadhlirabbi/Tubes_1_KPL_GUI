@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Masuk = new Button();
-            Daftar = new Button();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            masukButton = new Button();
+            daftarButton = new Button();
+            userTextBox = new TextBox();
+            passTextBox = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -41,42 +41,42 @@
             // 
             // button1
             // 
-            Masuk.BackColor = Color.SkyBlue;
-            Masuk.Location = new Point(915, 579);
-            Masuk.Name = "button1";
-            Masuk.Size = new Size(193, 61);
-            Masuk.TabIndex = 0;
-            Masuk.Text = "Masuk";
-            Masuk.UseVisualStyleBackColor = false;
-            Masuk.Click += Masuk_Click;
+            masukButton.BackColor = Color.SkyBlue;
+            masukButton.Location = new Point(915, 579);
+            masukButton.Name = "button1";
+            masukButton.Size = new Size(193, 61);
+            masukButton.TabIndex = 0;
+            masukButton.Text = "Masuk";
+            masukButton.UseVisualStyleBackColor = false;
+            masukButton.Click += MasukButton_Click;
             // 
             // button2
             // 
-            Daftar.BackColor = SystemColors.ControlLight;
+            daftarButton.BackColor = SystemColors.ControlLight;
 
-            Daftar.Name = "button2";
-            Daftar.Location = new Point(290, 579);
-            Daftar.Size = new Size(193, 61);
-            Daftar.TabIndex = 1;
-            Daftar.Text = "Daftar";
-            Daftar.UseVisualStyleBackColor = false;
-            Daftar.Click += Daftar_Click;
+            daftarButton.Name = "button2";
+            daftarButton.Location = new Point(290, 579);
+            daftarButton.Size = new Size(193, 61);
+            daftarButton.TabIndex = 1;
+            daftarButton.Text = "Daftar";
+            daftarButton.UseVisualStyleBackColor = false;
+            daftarButton.Click += DaftarButton_Click;
             // 
             // textBox1
             // 
-            textBox1.BackColor = SystemColors.MenuBar;
-            textBox1.Location = new Point(541, 406);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(567, 39);
-            textBox1.TabIndex = 2;
+            userTextBox.BackColor = SystemColors.MenuBar;
+            userTextBox.Location = new Point(541, 406);
+            userTextBox.Name = "textBox1";
+            userTextBox.Size = new Size(567, 39);
+            userTextBox.TabIndex = 2;
             // 
             // textBox2
             // 
-            textBox2.BackColor = SystemColors.MenuBar;
-            textBox2.Location = new Point(541, 472);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(567, 39);
-            textBox2.TabIndex = 3;
+            passTextBox.BackColor = SystemColors.MenuBar;
+            passTextBox.Location = new Point(541, 472);
+            passTextBox.Name = "textBox2";
+            passTextBox.Size = new Size(567, 39);
+            passTextBox.TabIndex = 3;
             // 
             // label1
             // 
@@ -128,10 +128,10 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(Daftar);
-            Controls.Add(Masuk);
+            Controls.Add(passTextBox);
+            Controls.Add(userTextBox);
+            Controls.Add(daftarButton);
+            Controls.Add(masukButton);
             Name = "Login";
             Text = "Login";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -141,10 +141,10 @@
 
         #endregion
 
-        private Button Masuk;
-        private Button Daftar;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private Button masukButton;
+        private Button daftarButton;
+        private TextBox userTextBox;
+        private TextBox passTextBox;
         private Label label1;
         private Label label2;
         private Label label3;
