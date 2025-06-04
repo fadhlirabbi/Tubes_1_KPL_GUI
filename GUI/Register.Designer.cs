@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Daftar = new Button();
+            DaftarBtn = new Button();
             label1 = new Label();
             label2 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            Masuk = new Button();
+            userTextBox = new TextBox();
+            passTextBox = new TextBox();
+            MasukBtn = new Button();
             label3 = new Label();
             label4 = new Label();
             pictureBox1 = new PictureBox();
@@ -42,14 +42,14 @@
             // 
             // button1
             // 
-            Daftar.BackColor = Color.SkyBlue;
-            Daftar.Location = new Point(915, 623);
-            Daftar.Name = "button1";
-            Daftar.Size = new Size(193, 61);
-            Daftar.TabIndex = 0;
-            Daftar.Text = "Daftar";
-            Daftar.UseVisualStyleBackColor = false;
-            Daftar.Click += Daftar_Click;
+            DaftarBtn.BackColor = Color.SkyBlue;
+            DaftarBtn.Location = new Point(915, 623);
+            DaftarBtn.Name = "button1";
+            DaftarBtn.Size = new Size(193, 61);
+            DaftarBtn.TabIndex = 0;
+            DaftarBtn.Text = "Daftar";
+            DaftarBtn.UseVisualStyleBackColor = false;
+            DaftarBtn.Click += DaftarBtn_Click;
             // 
             // label1
             // 
@@ -73,30 +73,30 @@
             // 
             // textBox1
             // 
-            textBox1.BackColor = SystemColors.MenuBar;
-            textBox1.Location = new Point(541, 406);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(567, 39);
-            textBox1.TabIndex = 3;
+            userTextBox.BackColor = SystemColors.MenuBar;
+            userTextBox.Location = new Point(541, 406);
+            userTextBox.Name = "textBox1";
+            userTextBox.Size = new Size(567, 39);
+            userTextBox.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.BackColor = SystemColors.MenuBar;
-            textBox2.Location = new Point(541, 472);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(567, 39);
-            textBox2.TabIndex = 4;
+            passTextBox.BackColor = SystemColors.MenuBar;
+            passTextBox.Location = new Point(541, 472);
+            passTextBox.Name = "textBox2";
+            passTextBox.Size = new Size(567, 39);
+            passTextBox.TabIndex = 4;
             // 
             // button2
             // 
-            Masuk.BackColor = SystemColors.ControlLight;
-            Masuk.Location = new Point(290, 623);
-            Masuk.Name = "button2";
-            Masuk.Size = new Size(193, 61);
-            Masuk.TabIndex = 5;
-            Masuk.Text = "Kembali";
-            Masuk.UseVisualStyleBackColor = false;
-            Masuk.Click += Masuk_Click;
+            MasukBtn.BackColor = SystemColors.ControlLight;
+            MasukBtn.Location = new Point(290, 623);
+            MasukBtn.Name = "button2";
+            MasukBtn.Size = new Size(193, 61);
+            MasukBtn.TabIndex = 5;
+            MasukBtn.Text = "Kembali";
+            MasukBtn.UseVisualStyleBackColor = false;
+            MasukBtn.Click += MasukBtn_Click;
             // 
             // label3
             // 
@@ -138,12 +138,12 @@
             Controls.Add(pictureBox1);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(Masuk);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(MasukBtn);
+            Controls.Add(passTextBox);
+            Controls.Add(userTextBox);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(Daftar);
+            Controls.Add(DaftarBtn);
             Name = "Register";
             Text = "Register";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -153,12 +153,12 @@
 
         #endregion
 
-        private Button Daftar;
+        private Button DaftarBtn;
         private Label label1;
         private Label label2;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private Button Masuk;
+        private TextBox userTextBox;
+        private TextBox passTextBox;
+        private Button MasukBtn;
         private Label label3;
         private Label label4;
         private PictureBox pictureBox1;

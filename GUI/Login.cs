@@ -19,22 +19,22 @@ namespace GUI
 
         private async void MasukButton_Click(object sender, EventArgs e)
         {
-            string userName = userTextBox.Text;
-            string passWord = passTextBox.Text;
+            string namaPengguna = userTextBox.Text;
+            string kataSandi = passTextBox.Text;
 
             // 1. Validasi input tidak kosong
-            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(passWord))
+            if (string.IsNullOrWhiteSpace(namaPengguna) || string.IsNullOrWhiteSpace(kataSandi))
             {
                 MessageBox.Show("Nama Pengguna dan Kata Sandi tidak boleh kosong.", "Gagal Masuk", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             //2. Memanggil service untuk login
-            bool loginSuccess = await ToDoListService.Instance.LoginAsync(userName, passWord);
+            bool loginSuccess = await ToDoListService.Instance.LoginAsync(namaPengguna, kataSandi);
 
             if (loginSuccess)
             {
-                Dashboard dashboard = new Dashboard(userName);
+                Dashboard dashboard = new Dashboard(namaPengguna);
                 dashboard.Show();
                 this.Hide();
             }
