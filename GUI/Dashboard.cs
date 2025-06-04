@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using API.Model;
@@ -18,14 +19,17 @@ namespace GUI
             InitializeComponent();
             _username = username;
             welcomeLabel.Text = $"Selamat datang, {_username}";
-            _ = LoadTasksAsync();
+
+            // Memuat tugas berdasarkan status default (Incompleted)
+            _ = LoadTasksAsync(StatusModel.Incompleted);
         }
 
-        private async SystemTask LoadTasksAsync()
+        // Memuat tugas berdasarkan status yang diberikan
+        private async SystemTask LoadTasksAsync(StatusModel status)
         {
             try
             {
-                var tasks = await ToDoListService.Instance.GetTasksByStatusAsync(_username, StatusModel.Incompleted);
+                var tasks = await ToDoListService.Instance.GetTasksByStatusAsync(_username, status);
                 taskGridView.DataSource = tasks;
             }
             catch (Exception ex)
@@ -34,7 +38,6 @@ namespace GUI
             }
         }
 
-
         private void addTaskButton_Click(object sender, EventArgs e)
         {
             using (var addForm = new AddTask(_username))
@@ -42,10 +45,11 @@ namespace GUI
                 var result = addForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    _ = LoadTasksAsync();
+                    _ = LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah penambahan
                 }
             }
         }
+
         private void editTaskButton_Click(object sender, EventArgs e)
         {
             if (taskGridView.SelectedRows.Count == 0)
@@ -61,14 +65,9 @@ namespace GUI
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    _ = LoadTasksAsync();
+                    _ = LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah pengeditan
                 }
             }
-        }
-
-        private void welcomeLabel_Click(object sender, EventArgs e)
-        {
-
         }
 
         private async void deleteTaskButton_Click(object sender, EventArgs e)
@@ -86,7 +85,7 @@ namespace GUI
             if (deleted)
             {
                 MessageBox.Show("Tugas berhasil dihapus.");
-                await LoadTasksAsync();
+                await LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah penghapusan
             }
         }
 
@@ -105,7 +104,7 @@ namespace GUI
             if (completed)
             {
                 MessageBox.Show("Tugas ditandai sebagai selesai.");
-                await LoadTasksAsync();
+                await LoadTasksAsync(StatusModel.Completed);  // Memuat tugas yang telah selesai
             }
         }
 
@@ -133,7 +132,34 @@ namespace GUI
             MessageBox.Show(message, "Riwayat Tugas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        // Event handler untuk memilih status tugas dan memuat ulang tugas berdasarkan status yang dipilih
+        private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Mengambil status yang dipilih dari ComboBox (Incompleted, Completed, Overdue)
+            if (Enum.TryParse(statusComboBox.SelectedItem.ToString(), out StatusModel selectedStatus))
+            {
+                _ = LoadTasksAsync(selectedStatus);  // Memuat tugas berdasarkan status yang dipilih
+            }
+            else
+            {
+                MessageBox.Show("Status tidak valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        // Event handler untuk welcomeLabel_Click
+        private void welcomeLabel_Click(object sender, EventArgs e)
+        {
+            // Bisa ditambahkan fungsionalitas lain jika diperlukan
+        }
+
+        // Event handler untuk Dashboard_Load
         private void Dashboard_Load(object sender, EventArgs e)
+        {
+            // Bisa ditambahkan fungsionalitas lain jika diperlukan saat form dimuat
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

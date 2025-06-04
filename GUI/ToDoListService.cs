@@ -187,22 +187,36 @@ public sealed class ToDoListService
         try
         {
             var response = await _httpClient.PutAsJsonAsync($"task/{username}/{oldTaskName}", updatedTask);
-            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-            if (apiResponse != null)
+            if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
-                return apiResponse.Success;
+                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+                if (apiResponse != null && apiResponse.Success)
+                {
+                    Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
+                    return true; 
+                }
+                else
+                {
+                    Debug.WriteLine($"[ERROR] EditTask failed for '{oldTaskName}': {apiResponse?.Message}");
+                    return false; 
+                }
             }
-            Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': apiResponse is null.");
-            return false;
+            else
+            {
+                Debug.WriteLine($"[ERROR] Failed to update task '{oldTaskName}': Status Code = {response.StatusCode}");
+                return false; 
+            }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[ERROR] Gagal mengedit tugas '{oldTaskName}': {ex.Message}");
-            return false;
+
+            Debug.WriteLine($"[ERROR] Failed to edit task '{oldTaskName}': {ex.Message}");
+            return false; 
         }
     }
+
 
     // Menghapus tugas berdasarkan detailnya.
     public async Task<bool> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
@@ -276,7 +290,6 @@ public sealed class ToDoListService
 
             if (!response.IsSuccessStatusCode)
             {
-                // Hanya mencatat kesalahan ke debug output, tidak mengembalikan pesan ke GUI
                 Debug.WriteLine($"[ERROR] Gagal mendapatkan tugas {endpoint} untuk {username}. Status Code: {response.StatusCode}. Content: {await response.Content.ReadAsStringAsync()}");
                 return new List<ModelTask>();
             }
