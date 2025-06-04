@@ -186,37 +186,34 @@ public sealed class ToDoListService
     {
         try
         {
-            // Endpoint untuk mengupdate tugas melalui API
             var response = await _httpClient.PutAsJsonAsync($"task/{username}/{oldTaskName}", updatedTask);
 
-            // Cek apakah response berhasil
             if (response.IsSuccessStatusCode)
             {
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-                // Log and check the response from the API
                 if (apiResponse != null && apiResponse.Success)
                 {
                     Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
-                    return true; // Return true if the task was successfully updated
+                    return true; 
                 }
                 else
                 {
                     Debug.WriteLine($"[ERROR] EditTask failed for '{oldTaskName}': {apiResponse?.Message}");
-                    return false; // Return false if the API response is unsuccessful or null
+                    return false; 
                 }
             }
             else
             {
                 Debug.WriteLine($"[ERROR] Failed to update task '{oldTaskName}': Status Code = {response.StatusCode}");
-                return false; // Return false if the response status is not successful
+                return false; 
             }
         }
         catch (Exception ex)
         {
-            // Catch any exception and log the error
+
             Debug.WriteLine($"[ERROR] Failed to edit task '{oldTaskName}': {ex.Message}");
-            return false; // Return false if any error occurs
+            return false; 
         }
     }
 
@@ -293,7 +290,6 @@ public sealed class ToDoListService
 
             if (!response.IsSuccessStatusCode)
             {
-                // Hanya mencatat kesalahan ke debug output, tidak mengembalikan pesan ke GUI
                 Debug.WriteLine($"[ERROR] Gagal mendapatkan tugas {endpoint} untuk {username}. Status Code: {response.StatusCode}. Content: {await response.Content.ReadAsStringAsync()}");
                 return new List<ModelTask>();
             }
