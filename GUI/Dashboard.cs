@@ -88,7 +88,7 @@ namespace GUI
                 await LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah penghapusan
             }
         }
-
+        //logic button tandai selesai
         private async void markCompletedButton_Click(object sender, EventArgs e)
         {
             if (taskGridView.SelectedRows.Count == 0)
@@ -99,14 +99,23 @@ namespace GUI
 
             var task = (ModelTask)taskGridView.SelectedRows[0].DataBoundItem;
             var d = task.Deadline;
+
             bool completed = await ToDoListService.Instance.MarkTaskAsCompletedAsync(_username, task.Name, task.Description, d.Day, d.Month, d.Year, d.Hour, d.Minute);
 
-            if (completed)
+            if (!completed)
             {
                 MessageBox.Show("Tugas ditandai sebagai selesai.");
-                await LoadTasksAsync(StatusModel.Completed);  // Memuat tugas yang telah selesai
+
+                await LoadTasksAsync(StatusModel.Completed);
+            }
+            else
+            {
+                MessageBox.Show("Gagal menandai tugas sebagai selesai.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                await LoadTasksAsync(StatusModel.Incompleted);
             }
         }
+
+
 
         private async void reminderButton_Click(object sender, EventArgs e)
         {

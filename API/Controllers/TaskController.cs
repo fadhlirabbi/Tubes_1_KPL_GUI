@@ -19,6 +19,8 @@ namespace API.Controllers
                                   : BadRequest(result.Message);
         }
 
+
+
         [HttpPost("complete/{username}")]
         public IActionResult MarkTaskAsCompleted(
         string username,
@@ -31,8 +33,17 @@ namespace API.Controllers
         [FromQuery] int minute)
         {
             var result = _service.MarkTaskAsCompleted(username, taskName, description, day, month, year, hour, minute);
-            return result.Success ? Ok(result.Message) : BadRequest(result.Message);
+
+            if (result.Success)
+            {
+                return Ok(new { Message = result.Message, Task = result.Data });
+            }
+            else
+            {
+                return BadRequest(new { Message = result.Message });
+            }
         }
+
 
 
 
