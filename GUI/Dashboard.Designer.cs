@@ -1,4 +1,9 @@
-﻿namespace GUI
+﻿using Microsoft.AspNetCore.Http;
+using StatusModel = API.Model.Status;
+using ModelTask = API.Model.Task;
+using SystemTask = System.Threading.Tasks.Task;
+
+namespace GUI
 {
     partial class Dashboard
     {
@@ -12,7 +17,7 @@
         private System.Windows.Forms.Button markCompletedButton;
         private System.Windows.Forms.Button reminderButton;
         private System.Windows.Forms.Button historyButton;
-
+        private System.Windows.Forms.ComboBox statusComboBox;  
 
         protected override void Dispose(bool disposing)
         {
@@ -32,6 +37,8 @@
             markCompletedButton = new Button();
             reminderButton = new Button();
             historyButton = new Button();
+            statusComboBox = new ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)taskGridView).BeginInit();
             SuspendLayout();
@@ -143,11 +150,31 @@
             historyButton.UseVisualStyleBackColor = true;
             historyButton.Click += historyButton_Click;
             // 
+            // statusComboBox
+            // 
+            statusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            statusComboBox.Items.AddRange(new object[] { "Incompleted", "Completed", "Overdue" });
+            statusComboBox.Location = new Point(736, 200);
+            statusComboBox.Name = "statusComboBox";
+            statusComboBox.Size = new Size(148, 33);
+            statusComboBox.TabIndex = 9;
+            statusComboBox.SelectedIndexChanged += statusComboBox_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(656, 203);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 25);
+            label1.TabIndex = 10;
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1181, 891);
+            Controls.Add(label1);
+            Controls.Add(statusComboBox);
             Controls.Add(deleteTaskButton);
             Controls.Add(markCompletedButton);
             Controls.Add(reminderButton);
@@ -164,6 +191,8 @@
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)taskGridView).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
+        private Label label1;
     }
 }

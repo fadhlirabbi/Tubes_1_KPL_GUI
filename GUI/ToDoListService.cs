@@ -186,23 +186,40 @@ public sealed class ToDoListService
     {
         try
         {
+            // Endpoint untuk mengupdate tugas melalui API
             var response = await _httpClient.PutAsJsonAsync($"task/{username}/{oldTaskName}", updatedTask);
-            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
-            if (apiResponse != null)
+            // Cek apakah response berhasil
+            if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
-                return apiResponse.Success;
+                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+                // Log and check the response from the API
+                if (apiResponse != null && apiResponse.Success)
+                {
+                    Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': Success = {apiResponse.Success}, Message = {apiResponse.Message}");
+                    return true; // Return true if the task was successfully updated
+                }
+                else
+                {
+                    Debug.WriteLine($"[ERROR] EditTask failed for '{oldTaskName}': {apiResponse?.Message}");
+                    return false; // Return false if the API response is unsuccessful or null
+                }
             }
-            Debug.WriteLine($"[DEBUG] EditTask response untuk '{oldTaskName}': apiResponse is null.");
-            return false;
+            else
+            {
+                Debug.WriteLine($"[ERROR] Failed to update task '{oldTaskName}': Status Code = {response.StatusCode}");
+                return false; // Return false if the response status is not successful
+            }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[ERROR] Gagal mengedit tugas '{oldTaskName}': {ex.Message}");
-            return false;
+            // Catch any exception and log the error
+            Debug.WriteLine($"[ERROR] Failed to edit task '{oldTaskName}': {ex.Message}");
+            return false; // Return false if any error occurs
         }
     }
+
 
     // Menghapus tugas berdasarkan detailnya.
     public async Task<bool> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
