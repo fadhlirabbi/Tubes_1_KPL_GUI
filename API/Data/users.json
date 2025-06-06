@@ -39,6 +39,12 @@
     "Id": 7,
     "Username": "Iqbal",
     "Password": "Iqbal@34",
+    "IsLoggedIn": false
+  },
+  {
+    "Id": 8,
+    "Username": "Stev",
+    "Password": "Stev!234",
     "IsLoggedIn": true
   }
 ]

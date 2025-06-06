@@ -13,7 +13,7 @@ namespace GUI
         public Register()
         {
             InitializeComponent();
-            _toDoListService = ToDoListService.Instance; // Mendapatkan instance singleton
+            _toDoListService = ToDoListService.Instance; 
         }
 
         private async void DaftarBtn_Click(object sender, EventArgs e)
