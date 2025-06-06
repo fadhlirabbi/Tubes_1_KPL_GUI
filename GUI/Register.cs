@@ -13,17 +13,17 @@ namespace GUI
         public Register()
         {
             InitializeComponent();
-            _toDoListService = ToDoListService.Instance; // Mendapatkan instance singleton
+            _toDoListService = ToDoListService.Instance; 
         }
 
         private async void DaftarBtn_Click(object sender, EventArgs e)
         {
-            
-            string namaPengguna = userTextBox.Text;            
+
+            string namaPengguna = userTextBox.Text;
             string kataSandi = passTextBox.Text;
 
             // 1. Validasi input tidak kosong
-            if (string.IsNullOrWhiteSpace(namaPengguna) || string.IsNullOrWhiteSpace(kataSandi ))
+            if (string.IsNullOrWhiteSpace(namaPengguna) || string.IsNullOrWhiteSpace(kataSandi))
             {
                 MessageBox.Show("Nama Pengguna dan Kata Sandi tidak boleh kosong.", "Kesalahan Pendaftaran", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -49,9 +49,9 @@ namespace GUI
             if (isRegistered)
             {
                 MessageBox.Show("Pendaftaran berhasil!", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Hide(); 
-                Login loginForm = new Login(); 
-                loginForm.Show(); 
+                this.Hide();
+                Login loginForm = new Login();
+                loginForm.Show();
             }
             else
             {
@@ -63,7 +63,8 @@ namespace GUI
         {
             Login loginForm = new Login();
             loginForm.Show();
-            this.Hide(); 
+            this.Hide();
         }
+
     }
 }

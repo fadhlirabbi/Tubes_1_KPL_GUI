@@ -12,9 +12,12 @@ namespace GUI
 {
     public partial class Login : Form
     {
+        private readonly ToDoListService _toDoListService;
+
         public Login()
         {
             InitializeComponent();
+            _toDoListService = ToDoListService.Instance; // Mendapatkan instance singleton
         }
 
         private async void MasukButton_Click(object sender, EventArgs e)
@@ -30,7 +33,7 @@ namespace GUI
             }
 
             //2. Memanggil service untuk login
-            bool loginSuccess = await ToDoListService.Instance.LoginAsync(namaPengguna, kataSandi);
+            bool loginSuccess = await _toDoListService.LoginAsync(namaPengguna, kataSandi);
 
             if (loginSuccess)
             {
