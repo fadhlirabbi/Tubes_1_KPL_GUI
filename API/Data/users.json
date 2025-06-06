@@ -45,6 +45,6 @@
     "Id": 8,
     "Username": "Stev",
     "Password": "Stev!234",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   }
 ]

@@ -19,8 +19,6 @@ namespace API.Controllers
                                   : BadRequest(result.Message);
         }
 
-
-
         [HttpPost("complete/{username}")]
         public IActionResult MarkTaskAsCompleted(
             string username,
