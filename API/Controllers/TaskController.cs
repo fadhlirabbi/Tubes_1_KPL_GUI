@@ -21,20 +21,26 @@ namespace API.Controllers
 
         [HttpPost("complete/{username}")]
         public IActionResult MarkTaskAsCompleted(
-        string username,
-        [FromQuery] string taskName,
-        [FromQuery] string description,
-        [FromQuery] int day,
-        [FromQuery] int month,
-        [FromQuery] int year,
-        [FromQuery] int hour,
-        [FromQuery] int minute)
+            string username,
+            [FromQuery] string taskName,
+            [FromQuery] string description,
+            [FromQuery] int day,
+            [FromQuery] int month,
+            [FromQuery] int year,
+            [FromQuery] int hour,
+            [FromQuery] int minute)
         {
             var result = _service.MarkTaskAsCompleted(username, taskName, description, day, month, year, hour, minute);
-            return result.Success ? Ok(result.Message) : BadRequest(result.Message);
+
+            if (result.Success)
+            {
+                return Ok(new { Message = result.Message, Task = result.Data });
+            }
+            else
+            {
+                return BadRequest(new { Message = result.Message });
+            }
         }
-
-
 
         [HttpGet]
         public IActionResult GetAll() => Ok(_service.GetAll());
@@ -70,7 +76,6 @@ namespace API.Controllers
             var result = _service.Delete(username, taskName, description, day, month, year, hour, minute);
             return result.Success ? Ok(result.Message) : NotFound(result.Message);
         }
-
 
         [HttpGet("ongoing/{username}")]
         public IActionResult GetOngoing(string username) =>

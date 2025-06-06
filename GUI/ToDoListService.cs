@@ -93,7 +93,6 @@ public sealed class ToDoListService
             {
                 Debug.WriteLine($"[DEBUG] Login berhasil untuk {username}.");
                 return true;
-
             }
             else
             {
@@ -216,7 +215,6 @@ public sealed class ToDoListService
             return false; 
         }
     }
-
 
     // Menghapus tugas berdasarkan detailnya.
     public async Task<bool> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)

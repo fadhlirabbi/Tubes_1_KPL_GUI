@@ -51,12 +51,8 @@ namespace GUI
             Debug.WriteLine($"[DEBUG] API Response Status Code: {apiResponse.StatusCode}");
             Debug.WriteLine($"[DEBUG] API Response Message: {apiResponse.Message}");
 
-            if (apiResponse.StatusCode == 0)
-            {
-                apiResponse.StatusCode = 200;
-            }
 
-            if (apiResponse.StatusCode == 200)
+            if (apiResponse.StatusCode > 200 && apiResponse.StatusCode <= 300 || apiResponse.StatusCode == 0)
             {
                 MessageBox.Show($"Tugas berhasil ditambahkan. Status Code: {apiResponse.StatusCode}", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
