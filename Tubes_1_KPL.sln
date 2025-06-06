@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tubes_1_KPL", "Tubes_1_KPL\Tubes_1_KPL.csproj", "{CAA19F65-C82E-462A-ACA7-AB1734B82B0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tubes_KPL_CLI", "Tubes_1_KPL\Tubes_KPL_CLI.csproj", "{CAA19F65-C82E-462A-ACA7-AB1734B82B0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{CBFA08EA-AECE-205F-7B85-326FD0B81BAD}"
 EndProject
@@ -24,6 +24,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test7", "test7\test7.csproj", "{0752D698-88E7-4EC8-8AB0-235C634BD3A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{388D166C-F2BB-4137-B45E-E75E6EEF3AE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tubes_KPL_GUI", "Tubes_KPL_GUI\Tubes_KPL_GUI.csproj", "{71ADA483-447D-4BBD-9606-BFEAF1BDB726}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resource", "Resource", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Users\herpw\Downloads\wallpaperflare.com_wallpaper.jpg = ..\..\..\..\Users\herpw\Downloads\wallpaperflare.com_wallpaper.jpg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +78,10 @@ Global
 		{388D166C-F2BB-4137-B45E-E75E6EEF3AE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{388D166C-F2BB-4137-B45E-E75E6EEF3AE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{388D166C-F2BB-4137-B45E-E75E6EEF3AE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71ADA483-447D-4BBD-9606-BFEAF1BDB726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71ADA483-447D-4BBD-9606-BFEAF1BDB726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71ADA483-447D-4BBD-9606-BFEAF1BDB726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71ADA483-447D-4BBD-9606-BFEAF1BDB726}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -86,8 +86,10 @@ namespace API.Controller
 
             existingUser.IsLoggedIn = false;
             SaveUsers(users);
+
             return Ok(new ApiResponse(200, "Logout berhasil."));
         }
+
 
         [HttpGet("all")]
         public IActionResult GetAll()

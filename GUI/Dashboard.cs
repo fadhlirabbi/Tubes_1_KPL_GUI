@@ -1,4 +1,5 @@
-﻿using System;
+using API.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,11 +21,9 @@ namespace GUI
             _username = username;
             welcomeLabel.Text = $"Selamat datang, {_username}";
 
-            // Memuat tugas berdasarkan status default (Incompleted)
             _ = LoadTasksAsync(StatusModel.Incompleted);
         }
 
-        // Memuat tugas berdasarkan status yang diberikan
         private async SystemTask LoadTasksAsync(StatusModel status)
         {
             try
@@ -45,7 +44,7 @@ namespace GUI
                 var result = addForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    _ = LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah penambahan
+                    _ = LoadTasksAsync(StatusModel.Incompleted);  
                 }
             }
         }
@@ -65,7 +64,7 @@ namespace GUI
                 var result = editForm.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    _ = LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah pengeditan
+                    _ = LoadTasksAsync(StatusModel.Incompleted); 
                 }
             }
         }
@@ -85,10 +84,10 @@ namespace GUI
             if (deleted)
             {
                 MessageBox.Show("Tugas berhasil dihapus.");
-                await LoadTasksAsync(StatusModel.Incompleted);  // Memuat ulang tugas setelah penghapusan
+                await LoadTasksAsync(StatusModel.Incompleted); 
             }
         }
-        //logic button tandai selesai
+
         private async void markCompletedButton_Click(object sender, EventArgs e)
         {
             if (taskGridView.SelectedRows.Count == 0)
@@ -102,10 +101,8 @@ namespace GUI
 
             bool completed = await ToDoListService.Instance.MarkTaskAsCompletedAsync(_username, task.Name, task.Description, d.Day, d.Month, d.Year, d.Hour, d.Minute);
 
-            if (!completed)
+            if (completed)
             {
-                MessageBox.Show("Tugas ditandai sebagai selesai.");
-
                 await LoadTasksAsync(StatusModel.Completed);
             }
             else
@@ -114,8 +111,6 @@ namespace GUI
                 await LoadTasksAsync(StatusModel.Incompleted);
             }
         }
-
-
 
         private async void reminderButton_Click(object sender, EventArgs e)
         {
@@ -141,36 +136,16 @@ namespace GUI
             MessageBox.Show(message, "Riwayat Tugas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // Event handler untuk memilih status tugas dan memuat ulang tugas berdasarkan status yang dipilih
         private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Mengambil status yang dipilih dari ComboBox (Incompleted, Completed, Overdue)
             if (Enum.TryParse(statusComboBox.SelectedItem.ToString(), out StatusModel selectedStatus))
             {
-                _ = LoadTasksAsync(selectedStatus);  // Memuat tugas berdasarkan status yang dipilih
+                _ = LoadTasksAsync(selectedStatus);  
             }
             else
             {
                 MessageBox.Show("Status tidak valid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-
-        // Event handler untuk welcomeLabel_Click
-        private void welcomeLabel_Click(object sender, EventArgs e)
-        {
-            // Bisa ditambahkan fungsionalitas lain jika diperlukan
-        }
-
-        // Event handler untuk Dashboard_Load
-        private void Dashboard_Load(object sender, EventArgs e)
-        {
-            // Bisa ditambahkan fungsionalitas lain jika diperlukan saat form dimuat
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
