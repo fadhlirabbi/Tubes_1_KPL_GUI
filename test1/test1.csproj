@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
-    <ProjectReference Include="..\Tubes_1_KPL\Tubes_1_KPL.csproj" />
+    <ProjectReference Include="..\Tubes_1_KPL\Tubes_KPL_CLI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

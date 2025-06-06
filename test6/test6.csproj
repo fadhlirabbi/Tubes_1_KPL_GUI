@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
-    <ProjectReference Include="..\Tubes_1_KPL\Tubes_1_KPL.csproj" />
+    <ProjectReference Include="..\Tubes_1_KPL\Tubes_KPL_CLI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

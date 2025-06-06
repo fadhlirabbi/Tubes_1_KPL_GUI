@@ -46,31 +46,37 @@ public sealed class ToDoListService
     /// Melakukan registrasi pengguna baru ke API.
     public async Task<bool> RegisterAsync(string username, string password)
     {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            Debug.WriteLine("[WARNING] Register gagal: username atau password kosong.");
+            return false;
+        }
+
         try
         {
-            var user = new { Username = username, Password = password };
+            var user = new { Username = username.Trim(), Password = password.Trim() };
             var response = await _httpClient.PostAsJsonAsync("User/register", user);
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"[ERROR] Gagal registrasi {username}: Status Code: {response.StatusCode}, Message: {errorMessage}");
+                Debug.WriteLine($"[ERROR] Gagal registrasi {username}: StatusCode = {(int)response.StatusCode}, Message = {errorMessage}");
                 return false;
             }
 
             var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
-
             if (apiResponse != null)
             {
                 Debug.WriteLine($"[DEBUG] Register response for {username}: Success = {apiResponse.Success}, Message = {apiResponse.Message}");
                 return apiResponse.Success;
             }
-            Debug.WriteLine($"[DEBUG] Register response for {username}: apiResponse is null.");
+
+            Debug.WriteLine($"[WARNING] Register response kosong untuk {username}.");
             return false;
         }
         catch (HttpRequestException httpEx)
         {
-            Debug.WriteLine($"[ERROR] HTTP error occurred during registration for {username}: {httpEx.Message}");
+            Debug.WriteLine($"[ERROR] HTTP error saat registrasi {username}: {httpEx.Message}");
             return false;
         }
         catch (Exception ex)
@@ -79,7 +85,6 @@ public sealed class ToDoListService
             return false;
         }
     }
-
 
     // Melakukan login pengguna ke API.
     public async Task<bool> LoginAsync(string username, string password)

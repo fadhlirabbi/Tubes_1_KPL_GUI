@@ -1,5 +1,5 @@
-﻿using API.Model;
-using API.Services;
+﻿using API.Services;
+using API.Model;
 using SystemTask = System.Threading.Tasks.Task;
 using ModelTask = API.Model.Task;
 
@@ -7,7 +7,7 @@ internal class Program
 {
     private static string? _loggedInUser = null;
     private static TaskClientService? _taskClient = null;
-    private static LoginRegisterService _auth = new();
+    private static UserService _auth = new();
     private static TaskService _taskService = new();
 
     static async SystemTask Main()
@@ -20,7 +20,7 @@ internal class Program
             switch (choice)
             {
                 case "1":
-                    await _auth.Register();
+                    await HandleRegister();
                     break;
                 case "2":
                     await HandleLogin();
@@ -42,6 +42,22 @@ internal class Program
         Console.WriteLine("2. Login");
         Console.WriteLine("3. Exit");
         Console.Write("Pilih: ");
+    }
+
+    private static async SystemTask HandleRegister()
+    {
+        string username = PromptInput("Masukkan username: ");
+        string password = PromptInput("Masukkan password: ");
+        bool registerSuccess = await _auth.RegisterAsync(username, password);
+
+        if (registerSuccess)
+        {
+            Console.WriteLine("Pendaftaran berhasil!");
+        }
+        else
+        {
+            Console.WriteLine("Pendaftaran gagal. Silakan coba lagi.");
+        }
     }
 
     private static async SystemTask HandleLogin()
@@ -81,7 +97,7 @@ internal class Program
                 case "7": await DisplayTasks("completed"); break;
                 case "8": await DeleteAccount(); break;
                 case "9":
-                    await _auth.Logout();
+                    await _auth.LogoutAsync();
                     _loggedInUser = null;
                     _taskClient = null;
                     Console.WriteLine("Berhasil logout.");
@@ -198,7 +214,6 @@ internal class Program
         Console.WriteLine(result ? "Tugas berhasil dihapus." : "Tugas tidak ditemukan.");
     }
 
-
     private static async SystemTask MarkTaskComplete()
     {
         string name = PromptInput("Task name: ");
@@ -211,7 +226,6 @@ internal class Program
 
         await _taskClient!.MarkTaskAsCompleted(name, description, day, month, year, hour, minute);
     }
-
 
     private static async SystemTask DisplayTasks(string type)
     {
@@ -240,7 +254,7 @@ internal class Program
         string confirm = PromptInput("Yakin ingin hapus akun dan semua tugas? (yes/no): ").ToLower();
         if (confirm == "yes")
         {
-            await _auth.DeleteAccountAndTasks();
+            await _auth.DeleteAccountAndTasksAsync();
 
             _loggedInUser = null;
             _taskClient = null;
