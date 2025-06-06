@@ -64,8 +64,6 @@ namespace API.Services
             return new ApiResponse(201, "Tugas berhasil dibuat.", task);
         }
 
-
-
         public ApiResponse MarkTaskAsCompleted(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
             var tasks = Load();
@@ -93,7 +91,6 @@ namespace API.Services
             Save(tasks);
             return new ApiResponse(200, "Task successfully marked as completed.", task);
         }
-
 
         public List<ModelTask> GetAll() => Load();
 
@@ -138,7 +135,6 @@ namespace API.Services
             Save(tasks);
             return new ApiResponse(200, "Task berhasil di-hapus");
         }
-
 
         public List<ModelTask> GetByStatus(string username, Status status) =>
             Load().Where(t => t.UserId == username && t.Status == status).ToList();

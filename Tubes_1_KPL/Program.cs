@@ -31,6 +31,7 @@ internal class Program
                     Console.WriteLine("Pilihan tidak valid.");
                     break;
             }
+
             Console.WriteLine();
         }
     }
@@ -161,6 +162,7 @@ internal class Program
         {
             Console.Write($"Input tidak valid. {label}");
         }
+
         return val;
     }
 

@@ -98,8 +98,6 @@ namespace API.Services
             }
         }
 
-
-
         private async Task<List<ModelTask>> GetTasksAsync(string endpoint)
         {
             try
