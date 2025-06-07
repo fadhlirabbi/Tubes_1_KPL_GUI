@@ -49,7 +49,7 @@ namespace Tubes_KPL_GUI
 
         private void btnTambah_Click(object sender, EventArgs e)
         {
-            //LoadForm(new FormAddTask(_username));
+            LoadForm(new FormAddTask(_username));
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
