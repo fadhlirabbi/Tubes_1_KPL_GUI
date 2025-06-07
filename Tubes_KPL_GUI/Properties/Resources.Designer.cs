@@ -63,6 +63,26 @@ namespace Tubes_KPL_GUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Gambar_WhatsApp_2025_06_06_pukul_16_24_58_9758d871_removebg_preview__1_ {
+            get {
+                object obj = ResourceManager.GetObject("Gambar_WhatsApp_2025-06-06_pukul_16.24.58_9758d871-removebg-preview (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gambar_WhatsApp_2025_06_06_pukul_16_241 {
+            get {
+                object obj = ResourceManager.GetObject("Gambar_WhatsApp_2025-06-06_pukul_16.241", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap wallpaperflare_com_wallpaper {
             get {
                 object obj = ResourceManager.GetObject("wallpaperflare.com_wallpaper", resourceCulture);

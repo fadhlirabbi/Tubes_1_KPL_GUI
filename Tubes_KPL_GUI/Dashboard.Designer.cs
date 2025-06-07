@@ -33,101 +33,163 @@
             btnRiwayat = new Button();
             btnLogout = new Button();
             panelMain = new Panel();
-
             panelSidebar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(logoPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             SuspendLayout();
             // 
             // panelSidebar
             // 
             panelSidebar.BackColor = Color.LightSkyBlue;
+            panelSidebar.Controls.Add(logoPictureBox);
+            panelSidebar.Controls.Add(btnBeranda);
+            panelSidebar.Controls.Add(btnTambah);
+            panelSidebar.Controls.Add(btnEdit);
+            panelSidebar.Controls.Add(btnTandai);
+            panelSidebar.Controls.Add(btnHapus);
+            panelSidebar.Controls.Add(btnRiwayat);
+            panelSidebar.Controls.Add(btnLogout);
             panelSidebar.Dock = DockStyle.Left;
-            panelSidebar.Width = 250;
-            panelSidebar.Controls.AddRange(new Control[] {
-                logoPictureBox,
-                btnBeranda,
-                btnTambah,
-                btnEdit,
-                btnTandai,
-                btnHapus,
-                btnRiwayat,
-                btnLogout
-            });
+            panelSidebar.Location = new Point(0, 0);
+            panelSidebar.Margin = new Padding(4);
+            panelSidebar.Name = "panelSidebar";
+            panelSidebar.Size = new Size(312, 900);
+            panelSidebar.TabIndex = 1;
             // 
             // logoPictureBox
             // 
-            logoPictureBox.Image = Properties.Resources.wallpaperflare_com_wallpaper;
-            logoPictureBox.Location = new Point(65, 20);
-            logoPictureBox.Size = new Size(120, 100);
+            logoPictureBox.BackColor = Color.LightSkyBlue;
+            logoPictureBox.Image = Properties.Resources.Gambar_WhatsApp_2025_06_06_pukul_16_24_58_9758d871_removebg_preview__1_;
+            logoPictureBox.Location = new Point(65, 15);
+            logoPictureBox.Margin = new Padding(4);
+            logoPictureBox.Name = "logoPictureBox";
+            logoPictureBox.Size = new Size(173, 149);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            logoPictureBox.TabIndex = 0;
+            logoPictureBox.TabStop = false;
             // 
             // btnBeranda
             // 
-            InitNavButton(btnBeranda, "Beranda", 140, btnBeranda_Click);
+            btnBeranda.BackColor = Color.White;
+            btnBeranda.FlatAppearance.BorderSize = 0;
+            btnBeranda.FlatStyle = FlatStyle.Flat;
+            btnBeranda.Location = new Point(50, 201);
+            btnBeranda.Margin = new Padding(4);
+            btnBeranda.Name = "btnBeranda";
+            btnBeranda.Size = new Size(200, 50);
+            btnBeranda.TabIndex = 1;
+            btnBeranda.Text = "Beranda";
+            btnBeranda.UseVisualStyleBackColor = false;
+            btnBeranda.Click += btnBeranda_Click;
             // 
             // btnTambah
             // 
-            InitNavButton(btnTambah, "Tambah Tugas", 180, btnTambah_Click);
+            btnTambah.BackColor = Color.White;
+            btnTambah.FlatAppearance.BorderSize = 0;
+            btnTambah.FlatStyle = FlatStyle.Flat;
+            btnTambah.Location = new Point(50, 271);
+            btnTambah.Margin = new Padding(4);
+            btnTambah.Name = "btnTambah";
+            btnTambah.Size = new Size(200, 50);
+            btnTambah.TabIndex = 2;
+            btnTambah.Text = "Tambah";
+            btnTambah.UseVisualStyleBackColor = false;
+            btnTambah.Click += btnTambah_Click;
             // 
             // btnEdit
             // 
-            InitNavButton(btnEdit, "Edit Tugas", 220, btnEdit_Click);
+            btnEdit.BackColor = Color.White;
+            btnEdit.FlatAppearance.BorderSize = 0;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Location = new Point(50, 341);
+            btnEdit.Margin = new Padding(4);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(200, 50);
+            btnEdit.TabIndex = 3;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += btnEdit_Click;
             // 
             // btnTandai
             // 
-            InitNavButton(btnTandai, "Tandai Selesai", 260, btnTandai_Click);
+            btnTandai.BackColor = Color.White;
+            btnTandai.FlatAppearance.BorderSize = 0;
+            btnTandai.FlatStyle = FlatStyle.Flat;
+            btnTandai.Location = new Point(50, 411);
+            btnTandai.Margin = new Padding(4);
+            btnTandai.Name = "btnTandai";
+            btnTandai.Size = new Size(200, 50);
+            btnTandai.TabIndex = 4;
+            btnTandai.Text = "Tandai";
+            btnTandai.UseVisualStyleBackColor = false;
+            btnTandai.Click += btnTandai_Click;
             // 
             // btnHapus
             // 
-            InitNavButton(btnHapus, "Hapus Tugas", 300, btnHapus_Click);
+            btnHapus.BackColor = Color.White;
+            btnHapus.FlatAppearance.BorderSize = 0;
+            btnHapus.FlatStyle = FlatStyle.Flat;
+            btnHapus.Location = new Point(50, 481);
+            btnHapus.Margin = new Padding(4);
+            btnHapus.Name = "btnHapus";
+            btnHapus.Size = new Size(200, 50);
+            btnHapus.TabIndex = 5;
+            btnHapus.Text = "Hapus";
+            btnHapus.UseVisualStyleBackColor = false;
+            btnHapus.Click += btnHapus_Click;
             // 
             // btnRiwayat
             // 
-            InitNavButton(btnRiwayat, "Riwayat", 340, btnRiwayat_Click);
+            btnRiwayat.BackColor = Color.White;
+            btnRiwayat.FlatAppearance.BorderSize = 0;
+            btnRiwayat.FlatStyle = FlatStyle.Flat;
+            btnRiwayat.Location = new Point(50, 551);
+            btnRiwayat.Margin = new Padding(4);
+            btnRiwayat.Name = "btnRiwayat";
+            btnRiwayat.Size = new Size(200, 50);
+            btnRiwayat.TabIndex = 6;
+            btnRiwayat.Text = "Riwayat";
+            btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click;
             // 
             // btnLogout
             // 
+            btnLogout.BackColor = Color.White;
+            btnLogout.Location = new Point(50, 785);
+            btnLogout.Margin = new Padding(4);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(200, 50);
+            btnLogout.TabIndex = 7;
             btnLogout.Text = "Keluar";
-            btnLogout.Location = new Point(50, 600);
-            btnLogout.Size = new Size(150, 40);
-            btnLogout.BackColor = Color.Silver;
+            btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
             // 
             // panelMain
             // 
-            panelMain.Dock = DockStyle.Fill;
             panelMain.BackColor = Color.White;
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(312, 0);
+            panelMain.Margin = new Padding(4);
             panelMain.Name = "panelMain";
+            panelMain.Size = new Size(968, 900);
+            panelMain.TabIndex = 0;
             // 
             // Dashboard
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1024, 720);
+            ClientSize = new Size(1280, 900);
             Controls.Add(panelMain);
             Controls.Add(panelSidebar);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "Dashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Dashboard";
             Load += Dashboard_Load;
-
             panelSidebar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(logoPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
             ResumeLayout(false);
-        }
-
-        private void InitNavButton(Button button, string text, int top, EventHandler handler)
-        {
-            button.Text = text;
-            button.Location = new Point(20, top);
-            button.Size = new Size(200, 35);
-            button.Font = new Font("Segoe UI", 10F);
-            button.Click += handler;
-            button.BackColor = Color.White;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
         }
     }
 }
