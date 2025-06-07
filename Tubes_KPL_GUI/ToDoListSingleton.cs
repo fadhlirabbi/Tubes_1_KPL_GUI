@@ -163,18 +163,23 @@ namespace Tubes_KPL_GUI
         }
 
         // CRUD Task
-        public async Task<bool> AddTaskAsync(ModelTask task)
+        public async Task<ApiResponse> AddTaskAsync(ModelTask task)
         {
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("task", task);
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
-                return apiResponse?.Success ?? false;
+
+                if (apiResponse != null)
+                {
+                    return apiResponse;
+                }
+
+                return new ApiResponse(400, "Gagal menambahkan tugas.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[ERROR] Add task failed: {ex.Message}");
-                return false;
+                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
 

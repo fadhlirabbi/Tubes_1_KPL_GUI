@@ -1,39 +1,130 @@
-﻿namespace Tubes_KPL_GUI
+﻿using API.Model;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using ModelTask = API.Model.Task;
+using SystemTask = System.Threading.Tasks.Task;
+
+namespace Tubes_KPL_GUI
 {
-    partial class FormAddTask
+    public partial class FormAddTask : Form
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private readonly string _username;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        public FormAddTask(string username)
         {
-            if (disposing && (components != null))
+            InitializeComponent();
+            _username = username;
+        }
+
+        // Event handler untuk tombol 'Tambah' untuk menambahkan tugas
+        private async void btnAddTask_Click(object sender, EventArgs e)
+        {
+            string taskName = txtTaskName.Text.Trim();
+            string description = txtDescription.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(taskName) || string.IsNullOrWhiteSpace(description))
             {
-                components.Dispose();
+                MessageBox.Show("Nama tugas dan deskripsi tidak boleh kosong.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            base.Dispose(disposing);
+
+            if (!int.TryParse(txtDay.Text, out int day) ||
+                !int.TryParse(txtYear.Text, out int year) ||
+                !int.TryParse(txtHour.Text, out int hour) ||
+                !int.TryParse(txtMinute.Text, out int minute))
+            {
+                MessageBox.Show("Input tanggal atau waktu tidak valid.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string monthText = txtMonth.Text.Trim().ToLower();
+            int month = GetMonthFromText(monthText);
+            if (month == 0)
+            {
+                MessageBox.Show("Nama bulan tidak valid.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Deadline deadline = new Deadline
+            {
+                Day = day,
+                Month = month,
+                Year = year,
+                Hour = hour,
+                Minute = minute
+            };
+
+            var task = new ModelTask(taskName, description, deadline, _username);
+
+            ApiResponse apiResponse = await ToDoListSingleton.Instance.AddTaskAsync(task);
+
+            if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0)
+            {
+                MessageBox.Show("Tugas berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+            }
+            else
+
+            {
+                HandleApiError(apiResponse);
+            }
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        // Fungsi untuk mengonversi nama bulan menjadi angka
+        private int GetMonthFromText(string monthText)
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "FormAddTask";
+            switch (monthText)
+            {
+                case "januari": return 1;
+                case "februari": return 2;
+                case "maret": return 3;
+                case "april": return 4;
+                case "mei": return 5;
+                case "juni": return 6;
+                case "juli": return 7;
+                case "agustus": return 8;
+                case "september": return 9;
+                case "oktober": return 10;
+                case "november": return 11;
+                case "desember": return 12;
+                default: return 0;
+            }
         }
 
-        #endregion
+        // Fungsi untuk menangani error API
+        private void HandleApiError(ApiResponse apiResponse)
+        {
+            if (apiResponse.StatusCode == 400)
+            {
+                if (apiResponse.Message.Contains("Tugas dengan nama, deskripsi, dan deadline yang sama sudah ada"))
+                {
+                    MessageBox.Show($"Gagal menambahkan tugas: {apiResponse.Message}.", "Duplikasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"Gagal menambahkan tugas: {apiResponse.Message}.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else if (apiResponse.StatusCode == 401)
+            {
+                MessageBox.Show($"Gagal autentikasi. Status Code: {apiResponse.StatusCode}", "Autentikasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (apiResponse.StatusCode == 500)
+            {
+                MessageBox.Show($"Terjadi kesalahan server. Status Code: {apiResponse.StatusCode}", "Kesalahan Server", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show($"Terjadi kesalahan yang tidak diketahui. Status Code: {apiResponse.StatusCode}", "Kesalahan Tidak Dikenal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void FormAddTask_Load(object sender, EventArgs e)
+        {
+            // Kosong atau bisa tambahkan inisialisasi jika diperlukan
+        }
     }
 }
