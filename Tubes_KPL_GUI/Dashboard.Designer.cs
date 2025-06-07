@@ -23,7 +23,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             panelSidebar = new Panel();
             logoPictureBox = new PictureBox();
             btnBeranda = new Button();
@@ -59,7 +58,7 @@
             // logoPictureBox
             // 
             logoPictureBox.BackColor = Color.LightSkyBlue;
-            logoPictureBox.Image = (Image)resources.GetObject("logoPictureBox.Image");
+            logoPictureBox.Image = Properties.Resources.Gambar_WhatsApp_2025_06_06_pukul_16_24_58_9758d871_removebg_preview__1_;
             logoPictureBox.Location = new Point(65, 15);
             logoPictureBox.Margin = new Padding(4);
             logoPictureBox.Name = "logoPictureBox";
