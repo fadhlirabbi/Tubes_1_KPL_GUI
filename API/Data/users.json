@@ -46,5 +46,11 @@
     "Username": "Stev",
     "Password": "Stev!234",
     "IsLoggedIn": false
+  },
+  {
+    "Id": 9,
+    "Username": "Triana",
+    "Password": "Triana@23",
+    "IsLoggedIn": false
   }
 ]

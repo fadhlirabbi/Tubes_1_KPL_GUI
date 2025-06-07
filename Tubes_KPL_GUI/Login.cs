@@ -6,9 +6,11 @@ namespace Tubes_KPL_GUI
 {
     public partial class FormLogin : Form
     {
+        private readonly ToDoListSingleton _toDoListSingleton;
         public FormLogin()
         {
             InitializeComponent();
+            _toDoListSingleton = ToDoListSingleton.Instance; 
         }
 
         private async void LoginButton_Click(object sender, EventArgs e)
@@ -23,7 +25,7 @@ namespace Tubes_KPL_GUI
                 return;
             }
 
-            bool success = await ToDoListSingleton.Instance.LoginAsync(username, password);
+            bool success = await _toDoListSingleton.LoginAsync(username, password);
 
             if (success)
             {
@@ -43,11 +45,6 @@ namespace Tubes_KPL_GUI
             var registerForm = new Register();
             registerForm.Show();
             this.Hide();
-        }
-
-        private void logoPictureBox_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -21,6 +21,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             logoPictureBox = new PictureBox();
             titleLabel = new Label();
             usernameLabel = new Label();
@@ -36,63 +37,64 @@
             // 
             logoPictureBox.Anchor = AnchorStyles.Top;
             logoPictureBox.BackColor = SystemColors.Window;
-            logoPictureBox.Image = Properties.Resources.wallpaperflare_com_wallpaper;
+            logoPictureBox.Image = (Image)resources.GetObject("logoPictureBox.Image");
             logoPictureBox.InitialImage = Properties.Resources.wallpaperflare_com_wallpaper;
-            logoPictureBox.Location = new Point(187, 25);
+            logoPictureBox.Location = new Point(686, 170);
             logoPictureBox.Name = "logoPictureBox";
-            logoPictureBox.Size = new Size(230, 105);
+            logoPictureBox.Size = new Size(300, 300);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             logoPictureBox.TabIndex = 0;
             logoPictureBox.TabStop = false;
-            logoPictureBox.Click += logoPictureBox_Click;
             // 
             // titleLabel
             // 
             titleLabel.Font = new Font("Times New Roman", 16F, FontStyle.Bold);
-            titleLabel.Location = new Point(110, 160);
+            titleLabel.Location = new Point(441, 525);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(420, 30);
+            titleLabel.Size = new Size(736, 64);
             titleLabel.TabIndex = 1;
             titleLabel.Text = "Selamat Datang di aplikasi To Do List";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // usernameLabel
             // 
-            usernameLabel.Location = new Point(100, 220);
+            usernameLabel.Location = new Point(405, 615);
             usernameLabel.Name = "usernameLabel";
-            usernameLabel.Size = new Size(140, 25);
+            usernameLabel.Size = new Size(217, 36);
             usernameLabel.TabIndex = 2;
             usernameLabel.Text = "Nama Pengguna :";
             // 
             // passwordLabel
             // 
-            passwordLabel.Location = new Point(100, 260);
+            passwordLabel.Location = new Point(405, 690);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(140, 25);
+            passwordLabel.Size = new Size(233, 36);
             passwordLabel.TabIndex = 3;
-            passwordLabel.Text = "Kata Sandi :";
+            passwordLabel.Text = "Kata Sandi          :";
             // 
             // usernameTextBox
             // 
-            usernameTextBox.Location = new Point(240, 220);
+            usernameTextBox.BackColor = SystemColors.Control;
+            usernameTextBox.Location = new Point(636, 615);
             usernameTextBox.Name = "usernameTextBox";
-            usernameTextBox.Size = new Size(230, 31);
+            usernameTextBox.Size = new Size(607, 39);
             usernameTextBox.TabIndex = 4;
             // 
             // passwordTextBox
             // 
-            passwordTextBox.Location = new Point(240, 260);
+            passwordTextBox.BackColor = SystemColors.Control;
+            passwordTextBox.Location = new Point(636, 690);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
-            passwordTextBox.Size = new Size(230, 31);
+            passwordTextBox.Size = new Size(607, 39);
             passwordTextBox.TabIndex = 5;
             // 
             // loginButton
             // 
             loginButton.BackColor = Color.LightSkyBlue;
-            loginButton.Location = new Point(380, 310);
+            loginButton.Location = new Point(1026, 854);
             loginButton.Name = "loginButton";
-            loginButton.Size = new Size(90, 35);
+            loginButton.Size = new Size(217, 63);
             loginButton.TabIndex = 6;
             loginButton.Text = "Masuk";
             loginButton.UseVisualStyleBackColor = false;
@@ -100,16 +102,19 @@
             // 
             // registerButton
             // 
-            registerButton.Location = new Point(240, 310);
+            registerButton.BackColor = SystemColors.ScrollBar;
+            registerButton.Location = new Point(405, 854);
             registerButton.Name = "registerButton";
-            registerButton.Size = new Size(90, 35);
+            registerButton.Size = new Size(217, 63);
             registerButton.TabIndex = 7;
             registerButton.Text = "Daftar";
+            registerButton.UseVisualStyleBackColor = false;
             registerButton.Click += RegisterButton_Click;
             // 
             // FormLogin
             // 
-            ClientSize = new Size(600, 400);
+            BackColor = SystemColors.HighlightText;
+            ClientSize = new Size(1664, 1152);
             Controls.Add(logoPictureBox);
             Controls.Add(titleLabel);
             Controls.Add(usernameLabel);

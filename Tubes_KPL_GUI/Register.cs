@@ -6,9 +6,12 @@ namespace Tubes_KPL_GUI
 {
     public partial class Register : Form
     {
+        private readonly ToDoListSingleton _toDoListSingleton;
+
         public Register()
         {
             InitializeComponent();
+            _toDoListSingleton = ToDoListSingleton.Instance;
         }
 
         private async void DaftarBtn_Click(object sender, EventArgs e)
@@ -35,7 +38,7 @@ namespace Tubes_KPL_GUI
                 return;
             }
 
-            bool registered = await ToDoListSingleton.Instance.RegisterAsync(username, password);
+            bool registered = await _toDoListSingleton.RegisterAsync(username, password);
             if (registered)
             {
                 MessageBox.Show("Pendaftaran berhasil! Silakan login.",
