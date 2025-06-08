@@ -64,7 +64,7 @@ namespace Tubes_KPL_GUI
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
-            //LoadForm(new FormDeleteTask(_username));
+            LoadForm(new FormDeleteTask(_username));
         }
 
         private void btnRiwayat_Click(object sender, EventArgs e)
