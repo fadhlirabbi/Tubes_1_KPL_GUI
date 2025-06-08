@@ -54,7 +54,7 @@ namespace Tubes_KPL_GUI
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            //LoadForm(new FormEditTask(_username));
+            LoadForm(new FormEditTask(_username));
         }
 
         private void btnTandai_Click(object sender, EventArgs e)
