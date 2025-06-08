@@ -10,7 +10,8 @@ namespace Tubes_KPL_GUI
         public FormLogin()
         {
             InitializeComponent();
-            _toDoListSingleton = ToDoListSingleton.Instance; 
+            _toDoListSingleton = ToDoListSingleton.Instance;
+            passwordTextBox.PasswordChar = '●';
         }
 
         private async void LoginButton_Click(object sender, EventArgs e)
@@ -45,6 +46,14 @@ namespace Tubes_KPL_GUI
             var registerForm = new Register();
             registerForm.Show();
             this.Hide();
+        }
+
+        private void LihatSandi_CheckedChanged(object sender, EventArgs e)
+        {
+            if (lihatSandi.Checked)
+                passwordTextBox.PasswordChar = '\0';  
+            else
+                passwordTextBox.PasswordChar = '●';
         }
     }
 }

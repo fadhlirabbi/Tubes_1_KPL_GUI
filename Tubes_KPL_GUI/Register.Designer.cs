@@ -32,6 +32,7 @@
             noteLabel = new Label();
             daftarBtn = new Button();
             kembaliBtn = new Button();
+            lihatSandi = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -99,7 +100,7 @@
             // 
             noteLabel.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
             noteLabel.ForeColor = Color.Gray;
-            noteLabel.Location = new Point(421, 749);
+            noteLabel.Location = new Point(421, 783);
             noteLabel.Margin = new Padding(5, 0, 5, 0);
             noteLabel.Name = "noteLabel";
             noteLabel.Size = new Size(812, 64);
@@ -110,7 +111,7 @@
             // daftarBtn
             // 
             daftarBtn.BackColor = Color.LightSkyBlue;
-            daftarBtn.Location = new Point(1026, 854);
+            daftarBtn.Location = new Point(1026, 880);
             daftarBtn.Margin = new Padding(5);
             daftarBtn.Name = "daftarBtn";
             daftarBtn.Size = new Size(217, 63);
@@ -122,7 +123,7 @@
             // kembaliBtn
             // 
             kembaliBtn.BackColor = SystemColors.ScrollBar;
-            kembaliBtn.Location = new Point(405, 854);
+            kembaliBtn.Location = new Point(405, 880);
             kembaliBtn.Margin = new Padding(5);
             kembaliBtn.Name = "kembaliBtn";
             kembaliBtn.Size = new Size(217, 63);
@@ -131,12 +132,24 @@
             kembaliBtn.UseVisualStyleBackColor = false;
             kembaliBtn.Click += KembaliBtn_Click;
             // 
+            // lihatSandi
+            // 
+            lihatSandi.AutoSize = true;
+            lihatSandi.Location = new Point(1084, 744);
+            lihatSandi.Name = "lihatSandi";
+            lihatSandi.Size = new Size(163, 36);
+            lihatSandi.TabIndex = 9;
+            lihatSandi.Text = "Lihat Sandi";
+            lihatSandi.UseVisualStyleBackColor = true;
+            lihatSandi.CheckedChanged += LihatSandi_CheckedChanged;
+            // 
             // Register
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
             ClientSize = new Size(1664, 1152);
+            Controls.Add(lihatSandi);
             Controls.Add(logoPictureBox);
             Controls.Add(titleLabel);
             Controls.Add(usernameLabel);
@@ -156,5 +169,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
+        private CheckBox lihatSandi;
     }
 }
