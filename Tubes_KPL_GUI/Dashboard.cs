@@ -59,7 +59,7 @@ namespace Tubes_KPL_GUI
 
         private void btnTandai_Click(object sender, EventArgs e)
         {
-            //LoadForm(new FormMarkDone(_username));
+            LoadForm(new FormMarkDone(_username));
         }
 
         private void btnHapus_Click(object sender, EventArgs e)

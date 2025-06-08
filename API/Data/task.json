@@ -11,7 +11,7 @@
     },
     "Id": "c957e7f3-e318-45d9-848c-db710142da2b",
     "UserId": "gumi",
-    "Status": 2
+    "Status": 1
   },
   {
     "Name": "2",
@@ -25,7 +25,7 @@
     },
     "Id": "2c7e4dfc-be8d-4816-802b-e3ee3c3745dc",
     "UserId": "gumi",
-    "Status": 2
+    "Status": 1
   },
   {
     "Name": "3",
@@ -39,7 +39,7 @@
     },
     "Id": "c793aa56-51fa-4bab-8a28-465dc4f3cc08",
     "UserId": "gumi",
-    "Status": 2
+    "Status": 1
   },
   {
     "Name": "4",
@@ -53,7 +53,7 @@
     },
     "Id": "174ad411-c4c4-4f0b-8658-2dfce622af7b",
     "UserId": "gumi",
-    "Status": 2
+    "Status": 1
   },
   {
     "Name": "5",
