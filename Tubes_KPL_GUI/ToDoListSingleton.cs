@@ -214,21 +214,29 @@ namespace Tubes_KPL_GUI
             }
         }
 
-        public async Task<bool> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
+        public async Task<ApiResponse> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
             try
             {
                 var endpoint = $"task/complete/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
                 var response = await _httpClient.PostAsync(endpoint, null);
+
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
-                return apiResponse?.Success ?? false;
+
+                if (apiResponse != null)
+                {
+                    return apiResponse;
+                }
+
+                return new ApiResponse(400, "Gagal menandai tugas sebagai selesai.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[ERROR] Mark complete failed: {ex.Message}");
-                return false;
+                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
+
+
 
         // Get Tasks
         public async Task<List<ModelTask>> GetTasksByStatusAsync(string username, StatusModel status)
