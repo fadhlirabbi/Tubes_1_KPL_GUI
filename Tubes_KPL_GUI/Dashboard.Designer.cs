@@ -21,6 +21,11 @@
             base.Dispose(disposing);
         }
 
+        private Button GetBtnBeranda()
+        {
+            return btnBeranda;
+        }
+
         private void InitializeComponent()
         {
             panelSidebar = new Panel();
