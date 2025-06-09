@@ -12,8 +12,10 @@ namespace Tubes_KPL_GUI
         {
             InitializeComponent();
             _toDoListSingleton = ToDoListSingleton.Instance;
+            passTextBox.PasswordChar = '●';
         }
 
+        // Event handler untuk tombol Daftar
         private async void DaftarBtn_Click(object sender, EventArgs e)
         {
             string username = userTextBox.Text.Trim();
@@ -55,11 +57,21 @@ namespace Tubes_KPL_GUI
             }
         }
 
+        // Event handler untuk tombol Kembali ke halaman Login
         private void KembaliBtn_Click(object sender, EventArgs e)
         {
             var login = new FormLogin();
             login.Show();
             this.Hide();
+        }
+
+        // Event handler untuk checkbox Lihat Sandi
+        private void LihatSandi_CheckedChanged(object sender, EventArgs e)
+        {
+            if (lihatSandi.Checked)
+                passTextBox.PasswordChar = '\0';
+            else
+                passTextBox.PasswordChar = '●';
         }
     }
 }
