@@ -38,14 +38,12 @@ namespace Tubes_KPL_GUI
                 return;
             }
 
-            var apiResponse = await ToDoListSingleton.Instance.DeleteTaskAsync(
-                _username, taskName, description, day, month, year, hour, minute);
+            var apiResponse = await ToDoListSingleton.Instance.DeleteTaskAsync(_username, taskName, description, day, month, year, hour, minute);
 
             if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0)
             {
                 MessageBox.Show(apiResponse.Message ?? "Tugas berhasil dihapus!", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
-                Close();
             }
             else
             {

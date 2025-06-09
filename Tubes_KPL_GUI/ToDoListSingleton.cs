@@ -212,7 +212,7 @@ namespace Tubes_KPL_GUI
                     return apiResponse;
                 }
 
-                return new ApiResponse(400, "Gagal menandai tugas sebagai selesai.");
+                return new ApiResponse(400, "Gagal menghapus tugas.");
             }
             catch (Exception ex)
             {
@@ -241,8 +241,6 @@ namespace Tubes_KPL_GUI
                 return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
-
-
 
         // Get Tasks
         public async Task<List<ModelTask>> GetTasksByStatusAsync(string username, StatusModel status)

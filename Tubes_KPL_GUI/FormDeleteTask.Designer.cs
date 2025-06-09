@@ -134,7 +134,7 @@
             btnDeleteTask.BackColor = Color.LightSkyBlue;
             btnDeleteTask.Location = new Point(170, 239);
             btnDeleteTask.Size = new Size(200, 40);
-            btnDeleteTask.Text = "Tandai Selesai";
+            btnDeleteTask.Text = "Hapus Tugas";
             btnDeleteTask.UseVisualStyleBackColor = false;
             btnDeleteTask.Click += btnHapus_Click;
 

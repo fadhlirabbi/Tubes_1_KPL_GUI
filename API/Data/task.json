@@ -28,20 +28,6 @@
     "Status": 2
   },
   {
-    "Name": "8",
-    "Description": "8",
-    "Deadline": {
-      "Day": 8,
-      "Month": 6,
-      "Year": 8,
-      "Hour": 8,
-      "Minute": 8
-    },
-    "Id": "aa826543-f723-4141-b660-d09373df0ba9",
-    "UserId": "gumi",
-    "Status": 0
-  },
-  {
     "Name": "kapeel",
     "Description": "tubes",
     "Deadline": {
