@@ -11,7 +11,7 @@ using ModelTask = API.Model.Task;
 
 namespace API.Services
 {
-    public class UserService
+    public class UserClientService
     {
         public enum State
         {
@@ -25,7 +25,7 @@ namespace API.Services
         private string? _currentUser;
         private readonly HttpClient _httpClient;
 
-        public UserService()
+        public UserClientService()
         {
             _currentState = State.LoggedOut;
             _httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5263/api/") };
@@ -41,7 +41,7 @@ namespace API.Services
             return true;
         }
 
-        /// Melakukan registrasi pengguna baru dengan memanggil API UserController
+        // Melakukan registrasi pengguna baru dengan memanggil API UserController
         public async Task<bool> RegisterAsync(string username, string password)
         {
             if (!ValidateCredentials(username, password)) return false;
@@ -67,7 +67,7 @@ namespace API.Services
             }
         }
 
-        /// Mencoba untuk login pengguna menggunakan API UserController
+        // Mencoba untuk login pengguna menggunakan API UserController
         public async Task<bool> TryLoginAsync(string username, string password)
         {
             if (!ValidateCredentials(username, password)) return false;
@@ -101,7 +101,7 @@ namespace API.Services
             }
         }
 
-        /// Melakukan logout pengguna dengan memanggil API UserController dan memperbarui status 'IsLoggedIn' menjadi false.
+        // Melakukan logout pengguna dengan memanggil API UserController dan memperbarui status 'IsLoggedIn' menjadi false.
         public async SystemTask LogoutAsync()
         {
             if (_currentState == State.LoggedOut || _currentUser == null)
@@ -128,7 +128,7 @@ namespace API.Services
             }
         }
 
-        /// Menghapus akun pengguna dan semua tugas terkait
+        // Menghapus akun pengguna dan semua tugas terkait
         public async SystemTask DeleteAccountAndTasksAsync()
         {
             if (_currentState == State.LoggedOut || _currentUser == null)

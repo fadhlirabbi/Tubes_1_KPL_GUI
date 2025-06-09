@@ -33,6 +33,7 @@
             btnRiwayat = new Button();
             btnLogout = new Button();
             panelMain = new Panel();
+
             panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             SuspendLayout();

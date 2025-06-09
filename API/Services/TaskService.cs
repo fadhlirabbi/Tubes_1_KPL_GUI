@@ -92,7 +92,7 @@ namespace API.Services
             return new ApiResponse(200, "Task successfully marked as completed.", task);
         }
 
-        public List<ModelTask> GetAll() => Load();
+        public List<ModelTask> GetAllTasks() => Load();
 
         public List<ModelTask> GetByUser(string username) =>
             Load().Where(t => t.UserId == username).ToList();
@@ -100,7 +100,7 @@ namespace API.Services
         public ModelTask? GetById(string id) =>
             Load().FirstOrDefault(t => t.Id == id);
 
-        public ApiResponse Update(string username, string taskName, ModelTask updated)
+        public ApiResponse EditTask(string username, string taskName, ModelTask updated)
         {
             var tasks = Load();
             var task = tasks.FirstOrDefault(t => t.UserId == username && t.Name == taskName);
@@ -116,7 +116,7 @@ namespace API.Services
             return new ApiResponse(200, "Task berhasil di-update", task);
         }
 
-        public ApiResponse Delete(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
+        public ApiResponse DeleteTask(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
             var tasks = Load();
             var task = tasks.FirstOrDefault(t =>
@@ -136,31 +136,33 @@ namespace API.Services
             return new ApiResponse(200, "Task berhasil di-hapus");
         }
 
-        public List<ModelTask> GetByStatus(string username, Status status) =>
+        public List<ModelTask> GetTaskByStatus(string username, Status status) =>
             Load().Where(t => t.UserId == username && t.Status == status).ToList();
 
-        public void UpdateTaskStatus()
+        public ApiResponse UpdateTaskStatus(string username)
         {
-            var tasks = Load();
-            var now = DateTime.Now;
-
-            foreach (var task in tasks)
+            try
             {
-                if (task.Status == Status.Completed) continue; 
+                var tasks = Load().Where(t => t.UserId == username && t.Status != Status.Completed).ToList();
+                var now = DateTime.Now;
 
-                DateTime taskDeadline = new DateTime(task.Deadline.Year, task.Deadline.Month, task.Deadline.Day, task.Deadline.Hour, task.Deadline.Minute, 0);
-
-                if (now > taskDeadline && task.Status != Status.Completed)
+                foreach (var task in tasks)
                 {
-                    task.Status = Status.Overdue; 
-                }
-                else if (now <= taskDeadline && task.Status == Status.Incompleted)
-                {
+                    DateTime taskDeadline = new DateTime(task.Deadline.Year, task.Deadline.Month, task.Deadline.Day, task.Deadline.Hour, task.Deadline.Minute, 0);
 
+                    if (now > taskDeadline && task.Status != Status.Completed)
+                    {
+                        task.Status = Status.Overdue;
+                    }
                 }
+
+                Save(tasks);
+                return new ApiResponse(200, "Status tugas berhasil diperbarui.");
             }
-
-            Save(tasks);
+            catch (Exception ex)
+            {
+                return new ApiResponse(500, $"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}");
+            }
         }
 
         private ReminderConfig LoadReminderConfig()

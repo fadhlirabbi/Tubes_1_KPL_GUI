@@ -1,61 +1,5 @@
 [
   {
-    "Name": "1",
-    "Description": "1",
-    "Deadline": {
-      "Day": 1,
-      "Month": 6,
-      "Year": 1,
-      "Hour": 1,
-      "Minute": 1
-    },
-    "Id": "c957e7f3-e318-45d9-848c-db710142da2b",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "2",
-    "Description": "2",
-    "Deadline": {
-      "Day": 2,
-      "Month": 6,
-      "Year": 2,
-      "Hour": 2,
-      "Minute": 2
-    },
-    "Id": "2c7e4dfc-be8d-4816-802b-e3ee3c3745dc",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "3",
-    "Description": "3",
-    "Deadline": {
-      "Day": 3,
-      "Month": 6,
-      "Year": 3,
-      "Hour": 3,
-      "Minute": 3
-    },
-    "Id": "c793aa56-51fa-4bab-8a28-465dc4f3cc08",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "4",
-    "Description": "4",
-    "Deadline": {
-      "Day": 4,
-      "Month": 6,
-      "Year": 4,
-      "Hour": 4,
-      "Minute": 4
-    },
-    "Id": "174ad411-c4c4-4f0b-8658-2dfce622af7b",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
     "Name": "Tes",
     "Description": "Tes",
     "Deadline": {
@@ -84,87 +28,17 @@
     "Status": 2
   },
   {
-    "Name": "8",
-    "Description": "8",
+    "Name": "kapeel",
+    "Description": "tubes",
     "Deadline": {
       "Day": 8,
       "Month": 6,
-      "Year": 8,
-      "Hour": 8,
-      "Minute": 8
-    },
-    "Id": "aa826543-f723-4141-b660-d09373df0ba9",
-    "UserId": "gumi",
-    "Status": 2
-  },
-  {
-    "Name": "tes",
-    "Description": "tis",
-    "Deadline": {
-      "Day": 9,
-      "Month": 6,
       "Year": 2025,
-      "Hour": 16,
-      "Minute": 0
+      "Hour": 20,
+      "Minute": 15
     },
-    "Id": "86741ed7-bd98-414e-b676-2a87d5d6e1fe",
-    "UserId": "agung",
-    "Status": 2
-  },
-  {
-    "Name": "1",
-    "Description": "1",
-    "Deadline": {
-      "Day": 1,
-      "Month": 1,
-      "Year": 1,
-      "Hour": 1,
-      "Minute": 1
-    },
-    "Id": "44c1a8d3-d127-461e-a564-c21afb8b202f",
+    "Id": "688a1c25-9c25-4a10-babc-6e1096408fa1",
     "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "1",
-    "Description": "1",
-    "Deadline": {
-      "Day": 1,
-      "Month": 1,
-      "Year": 2001,
-      "Hour": 1,
-      "Minute": 1
-    },
-    "Id": "e9b0596a-eff4-4792-91e2-9ca99aa26fe7",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "2",
-    "Description": "2",
-    "Deadline": {
-      "Day": 2,
-      "Month": 2,
-      "Year": 2002,
-      "Hour": 2,
-      "Minute": 2
-    },
-    "Id": "a72b460e-af2a-4f0b-8e59-1b9b1fe3362a",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "1",
-    "Description": "1",
-    "Deadline": {
-      "Day": 1,
-      "Month": 5,
-      "Year": 1,
-      "Hour": 1,
-      "Minute": 1
-    },
-    "Id": "1b0682a4-5542-4e6e-9f8b-02fc8283d777",
-    "UserId": "gumi",
-    "Status": 1
+    "Status": 0
   }
 ]
