@@ -16,12 +16,6 @@ namespace Tubes_KPL_GUI
         // Menyimpan form yang sedang aktif di dalam dashboard
         private Form? _activeForm;
 
-        // Menyimpan pengguna yang sedang login
-        private string? _loggedInUser = null;
-
-        // Menyimpan instance layanan task untuk pengguna
-        private TaskClientService? _taskClient = null;
-
         /// <summary>
         /// Konstruktor untuk menginisialisasi form Dashboard dengan username.
         /// </summary>
@@ -115,7 +109,7 @@ namespace Tubes_KPL_GUI
         private async void btnRiwayat_Click(object sender, EventArgs e)
         {
             await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            // LoadForm(new FormRiwayat(_username)); // Menampilkan form Riwayat (dikomentari)
+            LoadForm(new FormRiwayat(_username)); // Menampilkan form Riwayat (dikomentari)
         }
 
         /// <summary>
@@ -131,9 +125,6 @@ namespace Tubes_KPL_GUI
 
                 if (logoutSuccess) // Jika logout berhasil
                 {
-                    _loggedInUser = null; // Mengosongkan informasi pengguna yang login
-                    _taskClient = null; // Mengosongkan instance task client
-
                     new FormLogin().Show(); // Menampilkan form login
                     this.Close(); // Menutup form Dashboard
                     Console.WriteLine("Berhasil logout."); // Menampilkan pesan log
