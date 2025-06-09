@@ -2,7 +2,7 @@
   {
     "Id": 1,
     "Username": "admin",
-    "Password": "admi!123",
+    "Password": "Admi!123",
     "IsLoggedIn": false
   },
   {
@@ -57,6 +57,12 @@
     "Id": 10,
     "Username": "agung",
     "Password": "Agung123%",
+    "IsLoggedIn": false
+  },
+  {
+    "Id": 11,
+    "Username": "Raihannn",
+    "Password": "Raihan123@",
     "IsLoggedIn": false
   }
 ]
