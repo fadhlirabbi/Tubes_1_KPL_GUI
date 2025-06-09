@@ -7,6 +7,7 @@ namespace Tubes_KPL_GUI
     public partial class FormLogin : Form
     {
         private readonly ToDoListSingleton _toDoListSingleton;
+
         public FormLogin()
         {
             InitializeComponent();
@@ -14,6 +15,7 @@ namespace Tubes_KPL_GUI
             passwordTextBox.PasswordChar = '●';
         }
 
+        // Event handler untuk tombol Login
         private async void LoginButton_Click(object sender, EventArgs e)
         {
             string username = usernameTextBox.Text.Trim();
@@ -41,6 +43,7 @@ namespace Tubes_KPL_GUI
             }
         }
 
+        // Event handler untuk tombol Register
         private void RegisterButton_Click(object sender, EventArgs e)
         {
             var registerForm = new Register();
@@ -48,6 +51,7 @@ namespace Tubes_KPL_GUI
             this.Hide();
         }
 
+        // Event handler untuk tombol Lihat Sandi
         private void LihatSandi_CheckedChanged(object sender, EventArgs e)
         {
             if (lihatSandi.Checked)
