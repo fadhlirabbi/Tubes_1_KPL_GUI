@@ -6,35 +6,59 @@ using SystemTask = System.Threading.Tasks.Task;
 
 namespace Tubes_KPL_GUI
 {
+    /// <summary>
+    /// FormBeranda adalah form utama yang menampilkan informasi beranda dan tugas yang belum selesai.
+    /// </summary>
     public partial class FormBeranda : Form
     {
+        // Menyimpan username pengguna yang sedang login
         private readonly string _username;
 
+        /// <summary>
+        /// Konstruktor FormBeranda yang menerima username pengguna.
+        /// </summary>
+        /// <param name="username">Username pengguna yang sedang login</param>
         public FormBeranda(string username)
         {
-            InitializeComponent();
-            _username = username;
+            InitializeComponent();  // Inisialisasi komponen UI
+            _username = username;  // Menyimpan username pengguna
         }
 
+        /// <summary>
+        /// Event handler yang dijalankan saat FormBeranda dimuat.
+        /// Menampilkan pesan selamat datang dan memuat daftar tugas yang belum selesai.
+        /// </summary>
         private async void FormBeranda_Load(object sender, EventArgs e)
         {
+            // Menampilkan pesan selamat datang dengan nama pengguna
             welcomeLabel.Text = $"Selamat datang, {_username}";
+
+            // Memuat tugas yang belum selesai
             await LoadIncompletedTasksAsync();
         }
 
+        /// <summary>
+        /// Mengambil tugas yang belum selesai dari server dan menampilkannya di grid.
+        /// Menyortir tugas berdasarkan deadline.
+        /// </summary>
         private async SystemTask LoadIncompletedTasksAsync()
         {
             try
             {
+                // Mendapatkan tugas yang belum selesai berdasarkan status tugas
                 var tasks = await ToDoListSingleton.Instance.GetTasksByStatusAsync(_username, Status.Incompleted);
+
+                // Menyortir tugas berdasarkan deadline
                 var sortedTasks = tasks.OrderBy(t =>
                     new DateTime(t.Deadline.Year, t.Deadline.Month, t.Deadline.Day, t.Deadline.Hour, t.Deadline.Minute, 0)
                 ).ToList();
 
+                // Mengatur DataSource dari taskGridView dengan daftar tugas yang sudah disortir
                 taskGridView.DataSource = sortedTasks;
             }
             catch (Exception ex)
             {
+                // Menampilkan pesan error jika gagal memuat tugas
                 MessageBox.Show($"Gagal memuat tugas: {ex.Message}", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
