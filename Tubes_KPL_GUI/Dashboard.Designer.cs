@@ -26,7 +26,7 @@
             return btnBeranda;
         }
 
-        private void InitializeComponent(Button btnBeranda)
+        private void InitializeComponent()
         {
             panelSidebar = new Panel();
             logoPictureBox = new PictureBox();
