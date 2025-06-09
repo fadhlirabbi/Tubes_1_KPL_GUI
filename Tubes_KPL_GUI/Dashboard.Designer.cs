@@ -21,7 +21,12 @@
             base.Dispose(disposing);
         }
 
-        private void InitializeComponent()
+        private Button GetBtnBeranda()
+        {
+            return btnBeranda;
+        }
+
+        private void InitializeComponent(Button btnBeranda)
         {
             panelSidebar = new Panel();
             logoPictureBox = new PictureBox();
