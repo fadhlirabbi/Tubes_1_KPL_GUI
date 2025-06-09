@@ -50,7 +50,7 @@ namespace Tubes_KPL_GUI
 
                 // Menyortir tugas berdasarkan deadline
                 var sortedTasks = tasks.OrderBy(t =>
-                    new DateTime(t.Deadline.Year, t.Deadline.Month, t.Deadline.Day, t.Deadline.Hour, t.Deadline.Minute, 0)
+                    new DateTime(t.Deadline.Year, t.Deadline.Month, t.Deadline.Day, t.Deadline.Hour, t.Deadline.Minute, 2)
                 ).ToList();
 
                 // Mengatur DataSource dari taskGridView dengan daftar tugas yang sudah disortir

@@ -1,33 +1,5 @@
 [
   {
-    "Name": "Tes",
-    "Description": "Tes",
-    "Deadline": {
-      "Day": 9,
-      "Month": 6,
-      "Year": 2025,
-      "Hour": 16,
-      "Minute": 0
-    },
-    "Id": "a4a8436e-469a-4cb9-9127-0068b7cd5e6e",
-    "UserId": "gumi",
-    "Status": 2
-  },
-  {
-    "Name": "Tis",
-    "Description": "sdjbs",
-    "Deadline": {
-      "Day": 9,
-      "Month": 6,
-      "Year": 2025,
-      "Hour": 18,
-      "Minute": 0
-    },
-    "Id": "2b569ce8-de20-46f6-a7f1-bbb547e225ac",
-    "UserId": "gumi",
-    "Status": 2
-  },
-  {
     "Name": "kapeel",
     "Description": "tubes",
     "Deadline": {
@@ -38,20 +10,6 @@
       "Minute": 15
     },
     "Id": "688a1c25-9c25-4a10-babc-6e1096408fa1",
-    "UserId": "gumi",
-    "Status": 0
-  },
-  {
-    "Name": "testt",
-    "Description": "testt",
-    "Deadline": {
-      "Day": 8,
-      "Month": 6,
-      "Year": 2025,
-      "Hour": 23,
-      "Minute": 20
-    },
-    "Id": "cca2ab3f-e294-43e0-975a-cd4ee2a4ed21",
     "UserId": "gumi",
     "Status": 0
   },

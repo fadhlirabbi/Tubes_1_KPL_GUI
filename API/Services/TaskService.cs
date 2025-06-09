@@ -89,6 +89,7 @@ namespace API.Services
 
             task.Status = Status.Completed;
             Save(tasks);
+
             return new ApiResponse(200, "Task successfully marked as completed.", task);
         }
 
