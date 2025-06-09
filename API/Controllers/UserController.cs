@@ -90,9 +90,8 @@ namespace API.Controller
             return Ok(new ApiResponse(200, "Logout berhasil."));
         }
 
-
         [HttpGet("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAllUser()
         {
             var users = LoadUsers();
             if (users == null || !users.Any())

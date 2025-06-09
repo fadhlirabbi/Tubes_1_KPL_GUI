@@ -200,19 +200,7 @@ namespace Tubes_KPL_GUI
 
         public async Task<ApiResponse> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
-            //try
-            //{
-            //    string endpoint = $"task/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
-            //    var response = await _httpClient.DeleteAsync(endpoint);
-            //    var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
-            //    return apiResponse?.Success ?? false;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine($"[ERROR] Delete task failed: {ex.Message}");
-            //    return false;
-            //}
-                        try
+            try
             {
                 var endpoint = $"task/complete/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
                 var response = await _httpClient.PostAsync(endpoint, null);
@@ -231,7 +219,6 @@ namespace Tubes_KPL_GUI
                 return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
-
 
         public async Task<ApiResponse> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
@@ -306,7 +293,6 @@ namespace Tubes_KPL_GUI
             }
         }
 
-
         public async Task<List<ModelTask>> GetUserTaskHistoryAsync(string username)
         {
             try
@@ -317,43 +303,6 @@ namespace Tubes_KPL_GUI
             catch (Exception ex)
             {
                 Debug.WriteLine($"[ERROR] GetUserTaskHistory failed: {ex.Message}");
-                return new();
-            }
-        }
-
-        // Reminders
-        public async Task<List<string>> GetRemindersAsync(string username)
-        {
-            var reminders = new List<string>();
-            var tasks = await GetTasksByStatusAsync(username, StatusModel.Incompleted);
-            var rules = await GetReminderRulesAsync();
-
-            foreach (var task in tasks)
-            {
-                DateTime deadline = new(task.Deadline.Year, task.Deadline.Month, task.Deadline.Day, task.Deadline.Hour, task.Deadline.Minute, 0);
-                foreach (var rule in rules)
-                {
-                    if ((deadline.Date - DateTime.Now.Date).Days == rule.DaysBefore)
-                    {
-                        reminders.Add($"[REMINDER] {rule.Message} untuk tugas '{task.Name}' ({deadline:dd/MM/yyyy HH:mm})");
-                        break;
-                    }
-                }
-            }
-            return reminders;
-        }
-
-        public async Task<List<ReminderRule>> GetReminderRulesAsync()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync("ReminderConfig");
-                var config = await response.Content.ReadFromJsonAsync<ReminderConfig>();
-                return config?.Rules ?? new List<ReminderRule>();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"[ERROR] GetReminderRules failed: {ex.Message}");
                 return new();
             }
         }
@@ -377,6 +326,30 @@ namespace Tubes_KPL_GUI
             catch (Exception ex)
             {
                 Debug.WriteLine($"[ERROR] ResetAllLoginStatus: {ex.Message}");
+            }
+        }
+
+
+        // Method untuk memperbarui status tugas
+        public async Task<ApiResponse> UpdateTaskStatusAsync(string username)
+        {
+            try
+            {
+                var endpoint = $"task/update-status/{username}";
+                var response = await _httpClient.PostAsync(endpoint, null);
+
+                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+                if (apiResponse != null)
+                {
+                    return apiResponse;
+                }
+
+                return new ApiResponse(400, "Gagal memperbarui status tugas.");
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
     }

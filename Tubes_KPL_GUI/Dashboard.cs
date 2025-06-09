@@ -1,7 +1,4 @@
 ﻿using API.Services;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Tubes_KPL_GUI
 {
@@ -19,8 +16,9 @@ namespace Tubes_KPL_GUI
             _username = username;
         }
 
-        private void Dashboard_Load(object sender, EventArgs e)
+        private async void Dashboard_Load(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormBeranda(_username));
         }
 
@@ -42,34 +40,40 @@ namespace Tubes_KPL_GUI
             childForm.Show();
         }
 
-        private void btnBeranda_Click(object sender, EventArgs e)
+        private async void btnBeranda_Click(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormBeranda(_username));
         }
 
-        private void btnTambah_Click(object sender, EventArgs e)
+        private async void btnTambah_Click(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormAddTask(_username));
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormEditTask(_username));
         }
 
-        private void btnTandai_Click(object sender, EventArgs e)
+        private async void btnTandai_Click(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormMarkDone(_username));
         }
 
-        private void btnHapus_Click(object sender, EventArgs e)
+        private async void btnHapus_Click(object sender, EventArgs e)
         {
+            await UpdateTaskStatusAsync();
             LoadForm(new FormDeleteTask(_username));
         }
 
-        private void btnRiwayat_Click(object sender, EventArgs e)
+        private async void btnRiwayat_Click(object sender, EventArgs e)
         {
-            //LoadForm(new FormRiwayat(_username));
+            await UpdateTaskStatusAsync();
+            // LoadForm(new FormRiwayat(_username));
         }
 
         private async void btnLogout_Click(object sender, EventArgs e)
@@ -96,6 +100,19 @@ namespace Tubes_KPL_GUI
                 {
                     MessageBox.Show("Logout gagal, silakan coba lagi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private async Task UpdateTaskStatusAsync()
+        {
+            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(_username);
+            if (response.Success)
+            {
+                Console.WriteLine("Status tugas berhasil diperbarui.");
+            }
+            else
+            {
+                Console.WriteLine($"Gagal memperbarui status tugas: {response.Message}");
             }
         }
     }

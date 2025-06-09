@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll() => Ok(_service.GetAll());
+        public IActionResult GetAll() => Ok(_service.GetAllTasks());
 
         [HttpGet("user/{username}")]
         public IActionResult GetByUser(string username) => Ok(_service.GetByUser(username));
@@ -56,9 +56,9 @@ namespace API.Controllers
         }
 
         [HttpPut("{username}/{taskName}")]
-        public IActionResult Update(string username, string taskName, [FromBody] ModelTask task)
+        public IActionResult EditTask(string username, string taskName, [FromBody] ModelTask task)
         {
-            var result = _service.Update(username, taskName, task);
+            var result = _service.EditTask(username, taskName, task);
             return result.Success ? Ok(result) : NotFound(result.Message);
         }
 
@@ -73,20 +73,41 @@ namespace API.Controllers
         [FromQuery] int hour,
         [FromQuery] int minute)
         {
-            var result = _service.Delete(username, taskName, description, day, month, year, hour, minute);
+            var result = _service.DeleteTask(username, taskName, description, day, month, year, hour, minute);
             return result.Success ? Ok(result.Message) : NotFound(result.Message);
         }
 
+        [HttpPost("update-status/{username}")]
+        public IActionResult UpdateTaskStatus(string username)
+        {
+            try
+            {
+                var response = _service.UpdateTaskStatus(username);
+                if (response.Success)
+                {
+                    return Ok(new { Message = response.Message });
+                }
+                else
+                {
+                    return StatusCode(response.StatusCode, new { Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Terjadi kesalahan pada server.", Error = ex.Message });
+            }
+        }
+
         [HttpGet("ongoing/{username}")]
-        public IActionResult GetOngoing(string username) =>
-            Ok(_service.GetByStatus(username, Status.Incompleted));
+        public IActionResult GetOngoingTasks(string username) =>
+            Ok(_service.GetTaskByStatus(username, Status.Incompleted));
 
         [HttpGet("completed/{username}")]
-        public IActionResult GetCompleted(string username) =>
-            Ok(_service.GetByStatus(username, Status.Completed));
+        public IActionResult GetCompletedTasks(string username) =>
+            Ok(_service.GetTaskByStatus(username, Status.Completed));
 
         [HttpGet("overdue/{username}")]
-        public IActionResult GetOverdue(string username) =>
-            Ok(_service.GetByStatus(username, Status.Overdue));
+        public IActionResult GetOverdueTasks(string username) =>
+            Ok(_service.GetTaskByStatus(username, Status.Overdue));
     }
 }

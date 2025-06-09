@@ -14,11 +14,7 @@ namespace Tubes_KPL_GUI
             try
             {
                 ApplicationConfiguration.Initialize();
-
-                // Reset status login saat aplikasi dimulai
                 ToDoListSingleton.Instance.ResetAllLoginStatus();
-
-                // Mulai dari form login
                 Application.Run(new FormLogin());
             }
             catch (Exception ex)
