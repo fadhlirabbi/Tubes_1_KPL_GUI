@@ -12,7 +12,7 @@ namespace Tubes_KPL_GUI
 
         public Dashboard(string username)
         {
-            InitializeComponent(GetBtnBeranda());
+            InitializeComponent();
             _username = username;
         }
 
