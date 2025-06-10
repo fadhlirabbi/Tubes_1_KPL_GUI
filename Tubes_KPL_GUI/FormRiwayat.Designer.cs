@@ -65,7 +65,7 @@
         colDescription,
         colTanggal,
         colWaktu,
-        colStatus // <-- tambahkan ini
+        colStatus 
     });
             this.dgvRiwayat.Location = new System.Drawing.Point(20, 60);
             this.dgvRiwayat.Name = "dgvRiwayat";

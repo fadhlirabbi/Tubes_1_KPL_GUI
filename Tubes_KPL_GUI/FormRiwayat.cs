@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using API.Model; // pastikan sudah mengarah ke class Task dan Deadline
+using API.Model; 
 
 namespace Tubes_KPL_GUI
 {
