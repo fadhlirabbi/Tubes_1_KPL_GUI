@@ -175,7 +175,7 @@
             btnUpdateTask.TabIndex = 17;
             btnUpdateTask.Text = "Perbarui";
             btnUpdateTask.UseVisualStyleBackColor = false;
-            btnUpdateTask.Click += btnUpdateTask_Click;
+            btnUpdateTask.Click += BtnUpdateTask_Click;
             // 
             // FormEditTask
             // 
