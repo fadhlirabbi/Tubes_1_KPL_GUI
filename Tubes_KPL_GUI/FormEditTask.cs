@@ -98,7 +98,6 @@ namespace Tubes_KPL_GUI
             return true;
         }
 
-
         // Menampilkan pesan error umum.
         private void ShowError(string message)
         {
