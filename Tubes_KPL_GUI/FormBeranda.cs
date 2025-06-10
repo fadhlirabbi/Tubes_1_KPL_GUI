@@ -41,10 +41,12 @@ namespace Tubes_KPL_GUI
         /// Mengambil tugas yang belum selesai dari server dan menampilkannya di grid.
         /// Menyortir tugas berdasarkan deadline.
         /// </summary>
-        private async SystemTask LoadIncompletedTasksAsync()
+        private async System.Threading.Tasks.Task LoadIncompletedTasksAsync()
         {
             try
             {
+                taskGridView.Rows.Clear();  // Clear previous rows if any
+
                 // Mendapatkan tugas yang belum selesai berdasarkan status tugas
                 var tasks = await ToDoListSingleton.Instance.GetTasksByStatusAsync(_username, Status.Incompleted);
 
@@ -53,14 +55,33 @@ namespace Tubes_KPL_GUI
                     new DateTime(t.Deadline.Year, t.Deadline.Month, t.Deadline.Day, t.Deadline.Hour, t.Deadline.Minute, 2)
                 ).ToList();
 
-                // Mengatur DataSource dari taskGridView dengan daftar tugas yang sudah disortir
-                taskGridView.DataSource = sortedTasks;
+                // Tampilkan setiap tugas di DataGridView
+                foreach (var task in sortedTasks)
+                {
+                    var deadline = task.Deadline;
+                    string tanggal = $"{deadline.Day:D2}/{deadline.Month:D2}/{deadline.Year}";
+                    string waktu = $"{deadline.Hour:D2}:{deadline.Minute:D2}";
+
+                    // Menambahkan data ke dalam DataGridView
+                    taskGridView.Rows.Add(
+                        task.Name,
+                        task.Description,
+                        tanggal,
+                        waktu,
+                        task.Status.ToString()
+                    );
+                }
             }
             catch (Exception ex)
             {
                 // Menampilkan pesan error jika gagal memuat tugas
                 MessageBox.Show($"Gagal memuat tugas: {ex.Message}", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void motivationLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

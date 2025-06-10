@@ -144,20 +144,21 @@ namespace API.Services
         {
             try
             {
-                var tasks = Load().Where(t => t.UserId == username && t.Status != Status.Completed).ToList();
+                var tasks = Load().Where(t => t.UserId == username).ToList();
                 var now = DateTime.Now;
 
                 foreach (var task in tasks)
                 {
                     DateTime taskDeadline = new DateTime(task.Deadline.Year, task.Deadline.Month, task.Deadline.Day, task.Deadline.Hour, task.Deadline.Minute, 0);
 
-                    if (now > taskDeadline && task.Status != Status.Completed)
+                    if (now > taskDeadline && task.Status == Status.Incompleted)
                     {
                         task.Status = Status.Overdue;
                     }
                 }
 
                 Save(tasks);
+
                 return new ApiResponse(200, "Status tugas berhasil diperbarui.");
             }
             catch (Exception ex)
@@ -165,6 +166,7 @@ namespace API.Services
                 return new ApiResponse(500, $"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}");
             }
         }
+
 
         private ReminderConfig LoadReminderConfig()
         {

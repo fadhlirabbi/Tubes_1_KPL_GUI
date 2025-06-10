@@ -1,8 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using System.Windows.Forms;
-using System.Xml.Linq;
-
-namespace Tubes_KPL_GUI
+﻿namespace Tubes_KPL_GUI
 {
     partial class FormBeranda
     {
@@ -23,49 +19,104 @@ namespace Tubes_KPL_GUI
             welcomeLabel = new Label();
             motivationLabel = new Label();
             taskGridView = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(taskGridView)).BeginInit();
+            colTaskName = new DataGridViewTextBoxColumn();
+            colDescription = new DataGridViewTextBoxColumn();
+            colTanggal = new DataGridViewTextBoxColumn();
+            colWaktu = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)taskGridView).BeginInit();
             SuspendLayout();
-            //
+            // 
             // welcomeLabel
-            //
-            welcomeLabel.Font = new System.Drawing.Font("Times New Roman", 18F, FontStyle.Bold);
-            welcomeLabel.Location = new Point(40, 20);
-            welcomeLabel.Size = new Size(700, 40);
+            // 
+            welcomeLabel.Font = new Font("Times New Roman", 18F, FontStyle.Bold);
+            welcomeLabel.Location = new Point(50, 25);
+            welcomeLabel.Margin = new Padding(4, 0, 4, 0);
+            welcomeLabel.Name = "welcomeLabel";
+            welcomeLabel.Size = new Size(875, 50);
+            welcomeLabel.TabIndex = 2;
             welcomeLabel.Text = "Selamat datang, [nama user]";
-            //
+            // 
             // motivationLabel
-            //
-            motivationLabel.Font = new System.Drawing.Font("Segoe UI", 11F);
-            motivationLabel.Location = new Point(40, 60);
-            motivationLabel.Size = new Size(700, 30);
-            motivationLabel.Text = "Setiap langkah kecil adalah kemajuan besar.";
-            //
+            // 
+            motivationLabel.Font = new Font("Segoe UI", 11F);
+            motivationLabel.Location = new Point(50, 75);
+            motivationLabel.Margin = new Padding(4, 0, 4, 0);
+            motivationLabel.Name = "motivationLabel";
+            motivationLabel.Size = new Size(875, 38);
+            motivationLabel.TabIndex = 1;
+            motivationLabel.Text = "Setiap langkah kecil adalah kemajuan besar, Berikut ini adalah catatan tugas kamu!.";
+            motivationLabel.Click += motivationLabel_Click;
+            // 
             // taskGridView
-            //
-            taskGridView.Location = new Point(40, 100);
-            taskGridView.Size = new Size(720, 350);
+            // 
+            taskGridView.AllowUserToAddRows = false;
+            taskGridView.AllowUserToDeleteRows = false;
             taskGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            taskGridView.ReadOnly = true;
             taskGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            taskGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            taskGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            taskGridView.Columns.AddRange(new DataGridViewColumn[] { colTaskName, colDescription, colTanggal, colWaktu, colStatus });
+            taskGridView.Location = new Point(50, 125);
+            taskGridView.Margin = new Padding(4, 4, 4, 4);
+            taskGridView.Name = "taskGridView";
+            taskGridView.ReadOnly = true;
             taskGridView.RowHeadersVisible = false;
-            //
+            taskGridView.RowHeadersWidth = 62;
+            taskGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            taskGridView.Size = new Size(900, 438);
+            taskGridView.TabIndex = 0;
+            // 
+            // colTaskName
+            // 
+            colTaskName.MinimumWidth = 8;
+            colTaskName.Name = "colTaskName";
+            colTaskName.ReadOnly = true;
+            // 
+            // colDescription
+            // 
+            colDescription.MinimumWidth = 8;
+            colDescription.Name = "colDescription";
+            colDescription.ReadOnly = true;
+            // 
+            // colTanggal
+            // 
+            colTanggal.MinimumWidth = 8;
+            colTanggal.Name = "colTanggal";
+            colTanggal.ReadOnly = true;
+            // 
+            // colWaktu
+            // 
+            colWaktu.MinimumWidth = 8;
+            colWaktu.Name = "colWaktu";
+            colWaktu.ReadOnly = true;
+            // 
+            // colStatus
+            // 
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            // 
             // FormBeranda
-            //
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            // 
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(800, 480);
+            ClientSize = new Size(1000, 600);
             Controls.Add(taskGridView);
             Controls.Add(motivationLabel);
             Controls.Add(welcomeLabel);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FormBeranda";
             Text = "FormBeranda";
             Load += FormBeranda_Load;
-
-            ((System.ComponentModel.ISupportInitialize)(taskGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)taskGridView).EndInit();
             ResumeLayout(false);
         }
+        private DataGridViewTextBoxColumn colTaskName;
+        private DataGridViewTextBoxColumn colDescription;
+        private DataGridViewTextBoxColumn colTanggal;
+        private DataGridViewTextBoxColumn colWaktu;
+        private DataGridViewTextBoxColumn colStatus;
     }
 }
