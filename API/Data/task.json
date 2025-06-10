@@ -1,128 +1,86 @@
 [
   {
-    "Name": "1",
-    "Description": "1",
+    "Name": "task 1",
+    "Description": "desc 1",
     "Deadline": {
       "Day": 1,
-      "Month": 6,
-      "Year": 1,
-      "Hour": 1,
-      "Minute": 1
-    },
-    "Id": "c957e7f3-e318-45d9-848c-db710142da2b",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "2",
-    "Description": "2",
-    "Deadline": {
-      "Day": 2,
-      "Month": 6,
-      "Year": 2,
-      "Hour": 2,
-      "Minute": 2
-    },
-    "Id": "2c7e4dfc-be8d-4816-802b-e3ee3c3745dc",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "3",
-    "Description": "3",
-    "Deadline": {
-      "Day": 3,
-      "Month": 6,
-      "Year": 3,
-      "Hour": 3,
-      "Minute": 3
-    },
-    "Id": "c793aa56-51fa-4bab-8a28-465dc4f3cc08",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "4",
-    "Description": "4",
-    "Deadline": {
-      "Day": 4,
-      "Month": 6,
-      "Year": 4,
-      "Hour": 4,
-      "Minute": 4
-    },
-    "Id": "174ad411-c4c4-4f0b-8658-2dfce622af7b",
-    "UserId": "gumi",
-    "Status": 1
-  },
-  {
-    "Name": "Tess",
-    "Description": "sdsd",
-    "Deadline": {
-      "Day": 9,
       "Month": 7,
       "Year": 2025,
       "Hour": 23,
-      "Minute": 0
+      "Minute": 23
     },
-    "Id": "a4a8436e-469a-4cb9-9127-0068b7cd5e6e",
+    "Id": "169238a5-82d5-42d0-882b-f75938b681cf",
     "UserId": "gumi",
     "Status": 2
   },
   {
-    "Name": "9",
-    "Description": "9",
+    "Name": "task 2",
+    "Description": "desc 2",
     "Deadline": {
-      "Day": 19,
+      "Day": 2,
       "Month": 7,
       "Year": 2025,
-      "Hour": 0,
-      "Minute": 0
+      "Hour": 23,
+      "Minute": 23
     },
-    "Id": "2b569ce8-de20-46f6-a7f1-bbb547e225ac",
+    "Id": "7497f2c9-8e5c-4c5d-b8c2-ee968f8dd8a1",
     "UserId": "gumi",
     "Status": 2
   },
   {
-    "Name": "7",
-    "Description": "7",
+    "Name": "task 3",
+    "Description": "desc 3",
     "Deadline": {
-      "Day": 7,
-      "Month": 6,
-      "Year": 7,
-      "Hour": 7,
-      "Minute": 7
-    },
-    "Id": "1e9c4ef2-e8fe-4003-b40c-a65fc8e8324f",
-    "UserId": "gumi",
-    "Status": 2
-  },
-  {
-    "Name": "8",
-    "Description": "8",
-    "Deadline": {
-      "Day": 8,
-      "Month": 6,
-      "Year": 8,
-      "Hour": 8,
-      "Minute": 8
-    },
-    "Id": "aa826543-f723-4141-b660-d09373df0ba9",
-    "UserId": "gumi",
-    "Status": 2
-  },
-  {
-    "Name": "tes",
-    "Description": "tis",
-    "Deadline": {
-      "Day": 9,
+      "Day": 2,
       "Month": 6,
       "Year": 2025,
-      "Hour": 16,
-      "Minute": 0
+      "Hour": 23,
+      "Minute": 23
     },
-    "Id": "86741ed7-bd98-414e-b676-2a87d5d6e1fe",
-    "UserId": "agung",
-    "Status": 2
+    "Id": "2b997ea2-4e06-4251-affd-1eeceb872c94",
+    "UserId": "gumi",
+    "Status": 0
+  },
+  {
+    "Name": "task 4",
+    "Description": "desc 4",
+    "Deadline": {
+      "Day": 3,
+      "Month": 6,
+      "Year": 2025,
+      "Hour": 23,
+      "Minute": 23
+    },
+    "Id": "8b79bda9-87b7-4d65-812a-a317cda0804d",
+    "UserId": "gumi",
+    "Status": 0
+  },
+  {
+    "Name": "task 5",
+    "Description": "desc 5",
+    "Deadline": {
+      "Day": 5,
+      "Month": 6,
+      "Year": 2025,
+      "Hour": 23,
+      "Minute": 23
+    },
+    "Id": "6e3a4759-cc5c-4bf8-ad25-76b2079da1aa",
+    "UserId": "gumi",
+    "Status": 1
+  },
+  {
+    "Name": "task 6",
+    "Description": "desc 6",
+    "Deadline": {
+      "Day": 6,
+      "Month": 6,
+      "Year": 2025,
+      "Hour": 23,
+      "Minute": 23
+    },
+    "Id": "1e5c4ba8-63f8-4b2f-8022-a71494325c6d",
+    "UserId": "gumi",
+    "Status": 1
   }
 ]

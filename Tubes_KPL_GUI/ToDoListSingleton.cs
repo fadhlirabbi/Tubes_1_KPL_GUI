@@ -138,29 +138,39 @@ namespace Tubes_KPL_GUI
             }
         }
 
-        //logout Current user
+        /// <summary>
+        /// Melakukan logout untuk pengguna dengan mengirim permintaan POST ke server.
+        /// </summary>
+        /// <param name="username">Username pengguna yang akan keluar dari sistem.</param>
+        /// <returns>True jika logout berhasil, False jika gagal.</returns>
         public async Task<bool> LogoutAsync(string username)
         {
             try
             {
+                // Mengirim permintaan POST ke server untuk logout pengguna
                 var response = await _httpClient.PostAsync($"User/logout/{username}", null);
 
+                // Memeriksa apakah permintaan berhasil
                 if (!response.IsSuccessStatusCode)
                 {
+                    // Jika gagal, ambil pesan kesalahan dan log
                     string errorMessage = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine($"[ERROR] Gagal logout {username}: StatusCode = {(int)response.StatusCode}, Message = {errorMessage}");
-                    return false;
+                    return false; // Mengembalikan false jika logout gagal
                 }
 
+                // Jika logout berhasil, log dan kembalikan true
                 Debug.WriteLine($"[INFO] Logout berhasil untuk pengguna: {username}");
                 return true;
             }
             catch (Exception ex)
             {
+                // Menangani kesalahan yang terjadi selama proses logout
                 Debug.WriteLine($"[ERROR] Gagal melakukan logout {username}: {ex.Message}");
-                return false;
+                return false; // Mengembalikan false jika terjadi error
             }
         }
+
 
         // CRUD Task
         public async Task<ApiResponse> AddTaskAsync(ModelTask task)
@@ -198,19 +208,25 @@ namespace Tubes_KPL_GUI
             }
         }
 
-        public async Task<bool> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
+        public async Task<ApiResponse> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
             try
             {
-                string endpoint = $"task/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
-                var response = await _httpClient.DeleteAsync(endpoint);
+                var endpoint = $"task/complete/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
+                var response = await _httpClient.PostAsync(endpoint, null);
+
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
-                return apiResponse?.Success ?? false;
+
+                if (apiResponse != null)
+                {
+                    return apiResponse;
+                }
+
+                return new ApiResponse(400, "Gagal menghapus tugas.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[ERROR] Delete task failed: {ex.Message}");
-                return false;
+                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
             }
         }
 
@@ -236,57 +252,67 @@ namespace Tubes_KPL_GUI
             }
         }
 
-
-
-        // Get Tasks
+        /// <summary>
+        /// Mengambil daftar tugas berdasarkan status dan username dari server.
+        /// </summary>
+        /// <param name="username">Username pengguna yang tugas-tugasnya ingin diambil.</param>
+        /// <param name="status">Status tugas yang ingin diambil (Incompleted, Completed, Overdue).</param>
+        /// <returns>Daftar tugas yang sesuai dengan status yang diminta.</returns>
         public async Task<List<ModelTask>> GetTasksByStatusAsync(string username, StatusModel status)
         {
+            // Validasi input username, memastikan tidak kosong atau hanya spasi
             if (string.IsNullOrWhiteSpace(username))
             {
                 Debug.WriteLine("[ERROR] Username tidak boleh kosong.");
-                return new List<ModelTask>();
+                return new List<ModelTask>(); // Mengembalikan daftar kosong jika username tidak valid
             }
 
             try
             {
+                // Menentukan endpoint berdasarkan status tugas yang diminta
                 string endpoint = status switch
                 {
-                    StatusModel.Incompleted => "ongoing",
-                    StatusModel.Completed => "completed",
-                    StatusModel.Overdue => "overdue",
-                    _ => throw new ArgumentOutOfRangeException(nameof(status), "Status tidak dikenal.")
+                    StatusModel.Incompleted => "ongoing",  // Tugas yang belum selesai
+                    StatusModel.Completed => "completed",   // Tugas yang sudah selesai
+                    StatusModel.Overdue => "overdue",      // Tugas yang terlambat
+                    _ => throw new ArgumentOutOfRangeException(nameof(status), "Status tidak dikenal.") // Menangani status yang tidak valid
                 };
 
+                // Melakukan HTTP GET request untuk mendapatkan tugas berdasarkan status dan username
                 var response = await _httpClient.GetAsync($"task/{endpoint}/{username}");
 
+                // Jika status code tidak berhasil, menampilkan error
                 if (!response.IsSuccessStatusCode)
                 {
                     string errorMessage = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine($"[ERROR] Gagal mendapatkan tugas {endpoint} untuk {username}. StatusCode: {(int)response.StatusCode}, Response: {errorMessage}");
-                    return new List<ModelTask>();
+                    return new List<ModelTask>(); // Mengembalikan daftar kosong jika request gagal
                 }
 
+                // Menyaring data tugas dalam format JSON dan mengembalikannya sebagai daftar ModelTask
                 var apiResponse = await response.Content.ReadFromJsonAsync<List<ModelTask>>();
 
-                return apiResponse ?? new List<ModelTask>();
+                return apiResponse ?? new List<ModelTask>(); // Mengembalikan daftar tugas atau daftar kosong jika response null
             }
             catch (ArgumentOutOfRangeException argEx)
             {
+                // Menangani kasus ketika status tidak dikenal
                 Debug.WriteLine($"[ERROR] {argEx.Message}");
-                return new List<ModelTask>();
+                return new List<ModelTask>(); // Mengembalikan daftar kosong jika status tidak valid
             }
             catch (HttpRequestException httpEx)
             {
+                // Menangani masalah yang terjadi saat menghubungi server (misalnya jaringan bermasalah)
                 Debug.WriteLine($"[ERROR] Terjadi masalah saat menghubungi server: {httpEx.Message}");
-                return new List<ModelTask>();
+                return new List<ModelTask>(); // Mengembalikan daftar kosong jika ada masalah dengan permintaan HTTP
             }
             catch (Exception ex)
             {
+                // Menangani kesalahan umum lainnya
                 Debug.WriteLine($"[ERROR] Gagal mendapatkan tugas berdasarkan status {status} untuk {username}: {ex.Message}");
-                return new List<ModelTask>();
+                return new List<ModelTask>(); // Mengembalikan daftar kosong jika terjadi kesalahan tak terduga
             }
         }
-
 
         public async Task<List<ModelTask>> GetUserTaskHistoryAsync(string username)
         {
@@ -298,43 +324,6 @@ namespace Tubes_KPL_GUI
             catch (Exception ex)
             {
                 Debug.WriteLine($"[ERROR] GetUserTaskHistory failed: {ex.Message}");
-                return new();
-            }
-        }
-
-        // Reminders
-        public async Task<List<string>> GetRemindersAsync(string username)
-        {
-            var reminders = new List<string>();
-            var tasks = await GetTasksByStatusAsync(username, StatusModel.Incompleted);
-            var rules = await GetReminderRulesAsync();
-
-            foreach (var task in tasks)
-            {
-                DateTime deadline = new(task.Deadline.Year, task.Deadline.Month, task.Deadline.Day, task.Deadline.Hour, task.Deadline.Minute, 0);
-                foreach (var rule in rules)
-                {
-                    if ((deadline.Date - DateTime.Now.Date).Days == rule.DaysBefore)
-                    {
-                        reminders.Add($"[REMINDER] {rule.Message} untuk tugas '{task.Name}' ({deadline:dd/MM/yyyy HH:mm})");
-                        break;
-                    }
-                }
-            }
-            return reminders;
-        }
-
-        public async Task<List<ReminderRule>> GetReminderRulesAsync()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync("ReminderConfig");
-                var config = await response.Content.ReadFromJsonAsync<ReminderConfig>();
-                return config?.Rules ?? new List<ReminderRule>();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"[ERROR] GetReminderRules failed: {ex.Message}");
                 return new();
             }
         }
@@ -360,5 +349,40 @@ namespace Tubes_KPL_GUI
                 Debug.WriteLine($"[ERROR] ResetAllLoginStatus: {ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Memperbarui status tugas pengguna dengan mengirim permintaan POST ke server.
+        /// </summary>
+        /// <param name="username">Username pengguna yang status tugasnya akan diperbarui.</param>
+        /// <returns>Objek <see cref="ApiResponse"/> yang berisi status operasi pembaruan tugas.</returns>
+        public async Task<ApiResponse> UpdateTaskStatusAsync(string username)
+        {
+            try
+            {
+                // Menentukan endpoint API untuk memperbarui status tugas berdasarkan username
+                var endpoint = $"task/update-status/{username}";
+
+                // Melakukan request POST ke endpoint untuk memperbarui status tugas
+                var response = await _httpClient.PostAsync(endpoint, null);
+
+                // Membaca respons dari server dalam format ApiResponse
+                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+
+                // Jika respons valid, kembalikan response dari API
+                if (apiResponse != null)
+                {
+                    return apiResponse;
+                }
+
+                // Jika response null, kembalikan response gagal dengan pesan error
+                return new ApiResponse(400, "Gagal memperbarui status tugas.");
+            }
+            catch (Exception ex)
+            {
+                // Jika terjadi error saat melakukan request, kembalikan response gagal dengan detail error
+                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
+            }
+        }
+
     }
 }

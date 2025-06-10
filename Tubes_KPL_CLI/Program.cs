@@ -9,7 +9,7 @@ namespace Tubes_KPL_CLI
     {
         private static string? _loggedInUser = null;
         private static TaskClientService? _taskClient = null;
-        private static UserService _auth = new();
+        private static UserClientService _auth = new();
         private static TaskService _taskService = new();
 
         static async SystemTask Main()
@@ -83,8 +83,8 @@ namespace Tubes_KPL_CLI
         {
             while (_loggedInUser != null)
             {
-                _taskService.UpdateTaskStatus();
-                await ShowRemindersAsync();
+                _taskService.UpdateTaskStatus(_loggedInUser);
+                ShowReminders();
 
                 ShowTaskMenu();
                 string choice = Console.ReadLine() ?? "";
@@ -114,7 +114,7 @@ namespace Tubes_KPL_CLI
             }
         }
 
-        private static async SystemTask ShowRemindersAsync()
+        private static void ShowReminders()
         {
             if (_loggedInUser != null)
             {

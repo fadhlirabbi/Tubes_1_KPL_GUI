@@ -30,6 +30,7 @@
             passwordTextBox = new TextBox();
             loginButton = new Button();
             registerButton = new Button();
+            lihatSandi = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -111,10 +112,22 @@
             registerButton.UseVisualStyleBackColor = false;
             registerButton.Click += RegisterButton_Click;
             // 
+            // lihatSandi
+            // 
+            lihatSandi.AutoSize = true;
+            lihatSandi.Location = new Point(1084, 744);
+            lihatSandi.Name = "lihatSandi";
+            lihatSandi.Size = new Size(163, 36);
+            lihatSandi.TabIndex = 8;
+            lihatSandi.Text = "Lihat Sandi";
+            lihatSandi.UseVisualStyleBackColor = true;
+            lihatSandi.CheckedChanged += LihatSandi_CheckedChanged;
+            // 
             // FormLogin
             // 
             BackColor = SystemColors.HighlightText;
             ClientSize = new Size(1664, 1152);
+            Controls.Add(lihatSandi);
             Controls.Add(logoPictureBox);
             Controls.Add(titleLabel);
             Controls.Add(usernameLabel);
@@ -131,5 +144,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
+        private CheckBox lihatSandi;
     }
 }

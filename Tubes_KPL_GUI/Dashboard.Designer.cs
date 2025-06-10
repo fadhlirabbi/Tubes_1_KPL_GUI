@@ -1,44 +1,43 @@
-﻿namespace Tubes_KPL_GUI
+﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+namespace Tubes_KPL_GUI
 {
-    partial class Dashboard
+    public partial class Dashboard : Form
     {
-        private System.ComponentModel.IContainer components = null;
         private Panel panelSidebar;
         private Panel panelMain;
         private PictureBox logoPictureBox;
-        private Button btnBeranda;
-        private Button btnTambah;
-        private Button btnEdit;
-        private Button btnTandai;
-        private Button btnHapus;
-        private Button btnRiwayat;
-        private Button btnLogout;
+        private RoundedButton btnBeranda;
+        private RoundedButton btnTambah;
+        private RoundedButton btnEdit;
+        private RoundedButton btnTandai;
+        private RoundedButton btnHapus;
+        private RoundedButton btnRiwayat;
+        private RoundedButton btnLogout;
 
-        protected override void Dispose(bool disposing)
+        public Dashboard()
         {
-            if (disposing && components != null)
-                components.Dispose();
-            base.Dispose(disposing);
+            InitializeComponent(); // Initialize components
         }
 
         private void InitializeComponent()
         {
+            // inisialisasi
             panelSidebar = new Panel();
             logoPictureBox = new PictureBox();
-            btnBeranda = new Button();
-            btnTambah = new Button();
-            btnEdit = new Button();
-            btnTandai = new Button();
-            btnHapus = new Button();
-            btnRiwayat = new Button();
-            btnLogout = new Button();
+            btnBeranda = new RoundedButton();
+            btnTambah = new RoundedButton();
+            btnEdit = new RoundedButton();
+            btnTandai = new RoundedButton();
+            btnHapus = new RoundedButton();
+            btnRiwayat = new RoundedButton();
+            btnLogout = new RoundedButton();
             panelMain = new Panel();
-            panelSidebar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)logoPictureBox).BeginInit();
-            SuspendLayout();
-            // 
-            // panelSidebar
-            // 
+
+            // Set properties untuk panelsidebar
             panelSidebar.BackColor = Color.LightSkyBlue;
             panelSidebar.Controls.Add(logoPictureBox);
             panelSidebar.Controls.Add(btnBeranda);
@@ -49,147 +48,73 @@
             panelSidebar.Controls.Add(btnRiwayat);
             panelSidebar.Controls.Add(btnLogout);
             panelSidebar.Dock = DockStyle.Left;
-            panelSidebar.Location = new Point(0, 0);
-            panelSidebar.Margin = new Padding(4);
-            panelSidebar.Name = "panelSidebar";
             panelSidebar.Size = new Size(312, 900);
-            panelSidebar.TabIndex = 1;
-            // 
-            // logoPictureBox
-            // 
-            logoPictureBox.BackColor = Color.LightSkyBlue;
+
+            // Set properties untuk logoPictureBox
             logoPictureBox.Image = Properties.Resources.Gambar_WhatsApp_2025_06_06_pukul_16_24_58_9758d871_removebg_preview__1_;
             logoPictureBox.Location = new Point(65, 15);
-            logoPictureBox.Margin = new Padding(4);
-            logoPictureBox.Name = "logoPictureBox";
             logoPictureBox.Size = new Size(173, 149);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            logoPictureBox.TabIndex = 0;
-            logoPictureBox.TabStop = false;
-            // 
-            // btnBeranda
-            // 
-            btnBeranda.BackColor = Color.White;
-            btnBeranda.FlatAppearance.BorderSize = 0;
-            btnBeranda.FlatStyle = FlatStyle.Flat;
-            btnBeranda.Location = new Point(50, 201);
-            btnBeranda.Margin = new Padding(4);
-            btnBeranda.Name = "btnBeranda";
-            btnBeranda.Size = new Size(200, 50);
-            btnBeranda.TabIndex = 1;
+
+            // Set properties untuk btnBeranda
             btnBeranda.Text = "Beranda";
-            btnBeranda.UseVisualStyleBackColor = false;
+            btnBeranda.Location = new Point(50, 201);
+            btnBeranda.Size = new Size(200, 50);
             btnBeranda.Click += btnBeranda_Click;
-            // 
-            // btnTambah
-            // 
-            btnTambah.BackColor = Color.White;
-            btnTambah.FlatAppearance.BorderSize = 0;
-            btnTambah.FlatStyle = FlatStyle.Flat;
+
+            // Set properties untuk btnTambah
+            btnTambah.Text = "Tambah Task";
             btnTambah.Location = new Point(50, 271);
-            btnTambah.Margin = new Padding(4);
-            btnTambah.Name = "btnTambah";
             btnTambah.Size = new Size(200, 50);
-            btnTambah.TabIndex = 2;
-            btnTambah.Text = "Tambah";
-            btnTambah.UseVisualStyleBackColor = false;
             btnTambah.Click += btnTambah_Click;
-            // 
-            // btnEdit
-            // 
-            btnEdit.BackColor = Color.White;
-            btnEdit.FlatAppearance.BorderSize = 0;
-            btnEdit.FlatStyle = FlatStyle.Flat;
+
+            // Set properties untuk btnEdit
+            btnEdit.Text = "Edit Task";
             btnEdit.Location = new Point(50, 341);
-            btnEdit.Margin = new Padding(4);
-            btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(200, 50);
-            btnEdit.TabIndex = 3;
-            btnEdit.Text = "Edit";
-            btnEdit.UseVisualStyleBackColor = false;
             btnEdit.Click += btnEdit_Click;
-            // 
-            // btnTandai
-            // 
-            btnTandai.BackColor = Color.White;
-            btnTandai.FlatAppearance.BorderSize = 0;
-            btnTandai.FlatStyle = FlatStyle.Flat;
+
+            // Set properties untuk btnTandai
+            btnTandai.Text = "Tandai Task Selesai";
             btnTandai.Location = new Point(50, 411);
-            btnTandai.Margin = new Padding(4);
-            btnTandai.Name = "btnTandai";
             btnTandai.Size = new Size(200, 50);
-            btnTandai.TabIndex = 4;
-            btnTandai.Text = "Tandai";
-            btnTandai.UseVisualStyleBackColor = false;
             btnTandai.Click += btnTandai_Click;
-            // 
-            // btnHapus
-            // 
-            btnHapus.BackColor = Color.White;
-            btnHapus.FlatAppearance.BorderSize = 0;
-            btnHapus.FlatStyle = FlatStyle.Flat;
+
+            // Set properties untuk btnHapus
+            btnHapus.Text = "Hapus Task";
             btnHapus.Location = new Point(50, 481);
-            btnHapus.Margin = new Padding(4);
-            btnHapus.Name = "btnHapus";
             btnHapus.Size = new Size(200, 50);
-            btnHapus.TabIndex = 5;
-            btnHapus.Text = "Hapus";
-            btnHapus.UseVisualStyleBackColor = false;
             btnHapus.Click += btnHapus_Click;
-            // 
-            // btnRiwayat
-            // 
-            btnRiwayat.BackColor = Color.White;
-            btnRiwayat.FlatAppearance.BorderSize = 0;
-            btnRiwayat.FlatStyle = FlatStyle.Flat;
+
+            // Set properties untuk btnRiwayat
+            btnRiwayat.Text = "Riwayat Task";
             btnRiwayat.Location = new Point(50, 551);
-            btnRiwayat.Margin = new Padding(4);
-            btnRiwayat.Name = "btnRiwayat";
             btnRiwayat.Size = new Size(200, 50);
-            btnRiwayat.TabIndex = 6;
-            btnRiwayat.Text = "Riwayat";
-            btnRiwayat.UseVisualStyleBackColor = false;
             btnRiwayat.Click += btnRiwayat_Click;
-            // 
-            // btnLogout
-            // 
-            btnLogout.BackColor = Color.White;
+
+            // Set properties untuk btnLogout
+            btnLogout.Text = "Logout";
             btnLogout.Location = new Point(50, 785);
-            btnLogout.Margin = new Padding(4);
-            btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(200, 50);
-            btnLogout.TabIndex = 7;
-            btnLogout.Text = "Keluar";
-            btnLogout.UseVisualStyleBackColor = false;
             btnLogout.Click += btnLogout_Click;
-            // 
-            // panelMain
-            // 
+
+            // Set properties untuk panelMain
             panelMain.BackColor = Color.White;
             panelMain.Dock = DockStyle.Fill;
-            panelMain.Location = new Point(312, 0);
-            panelMain.Margin = new Padding(4);
-            panelMain.Name = "panelMain";
             panelMain.Size = new Size(968, 900);
-            panelMain.TabIndex = 0;
-            // 
-            // Dashboard
-            // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1280, 900);
-            Controls.Add(panelMain);
-            Controls.Add(panelSidebar);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(4);
-            MaximizeBox = false;
-            Name = "Dashboard";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Dashboard";
-            Load += Dashboard_Load;
-            panelSidebar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
-            ResumeLayout(false);
-        }
+
+            // Set properties untuk Dashboard form
+            this.AutoScaleDimensions = new SizeF(10F, 25F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(1280, 900);
+            this.Controls.Add(panelMain);
+            this.Controls.Add(panelSidebar);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.Margin = new Padding(4);
+            this.MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Text = "Dashboard";
+            this.Load += Dashboard_Load;
+        }        
     }
 }

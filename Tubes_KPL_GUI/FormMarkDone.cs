@@ -48,7 +48,6 @@ namespace Tubes_KPL_GUI
             {
                 MessageBox.Show("Tugas berhasil ditandai sebagai selesai!", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
-                Close();
             }
             else
             {
