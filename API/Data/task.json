@@ -1,19 +1,5 @@
 [
   {
-    "Name": "kapeel",
-    "Description": "tubes",
-    "Deadline": {
-      "Day": 8,
-      "Month": 6,
-      "Year": 2025,
-      "Hour": 20,
-      "Minute": 15
-    },
-    "Id": "688a1c25-9c25-4a10-babc-6e1096408fa1",
-    "UserId": "gumi",
-    "Status": 0
-  },
-  {
     "Name": "iniadalahtest",
     "Description": "testt",
     "Deadline": {
@@ -39,6 +25,6 @@
     },
     "Id": "df71e18f-6307-4c3d-89c6-92fea1b78bd3",
     "UserId": "gumi",
-    "Status": 2
+    "Status": 0
   }
 ]
