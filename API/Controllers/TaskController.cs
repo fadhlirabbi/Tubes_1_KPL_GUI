@@ -77,12 +77,12 @@ namespace API.Controllers
             return result.Success ? Ok(result.Message) : NotFound(result.Message);
         }
 
-        [HttpPost("update-status/{username}")]
-        public IActionResult UpdateTaskStatus(string username)
+        [HttpPost("update-status")]
+        public IActionResult UpdateTaskStatus()  
         {
             try
             {
-                var response = _service.UpdateTaskStatus(username);
+                var response = _service.UpdateTaskStatus();  
                 if (response.Success)
                 {
                     return Ok(new { Message = response.Message });
@@ -97,6 +97,7 @@ namespace API.Controllers
                 return StatusCode(500, new { Message = "Terjadi kesalahan pada server.", Error = ex.Message });
             }
         }
+
 
         [HttpGet("ongoing/{username}")]
         public IActionResult GetOngoingTasks(string username) =>

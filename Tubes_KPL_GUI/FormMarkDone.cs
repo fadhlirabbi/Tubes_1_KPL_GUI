@@ -10,9 +10,10 @@ namespace Tubes_KPL_GUI
 {
     public partial class FormMarkDone : Form
     {
+        // Menyimpan username pengguna saat ini
         private readonly string _username;
 
-        // Konstanta untuk pesan
+        // Konstanta pesan untuk validasi dan hasil aksi
         private const string ErrorTitle = "Kesalahan";
         private const string SuccessTitle = "Sukses";
         private const string InvalidInputMessage = "Nama tugas dan deskripsi tidak boleh kosong.";
@@ -25,6 +26,7 @@ namespace Tubes_KPL_GUI
             _username = username ?? throw new ArgumentNullException(nameof(username));
         }
 
+        // Event klik tombol "Tandai Selesai": validasi input, parsing waktu, dan panggil API
         private async void btnTandaiSelesai_Click(object sender, EventArgs e)
         {
             string taskName = txtTaskName.Text.Trim();
@@ -55,6 +57,7 @@ namespace Tubes_KPL_GUI
             }
         }
 
+        // Validasi dan parsing input tanggal, bulan (teks), tahun, jam, menit
         private bool TryParseDateTime(out int day, out int month, out int year, out int hour, out int minute)
         {
             day = year = hour = minute = month = 0;
@@ -80,6 +83,7 @@ namespace Tubes_KPL_GUI
             return true;
         }
 
+        // Konversi teks nama bulan menjadi angka 1-12
         private int GetMonthFromText(string monthText)
         {
             return monthText switch
@@ -100,6 +104,7 @@ namespace Tubes_KPL_GUI
             };
         }
 
+        // Menangani error berdasarkan status code dari API
         private void HandleApiError(ApiResponse apiResponse)
         {
             if (apiResponse == null)
@@ -132,7 +137,7 @@ namespace Tubes_KPL_GUI
 
         private void FormMarkDone_Load(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

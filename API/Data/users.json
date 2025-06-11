@@ -9,7 +9,7 @@
     "Id": 2,
     "Username": "gumi",
     "Password": "gumi!23",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   },
   {
     "Id": 3,
@@ -64,5 +64,11 @@
     "Username": "Raihannn",
     "Password": "Raihan123@",
     "IsLoggedIn": false
+  },
+  {
+    "Id": 12,
+    "Username": "userTest",
+    "Password": "Abc!23456",
+    "IsLoggedIn": true
   }
 ]

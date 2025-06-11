@@ -67,7 +67,7 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } 
         }
 
@@ -115,7 +115,7 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -181,7 +181,7 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async Task UpdateTaskStatusAsync()
         {
-            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(_username);
+            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(); 
             if (response.Success)
             {
                 Console.WriteLine("Status tugas berhasil diperbarui.");
@@ -191,5 +191,6 @@ namespace Tubes_KPL_GUI
                 Console.WriteLine($"Gagal memperbarui status tugas: {response.Message}");
             }
         }
+
     }
 }
