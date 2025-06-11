@@ -20,12 +20,11 @@ namespace Tubes_KPL_GUI
 
         public Dashboard()
         {
-            InitializeComponent(); // Initialize components
+            InitializeComponent();
         }
 
         private void InitializeComponent()
         {
-            // inisialisasi
             panelSidebar = new Panel();
             logoPictureBox = new PictureBox();
             btnBeranda = new RoundedButton();
@@ -36,8 +35,9 @@ namespace Tubes_KPL_GUI
             btnRiwayat = new RoundedButton();
             btnLogout = new RoundedButton();
             panelMain = new Panel();
-
-            // Set properties untuk panelsidebar
+            //
+            //panelsidebar
+            //
             panelSidebar.BackColor = Color.LightSkyBlue;
             panelSidebar.Controls.Add(logoPictureBox);
             panelSidebar.Controls.Add(btnBeranda);
@@ -49,61 +49,71 @@ namespace Tubes_KPL_GUI
             panelSidebar.Controls.Add(btnLogout);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Size = new Size(312, 900);
-
-            // Set properties untuk logoPictureBox
+            //
+            //logoPictureBox
+            //
             logoPictureBox.Image = Properties.Resources.Gambar_WhatsApp_2025_06_06_pukul_16_24_58_9758d871_removebg_preview__1_;
             logoPictureBox.Location = new Point(65, 15);
             logoPictureBox.Size = new Size(173, 149);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-
-            // Set properties untuk btnBeranda
-            btnBeranda.Text = "Beranda";
+            // 
+            // btnBeranda
+            // 
+            btnBeranda.Text = "Nama Tugas";
             btnBeranda.Location = new Point(50, 201);
             btnBeranda.Size = new Size(200, 50);
             btnBeranda.Click += btnBeranda_Click;
-
-            // Set properties untuk btnTambah
+            //
+            //btnTambah
+            //
             btnTambah.Text = "Tambah Task";
             btnTambah.Location = new Point(50, 271);
             btnTambah.Size = new Size(200, 50);
             btnTambah.Click += btnTambah_Click;
-
-            // Set properties untuk btnEdit
+            //
+            //btnEdit
+            //
             btnEdit.Text = "Edit Task";
             btnEdit.Location = new Point(50, 341);
             btnEdit.Size = new Size(200, 50);
             btnEdit.Click += btnEdit_Click;
-
-            // Set properties untuk btnTandai
+            //
+            //btnTandai
+            //
             btnTandai.Text = "Tandai Task Selesai";
             btnTandai.Location = new Point(50, 411);
             btnTandai.Size = new Size(200, 50);
             btnTandai.Click += btnTandai_Click;
-
-            // Set properties untuk btnHapus
+            //
+            //btnHapus
+            //
             btnHapus.Text = "Hapus Task";
             btnHapus.Location = new Point(50, 481);
             btnHapus.Size = new Size(200, 50);
             btnHapus.Click += btnHapus_Click;
-
-            // Set properties untuk btnRiwayat
+            //
+            //btnRiwayat
+            //
             btnRiwayat.Text = "Riwayat Task";
             btnRiwayat.Location = new Point(50, 551);
             btnRiwayat.Size = new Size(200, 50);
             btnRiwayat.Click += btnRiwayat_Click;
-
-            // Set properties untuk btnLogout
+            //
+            //btnLogout
+            //
             btnLogout.Text = "Logout";
             btnLogout.Location = new Point(50, 785);
             btnLogout.Size = new Size(200, 50);
             btnLogout.Click += btnLogout_Click;
-
-            // Set properties untuk panelMain
+            //
+            //panelMain
+            //
             panelMain.BackColor = Color.White;
             panelMain.Dock = DockStyle.Fill;
             panelMain.Size = new Size(968, 900);
-
-            // Set properties untuk Dashboard form
+            //
+            //Dashboard form
+            //
             this.AutoScaleDimensions = new SizeF(10F, 25F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(1280, 900);
