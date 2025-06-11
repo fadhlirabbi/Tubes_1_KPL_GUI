@@ -11,7 +11,6 @@ namespace Tubes_KPL_GUI
     /// </summary>
     public partial class FormBeranda : Form
     {
-        // Menyimpan username pengguna yang sedang login
         private readonly string _username;
 
         /// <summary>
@@ -20,8 +19,8 @@ namespace Tubes_KPL_GUI
         /// <param name="username">Username pengguna yang sedang login</param>
         public FormBeranda(string username)
         {
-            InitializeComponent();  // Inisialisasi komponen UI
-            _username = username;  // Menyimpan username pengguna
+            InitializeComponent();  
+            _username = username;  
         }
 
         /// <summary>
@@ -30,10 +29,7 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void FormBeranda_Load(object sender, EventArgs e)
         {
-            // Menampilkan pesan selamat datang dengan nama pengguna
             welcomeLabel.Text = $"Selamat datang, {_username}";
-
-            // Memuat tugas yang belum selesai
             await LoadIncompletedTasksAsync();
         }
 
@@ -45,24 +41,20 @@ namespace Tubes_KPL_GUI
         {
             try
             {
-                taskGridView.Rows.Clear();  // Clear previous rows if any
+                taskGridView.Rows.Clear();
 
-                // Mendapatkan tugas yang belum selesai berdasarkan status tugas
                 var tasks = await ToDoListSingleton.Instance.GetTasksByStatusAsync(_username, Status.Incompleted);
 
-                // Menyortir tugas berdasarkan deadline
                 var sortedTasks = tasks.OrderBy(t =>
                     new DateTime(t.Deadline.Year, t.Deadline.Month, t.Deadline.Day, t.Deadline.Hour, t.Deadline.Minute, 2)
                 ).ToList();
 
-                // Tampilkan setiap tugas di DataGridView
                 foreach (var task in sortedTasks)
                 {
                     var deadline = task.Deadline;
                     string tanggal = $"{deadline.Day:D2}/{deadline.Month:D2}/{deadline.Year}";
                     string waktu = $"{deadline.Hour:D2}:{deadline.Minute:D2}";
 
-                    // Menambahkan data ke dalam DataGridView
                     taskGridView.Rows.Add(
                         task.Name,
                         task.Description,
@@ -74,7 +66,6 @@ namespace Tubes_KPL_GUI
             }
             catch (Exception ex)
             {
-                // Menampilkan pesan error jika gagal memuat tugas
                 MessageBox.Show($"Gagal memuat tugas: {ex.Message}", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

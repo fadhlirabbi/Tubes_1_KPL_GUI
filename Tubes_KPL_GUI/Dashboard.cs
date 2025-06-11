@@ -10,10 +10,7 @@ namespace Tubes_KPL_GUI
     /// </summary>
     public partial class Dashboard : Form
     {
-        // Menyimpan nama pengguna yang sedang login
         private readonly string _username;
-
-        // Menyimpan form yang sedang aktif di dalam dashboard
         private Form? _activeForm;
 
         /// <summary>
@@ -22,8 +19,8 @@ namespace Tubes_KPL_GUI
         /// <param name="username">Username pengguna yang sedang login.</param>
         public Dashboard(string username)
         {
-            InitializeComponent(); // Inisialisasi komponen UI
-            _username = username; // Menyimpan username
+            InitializeComponent(); 
+            _username = username; 
         }
 
         /// <summary>
@@ -32,8 +29,8 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void Dashboard_Load(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas sebelum menampilkan beranda
-            LoadForm(new FormBeranda(_username)); // Menampilkan form Beranda
+            await UpdateTaskStatusAsync(); 
+            LoadForm(new FormBeranda(_username)); 
         }
 
         /// <summary>
@@ -42,20 +39,20 @@ namespace Tubes_KPL_GUI
         /// <param name="childForm">Form baru yang akan dimuat.</param>
         private void LoadForm(Form childForm)
         {
-            if (_activeForm != null) // Menutup form yang sedang aktif
+            if (_activeForm != null) 
                 _activeForm.Close();
 
-            _activeForm = childForm; // Menetapkan form baru sebagai form aktif
-            childForm.TopLevel = false; // Menetapkan form baru agar berada di dalam panel
-            childForm.FormBorderStyle = FormBorderStyle.None; // Menghilangkan border form
-            childForm.Dock = DockStyle.Fill; // Mengatur form untuk mengisi panel
+            _activeForm = childForm; 
+            childForm.TopLevel = false; 
+            childForm.FormBorderStyle = FormBorderStyle.None; 
+            childForm.Dock = DockStyle.Fill; 
 
-            panelMain.Controls.Clear(); // Menghapus kontrol yang ada di panel utama
-            panelMain.Controls.Add(childForm); // Menambahkan form baru ke panel utama
-            panelMain.Tag = childForm; // Menandai form baru
+            panelMain.Controls.Clear();
+            panelMain.Controls.Add(childForm); 
+            panelMain.Tag = childForm; 
 
-            childForm.BringToFront(); // Membawa form baru ke depan
-            childForm.Show(); // Menampilkan form baru
+            childForm.BringToFront(); 
+            childForm.Show(); 
         }
 
         /// <summary>
@@ -63,8 +60,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnBeranda_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormBeranda(_username)); // Memuat form Beranda
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormBeranda(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -72,8 +76,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnTambah_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormAddTask(_username)); // Memuat form untuk menambah tugas
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormAddTask(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -81,8 +92,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnEdit_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormEditTask(_username)); // Memuat form untuk mengedit tugas
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormEditTask(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } 
         }
 
         /// <summary>
@@ -90,8 +108,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnTandai_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormMarkDone(_username)); // Memuat form untuk menandai tugas selesai
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormMarkDone(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -99,8 +124,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnHapus_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormDeleteTask(_username)); // Memuat form untuk menghapus tugas
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormDeleteTask(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan saat memperbarui status tugas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -108,8 +140,15 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async void btnRiwayat_Click(object sender, EventArgs e)
         {
-            await UpdateTaskStatusAsync(); // Memperbarui status tugas
-            LoadForm(new FormRiwayat(_username)); // Menampilkan form Riwayat (dikomentari)
+            try
+            {
+                await UpdateTaskStatusAsync();
+                LoadForm(new FormRiwayat(_username));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -119,19 +158,20 @@ namespace Tubes_KPL_GUI
         {
             var confirm = MessageBox.Show("Apakah Anda yakin ingin keluar?", "Konfirmasi Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (confirm == DialogResult.Yes) // Jika pengguna memilih Yes
+            if (confirm == DialogResult.Yes) 
             {
-                bool logoutSuccess = await ToDoListSingleton.Instance.LogoutAsync(_username); // Melakukan logout
+                bool logoutSuccess = await ToDoListSingleton.Instance.LogoutAsync(_username); 
 
-                if (logoutSuccess) // Jika logout berhasil
+                if (logoutSuccess)
                 {
-                    new FormLogin().Show(); // Menampilkan form login
-                    this.Close(); // Menutup form Dashboard
-                    Console.WriteLine("Berhasil logout."); // Menampilkan pesan log
+                    new FormLogin().Show();
+                    this.Close();
+                    Console.WriteLine("Berhasil logout."); 
+                    ToDoListSingleton.Instance.ResetAllLoginStatus();
                 }
                 else
                 {
-                    MessageBox.Show("Logout gagal, silakan coba lagi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error); // Menampilkan pesan error
+                    MessageBox.Show("Logout gagal, silakan coba lagi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                 }
             }
         }
@@ -141,14 +181,14 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async Task UpdateTaskStatusAsync()
         {
-            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(_username); // Memperbarui status tugas
-            if (response.Success) // Jika pembaruan status berhasil
+            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(_username);
+            if (response.Success)
             {
                 Console.WriteLine("Status tugas berhasil diperbarui.");
             }
             else
             {
-                Console.WriteLine($"Gagal memperbarui status tugas: {response.Message}"); // Menampilkan pesan error jika gagal
+                Console.WriteLine($"Gagal memperbarui status tugas: {response.Message}");
             }
         }
     }

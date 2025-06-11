@@ -5,9 +5,6 @@ namespace Tubes_KPL_GUI
 {
     internal static class Program
     {
-        /// <summary>
-        /// Titik masuk utama aplikasi GUI.
-        /// </summary>
         [STAThread]
         static void Main()
         {

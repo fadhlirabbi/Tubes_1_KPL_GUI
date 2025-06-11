@@ -69,31 +69,31 @@
             // colTaskName
             // 
             colTaskName.MinimumWidth = 8;
-            colTaskName.Name = "colTaskName";
+            colTaskName.Name = "Nama Tugas";
             colTaskName.ReadOnly = true;
             // 
             // colDescription
             // 
             colDescription.MinimumWidth = 8;
-            colDescription.Name = "colDescription";
+            colDescription.Name = "Deskripsi";
             colDescription.ReadOnly = true;
             // 
             // colTanggal
             // 
             colTanggal.MinimumWidth = 8;
-            colTanggal.Name = "colTanggal";
+            colTanggal.Name = "Tanggal";
             colTanggal.ReadOnly = true;
             // 
             // colWaktu
             // 
             colWaktu.MinimumWidth = 8;
-            colWaktu.Name = "colWaktu";
+            colWaktu.Name = "Waktu";
             colWaktu.ReadOnly = true;
             // 
             // colStatus
             // 
             colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
+            colStatus.Name = "Status";
             colStatus.ReadOnly = true;
             // 
             // FormBeranda
