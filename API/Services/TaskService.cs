@@ -167,7 +167,6 @@ namespace API.Services
             }
         }
 
-
         private ReminderConfig LoadReminderConfig()
         {
             return new ReminderConfig();

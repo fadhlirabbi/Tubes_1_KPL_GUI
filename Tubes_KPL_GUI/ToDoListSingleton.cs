@@ -73,7 +73,7 @@ namespace Tubes_KPL_GUI
                     Debug.WriteLine($"[DEBUG] Register response for {username}: Success = {apiResponse.Success}, Message = {apiResponse.Message}");
                     return apiResponse.Success;
                 }
-
+                    
                 Debug.WriteLine($"[WARNING] Register response kosong untuk {username}.");
                 return false;
             }
