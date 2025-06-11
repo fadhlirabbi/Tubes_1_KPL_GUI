@@ -181,7 +181,7 @@ namespace Tubes_KPL_GUI
         /// </summary>
         private async Task UpdateTaskStatusAsync()
         {
-            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(_username);
+            var response = await ToDoListSingleton.Instance.UpdateTaskStatusAsync(); 
             if (response.Success)
             {
                 Console.WriteLine("Status tugas berhasil diperbarui.");
@@ -191,5 +191,6 @@ namespace Tubes_KPL_GUI
                 Console.WriteLine($"Gagal memperbarui status tugas: {response.Message}");
             }
         }
+
     }
 }

@@ -83,7 +83,7 @@ namespace Tubes_KPL_CLI
         {
             while (_loggedInUser != null)
             {
-                _taskService.UpdateTaskStatus(_loggedInUser);
+                _taskService.UpdateTaskStatus();
                 ShowReminders();
 
                 ShowTaskMenu();

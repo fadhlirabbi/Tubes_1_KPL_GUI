@@ -140,11 +140,11 @@ namespace API.Services
         public List<ModelTask> GetTaskByStatus(string username, Status status) =>
             Load().Where(t => t.UserId == username && t.Status == status).ToList();
 
-        public ApiResponse UpdateTaskStatus(string username)
+        public ApiResponse UpdateTaskStatus()
         {
             try
             {
-                var tasks = Load().Where(t => t.UserId == username).ToList();
+                var tasks = Load(); 
                 var now = DateTime.Now;
 
                 foreach (var task in tasks)
@@ -218,6 +218,5 @@ namespace API.Services
 
             return reminders;
         }
-
     }
 }
