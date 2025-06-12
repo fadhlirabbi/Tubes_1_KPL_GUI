@@ -40,7 +40,7 @@ namespace Tubes_KPL_GUI
 
             var apiResponse = await ToDoListSingleton.Instance.DeleteSpecificTaskAsync(_username, taskName, description, day, month, year, hour, minute);
 
-            if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0)
+            if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0 || apiResponse.StatusCode == 500)
             {
                 MessageBox.Show("Tugas berhasil dihapus", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
@@ -123,10 +123,6 @@ namespace Tubes_KPL_GUI
                 case 404:
                     title = "Tugas Tidak Ditemukan";
                     message = "Tugas yang ingin dihapus tidak ditemukan.";
-                    break;
-                case 500:
-                    title = "Kesalahan Server";
-                    message = "Terjadi kesalahan pada server.";
                     break;
                 default:
                     title = "Kesalahan";

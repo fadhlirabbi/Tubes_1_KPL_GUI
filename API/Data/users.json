@@ -9,7 +9,7 @@
     "Id": 2,
     "Username": "gumi",
     "Password": "gumi!23",
-    "IsLoggedIn": false
+    "IsLoggedIn": true
   },
   {
     "Id": 3,
