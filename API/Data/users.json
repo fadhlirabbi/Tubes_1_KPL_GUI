@@ -69,6 +69,6 @@
     "Id": 12,
     "Username": "userTest",
     "Password": "Abc!23456",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   }
 ]

@@ -203,28 +203,32 @@ namespace Tubes_KPL_GUI
             }
         }
 
-        public async Task<ApiResponse> DeleteTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
+        public async Task<ApiResponse> DeleteSpecificTaskAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {
             try
             {
-                var endpoint = $"task/complete/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
-                var response = await _httpClient.DeleteAsync(endpoint);  
+                var queryParams = $"taskName={Uri.EscapeDataString(taskName)}" +
+                                  $"&description={Uri.EscapeDataString(description)}" +
+                                  $"&day={day}&month={month}&year={year}" +
+                                  $"&hour={hour}&minute={minute}";
 
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+                var endpoint = $"task/delete-specific/{username}?{queryParams}";
 
-                if (apiResponse != null)
+                var response = await _httpClient.DeleteAsync(endpoint);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    return apiResponse;
+                    var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
+                    return apiResponse ?? new ApiResponse(200, "Tugas berhasil dihapus.");
                 }
 
-                return new ApiResponse(400, "Gagal menghapus tugas.");
+                return new ApiResponse((int)response.StatusCode, $"Gagal menghapus tugas. Status: {response.StatusCode}");
             }
             catch (Exception ex)
             {
-                return new ApiResponse(400, $"Terjadi error: {ex.Message}");
+                return new ApiResponse(500, $"Terjadi kesalahan: {ex.Message}");
             }
         }
-
 
         public async Task<ApiResponse> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {

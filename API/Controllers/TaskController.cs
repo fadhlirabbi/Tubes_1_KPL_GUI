@@ -62,20 +62,21 @@ namespace API.Controllers
             return result.Success ? Ok(result) : NotFound(result.Message);
         }
 
-        [HttpDelete("{username}")]
-        public IActionResult Delete(
-        string username,
-        [FromQuery] string taskName,
-        [FromQuery] string description,
-        [FromQuery] int day,
-        [FromQuery] int month,
-        [FromQuery] int year,
-        [FromQuery] int hour,
-        [FromQuery] int minute)
+        [HttpDelete("delete-specific/{username}")]
+        public IActionResult DeleteSpecificTask(
+            string username,
+            [FromQuery] string taskName,
+            [FromQuery] string description,
+            [FromQuery] int day,
+            [FromQuery] int month,
+            [FromQuery] int year,
+            [FromQuery] int hour,
+            [FromQuery] int minute)
         {
             var result = _service.DeleteTask(username, taskName, description, day, month, year, hour, minute);
             return result.Success ? Ok(result.Message) : NotFound(result.Message);
         }
+
 
         [HttpPost("update-status")]
         public IActionResult UpdateTaskStatus()  
