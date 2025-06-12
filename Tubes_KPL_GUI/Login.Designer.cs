@@ -40,7 +40,7 @@
             logoPictureBox.BackColor = SystemColors.Window;
             logoPictureBox.Image = (Image)resources.GetObject("logoPictureBox.Image");
             logoPictureBox.InitialImage = Properties.Resources.wallpaperflare_com_wallpaper;
-            logoPictureBox.Location = new Point(686, 170);
+            logoPictureBox.Location = new Point(474, 86);
             logoPictureBox.Name = "logoPictureBox";
             logoPictureBox.Size = new Size(300, 300);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -50,7 +50,7 @@
             // titleLabel
             // 
             titleLabel.Font = new Font("Times New Roman", 16F, FontStyle.Bold);
-            titleLabel.Location = new Point(441, 525);
+            titleLabel.Location = new Point(229, 441);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(736, 64);
             titleLabel.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // usernameLabel
             // 
-            usernameLabel.Location = new Point(405, 615);
+            usernameLabel.Location = new Point(193, 531);
             usernameLabel.Name = "usernameLabel";
             usernameLabel.Size = new Size(217, 36);
             usernameLabel.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             // passwordLabel
             // 
-            passwordLabel.Location = new Point(405, 690);
+            passwordLabel.Location = new Point(193, 606);
             passwordLabel.Name = "passwordLabel";
             passwordLabel.Size = new Size(233, 36);
             passwordLabel.TabIndex = 3;
@@ -76,24 +76,24 @@
             // usernameTextBox
             // 
             usernameTextBox.BackColor = SystemColors.Control;
-            usernameTextBox.Location = new Point(636, 615);
+            usernameTextBox.Location = new Point(424, 531);
             usernameTextBox.Name = "usernameTextBox";
-            usernameTextBox.Size = new Size(607, 39);
+            usernameTextBox.Size = new Size(607, 31);
             usernameTextBox.TabIndex = 4;
             // 
             // passwordTextBox
             // 
             passwordTextBox.BackColor = SystemColors.Control;
-            passwordTextBox.Location = new Point(636, 690);
+            passwordTextBox.Location = new Point(424, 606);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
-            passwordTextBox.Size = new Size(607, 39);
+            passwordTextBox.Size = new Size(607, 31);
             passwordTextBox.TabIndex = 5;
             // 
             // loginButton
             // 
             loginButton.BackColor = Color.LightSkyBlue;
-            loginButton.Location = new Point(1026, 854);
+            loginButton.Location = new Point(814, 770);
             loginButton.Name = "loginButton";
             loginButton.Size = new Size(217, 63);
             loginButton.TabIndex = 6;
@@ -104,7 +104,7 @@
             // registerButton
             // 
             registerButton.BackColor = SystemColors.ScrollBar;
-            registerButton.Location = new Point(405, 854);
+            registerButton.Location = new Point(193, 770);
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(217, 63);
             registerButton.TabIndex = 7;
@@ -115,9 +115,9 @@
             // lihatSandi
             // 
             lihatSandi.AutoSize = true;
-            lihatSandi.Location = new Point(1084, 744);
+            lihatSandi.Location = new Point(872, 660);
             lihatSandi.Name = "lihatSandi";
-            lihatSandi.Size = new Size(163, 36);
+            lihatSandi.Size = new Size(124, 29);
             lihatSandi.TabIndex = 8;
             lihatSandi.Text = "Lihat Sandi";
             lihatSandi.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             // FormLogin
             // 
             BackColor = SystemColors.HighlightText;
-            ClientSize = new Size(1664, 1152);
+            ClientSize = new Size(1200, 900);
             Controls.Add(lihatSandi);
             Controls.Add(logoPictureBox);
             Controls.Add(titleLabel);
@@ -137,6 +137,7 @@
             Controls.Add(loginButton);
             Controls.Add(registerButton);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            StartPosition = FormStartPosition.CenterScreen;
             MaximizeBox = false;
             Name = "FormLogin";
             Text = "Login";

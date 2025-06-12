@@ -40,10 +40,10 @@
             // 
             logoPictureBox.Anchor = AnchorStyles.Top;
             logoPictureBox.Image = (Image)resources.GetObject("logoPictureBox.Image");
-            logoPictureBox.Location = new Point(686, 170);
-            logoPictureBox.Margin = new Padding(5);
+            logoPictureBox.Location = new Point(366, 51);
+            logoPictureBox.Margin = new Padding(4, 4, 4, 4);
             logoPictureBox.Name = "logoPictureBox";
-            logoPictureBox.Size = new Size(300, 300);
+            logoPictureBox.Size = new Size(231, 234);
             logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             logoPictureBox.TabIndex = 0;
             logoPictureBox.TabStop = false;
@@ -51,59 +51,59 @@
             // titleLabel
             // 
             titleLabel.Font = new Font("Times New Roman", 16.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            titleLabel.Location = new Point(421, 525);
-            titleLabel.Margin = new Padding(5, 0, 5, 0);
+            titleLabel.Location = new Point(162, 328);
+            titleLabel.Margin = new Padding(4, 0, 4, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(812, 48);
+            titleLabel.Size = new Size(625, 38);
             titleLabel.TabIndex = 1;
             titleLabel.Text = "Silakan isi nama pengguna dan kata sandi Anda";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // usernameLabel
             // 
-            usernameLabel.Location = new Point(405, 615);
-            usernameLabel.Margin = new Padding(5, 0, 5, 0);
+            usernameLabel.Location = new Point(150, 398);
+            usernameLabel.Margin = new Padding(4, 0, 4, 0);
             usernameLabel.Name = "usernameLabel";
-            usernameLabel.Size = new Size(228, 40);
+            usernameLabel.Size = new Size(175, 31);
             usernameLabel.TabIndex = 2;
             usernameLabel.Text = "Nama Pengguna :";
             // 
             // passwordLabel
             // 
-            passwordLabel.Location = new Point(405, 690);
-            passwordLabel.Margin = new Padding(5, 0, 5, 0);
+            passwordLabel.Location = new Point(150, 457);
+            passwordLabel.Margin = new Padding(4, 0, 4, 0);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(228, 40);
+            passwordLabel.Size = new Size(175, 31);
             passwordLabel.TabIndex = 3;
             passwordLabel.Text = "Kata Sandi          :";
             // 
             // userTextBox
             // 
             userTextBox.BackColor = SystemColors.Control;
-            userTextBox.Location = new Point(636, 615);
-            userTextBox.Margin = new Padding(5);
+            userTextBox.Location = new Point(327, 398);
+            userTextBox.Margin = new Padding(4, 4, 4, 4);
             userTextBox.Name = "userTextBox";
-            userTextBox.Size = new Size(607, 39);
+            userTextBox.Size = new Size(468, 31);
             userTextBox.TabIndex = 4;
             // 
             // passTextBox
             // 
             passTextBox.BackColor = SystemColors.Control;
-            passTextBox.Location = new Point(636, 690);
-            passTextBox.Margin = new Padding(5);
+            passTextBox.Location = new Point(327, 457);
+            passTextBox.Margin = new Padding(4, 4, 4, 4);
             passTextBox.Name = "passTextBox";
             passTextBox.PasswordChar = '*';
-            passTextBox.Size = new Size(607, 39);
+            passTextBox.Size = new Size(468, 31);
             passTextBox.TabIndex = 5;
             // 
             // noteLabel
             // 
             noteLabel.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
             noteLabel.ForeColor = Color.Gray;
-            noteLabel.Location = new Point(421, 783);
-            noteLabel.Margin = new Padding(5, 0, 5, 0);
+            noteLabel.Location = new Point(162, 530);
+            noteLabel.Margin = new Padding(4, 0, 4, 0);
             noteLabel.Name = "noteLabel";
-            noteLabel.Size = new Size(812, 64);
+            noteLabel.Size = new Size(625, 50);
             noteLabel.TabIndex = 6;
             noteLabel.Text = "Kata sandi harus terdiri dari ≥ 8 karakter, dengan huruf besar, kecil, angka, dan simbol.";
             noteLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -111,10 +111,10 @@
             // daftarBtn
             // 
             daftarBtn.BackColor = Color.LightSkyBlue;
-            daftarBtn.Location = new Point(1026, 880);
-            daftarBtn.Margin = new Padding(5);
+            daftarBtn.Location = new Point(627, 606);
+            daftarBtn.Margin = new Padding(4, 4, 4, 4);
             daftarBtn.Name = "daftarBtn";
-            daftarBtn.Size = new Size(217, 63);
+            daftarBtn.Size = new Size(167, 49);
             daftarBtn.TabIndex = 7;
             daftarBtn.Text = "Daftar";
             daftarBtn.UseVisualStyleBackColor = false;
@@ -123,10 +123,10 @@
             // kembaliBtn
             // 
             kembaliBtn.BackColor = SystemColors.ScrollBar;
-            kembaliBtn.Location = new Point(405, 880);
-            kembaliBtn.Margin = new Padding(5);
+            kembaliBtn.Location = new Point(150, 606);
+            kembaliBtn.Margin = new Padding(4, 4, 4, 4);
             kembaliBtn.Name = "kembaliBtn";
-            kembaliBtn.Size = new Size(217, 63);
+            kembaliBtn.Size = new Size(167, 49);
             kembaliBtn.TabIndex = 8;
             kembaliBtn.Text = "Kembali";
             kembaliBtn.UseVisualStyleBackColor = false;
@@ -135,9 +135,10 @@
             // lihatSandi
             // 
             lihatSandi.AutoSize = true;
-            lihatSandi.Location = new Point(1084, 744);
+            lihatSandi.Location = new Point(672, 499);
+            lihatSandi.Margin = new Padding(2, 2, 2, 2);
             lihatSandi.Name = "lihatSandi";
-            lihatSandi.Size = new Size(163, 36);
+            lihatSandi.Size = new Size(124, 29);
             lihatSandi.TabIndex = 9;
             lihatSandi.Text = "Lihat Sandi";
             lihatSandi.UseVisualStyleBackColor = true;
@@ -145,10 +146,10 @@
             // 
             // Register
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
-            ClientSize = new Size(1664, 1152);
+            ClientSize = new Size(1200, 900);
             Controls.Add(lihatSandi);
             Controls.Add(logoPictureBox);
             Controls.Add(titleLabel);
@@ -160,7 +161,7 @@
             Controls.Add(daftarBtn);
             Controls.Add(kembaliBtn);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(5);
+            Margin = new Padding(4, 4, 4, 4);
             MaximizeBox = false;
             Name = "Register";
             StartPosition = FormStartPosition.CenterScreen;
