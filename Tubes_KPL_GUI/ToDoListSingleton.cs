@@ -208,7 +208,7 @@ namespace Tubes_KPL_GUI
             try
             {
                 var endpoint = $"task/complete/{username}?taskName={taskName}&description={description}&day={day}&month={month}&year={year}&hour={hour}&minute={minute}";
-                var response = await _httpClient.PostAsync(endpoint, null);
+                var response = await _httpClient.DeleteAsync(endpoint);  
 
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
@@ -217,13 +217,14 @@ namespace Tubes_KPL_GUI
                     return apiResponse;
                 }
 
-                return new ApiResponse(400, "Gagal menghapus tugas.");
+                return new ApiResponse(400, "Failed to delete task.");
             }
             catch (Exception ex)
             {
-                return new ApiResponse(400, $"Terjadi kesalahan: {ex.Message}");
+                return new ApiResponse(400, $"Error occurred: {ex.Message}");
             }
         }
+
 
         public async Task<ApiResponse> MarkTaskAsCompletedAsync(string username, string taskName, string description, int day, int month, int year, int hour, int minute)
         {

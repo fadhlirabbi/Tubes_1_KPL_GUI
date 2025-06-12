@@ -42,7 +42,7 @@ namespace Tubes_KPL_GUI
 
             if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0)
             {
-                MessageBox.Show(apiResponse.Message ?? "Tugas berhasil dihapus!", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tugas berhasil dihapus", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
             }
             else
