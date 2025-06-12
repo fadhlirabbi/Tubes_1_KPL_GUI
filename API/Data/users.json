@@ -8,8 +8,8 @@
   {
     "Id": 2,
     "Username": "gumi",
-    "Password": "gumi!23",
-    "IsLoggedIn": false
+    "Password": "Gumi!234",
+    "IsLoggedIn": true
   },
   {
     "Id": 3,
@@ -69,6 +69,6 @@
     "Id": 12,
     "Username": "userTest",
     "Password": "Abc!23456",
-    "IsLoggedIn": true
+    "IsLoggedIn": false
   }
 ]

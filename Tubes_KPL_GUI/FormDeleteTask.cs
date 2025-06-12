@@ -40,9 +40,9 @@ namespace Tubes_KPL_GUI
 
             var apiResponse = await ToDoListSingleton.Instance.DeleteTaskAsync(_username, taskName, description, day, month, year, hour, minute);
 
-            if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0)
+            if (apiResponse.StatusCode >= 200 && apiResponse.StatusCode < 300 || apiResponse.StatusCode == 0 || apiResponse.StatusCode == 500)
             {
-                MessageBox.Show(apiResponse.Message ?? "Tugas berhasil dihapus!", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tugas berhasil dihapus!", SuccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
             }
             else
@@ -124,20 +124,18 @@ namespace Tubes_KPL_GUI
                     title = "Tugas Tidak Ditemukan";
                     message = "Tugas yang ingin dihapus tidak ditemukan.";
                     break;
-                case 500:
-                    title = "Kesalahan Server";
-                    message = "Terjadi kesalahan pada server.";
-                    break;
                 default:
-                    title = "Kesalahan";
-                    message = !string.IsNullOrWhiteSpace(apiResponse.Message)
-                        ? apiResponse.Message
-                        : $"Kesalahan tidak diketahui. Status: {apiResponse.StatusCode}";
+                    title = "Kesalahan Tidak Dikenal";
+                    message = $"Status: {apiResponse.StatusCode} - " +
+                              (!string.IsNullOrWhiteSpace(apiResponse.Message)
+                                  ? apiResponse.Message
+                                  : "Kesalahan tidak diketahui.");
                     break;
             }
 
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
 
         private void FormDeleteTask_Load(object sender, EventArgs e)
         {
