@@ -334,7 +334,6 @@ namespace Tubes_KPL_GUI
 
                 var users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(path)) ?? new();
 
-                // Reset only the login status of users, without modifying task data
                 foreach (var user in users) user.IsLoggedIn = false;
 
                 var updatedJson = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
@@ -354,8 +353,7 @@ namespace Tubes_KPL_GUI
         {
             try
             {
-                // Tidak memerlukan username, kita akan memperbarui semua tugas
-                var endpoint = "task/update-status";  // Endpoint yang menangani semua tugas
+                var endpoint = "task/update-status"; 
                 var response = await _httpClient.PostAsync(endpoint, null);
                 var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse>();
 
