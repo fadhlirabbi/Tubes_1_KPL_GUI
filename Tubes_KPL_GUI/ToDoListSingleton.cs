@@ -214,7 +214,7 @@ namespace Tubes_KPL_GUI
 
                 var endpoint = $"task/delete-specific/{username}?{queryParams}";
 
-                var response = await _httpClient.DeleteAsync(endpoint); // ✅ Ganti PostAsync jadi DeleteAsync
+                var response = await _httpClient.DeleteAsync(endpoint); 
 
                 if (response.IsSuccessStatusCode)
                 {
