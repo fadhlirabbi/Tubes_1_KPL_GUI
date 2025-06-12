@@ -217,11 +217,11 @@ namespace Tubes_KPL_GUI
                     return apiResponse;
                 }
 
-                return new ApiResponse(400, "Failed to delete task.");
+                return new ApiResponse(400, "Gagal menghapus tugas.");
             }
             catch (Exception ex)
             {
-                return new ApiResponse(400, $"Error occurred: {ex.Message}");
+                return new ApiResponse(400, $"Terjadi error: {ex.Message}");
             }
         }
 
